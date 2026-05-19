@@ -58,15 +58,10 @@
     }
     .card {
       width: 100%; height: 100%; position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.5s cubic-bezier(.4,0,.2,1);
     }
-    .card.flipped { transform: rotateY(180deg); }
 
     .card-face {
       position: absolute; inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
       border-radius: 20px;
       background: white;
       box-shadow: 0 6px 28px rgba(0,0,0,.09);
@@ -74,11 +69,16 @@
       align-items: center; justify-content: center;
       padding: 32px 28px; gap: 6px;
       user-select: none;
+      transition: opacity 0.3s ease;
     }
-    .card-back {
-      transform: rotateY(180deg);
-      background: #f7fafc;
-    }
+    .card-front { opacity: 1; pointer-events: auto;  }
+    .card-back  { opacity: 0; pointer-events: none;  }
+    .card.flipped .card-front { opacity: 0; pointer-events: none;  }
+    .card.flipped .card-back  { opacity: 1; pointer-events: auto;  }
+
+    /* Color by language content, not by face position */
+    .card-face[data-lang="en"] { background: #ebf8ff; }
+    .card-face[data-lang="zh"] { background: #fefce8; }
 
     .word {
       font-size: 44px; font-weight: 800;
@@ -375,23 +375,33 @@ function setMode(m) {
 
 // ── Render ──────────────────────────────────────────────
 // renderContent: update DOM text/progress only, never touch flipped state
-function renderContent() {
-  const item = deck[idx];
+function renderContent(skipBack = false) {
+  const item  = deck[idx];
+  const front = document.querySelector('.card-front');
+  // skipBack = true: only update the front face (back is still visible during fade-out)
+  const back  = document.querySelector('.card-back');
+  front.dataset.lang = mode === 'en2zh' ? 'en' : 'zh';
 
   if (mode === 'en2zh') {
     document.getElementById("frontMainText").textContent = item.word;
-    document.getElementById("syllablesText").innerHTML = renderSyl(item.syl);
+    document.getElementById("syllablesText").innerHTML   = renderSyl(item.syl);
     document.getElementById("frontSubText").textContent  = item.pos;
     document.getElementById("frontHint").textContent     = "點擊卡片查看中文";
-    document.getElementById("backMainText").textContent  = item.zh;
-    document.getElementById("backSubText").textContent   = "";
+    if (!skipBack) {
+      back.dataset.lang = 'zh';
+      document.getElementById("backMainText").textContent = item.zh;
+      document.getElementById("backSubText").textContent  = "";
+    }
   } else {
     document.getElementById("frontMainText").textContent = item.zh;
     document.getElementById("syllablesText").innerHTML   = "";
     document.getElementById("frontSubText").textContent  = "";
     document.getElementById("frontHint").textContent     = "點擊卡片查看英文";
-    document.getElementById("backMainText").textContent  = item.word;
-    document.getElementById("backSubText").textContent   = item.pos;
+    if (!skipBack) {
+      back.dataset.lang = 'en';
+      document.getElementById("backMainText").textContent = item.word;
+      document.getElementById("backSubText").textContent  = item.pos;
+    }
   }
 
   document.getElementById("bucketBadge").textContent =
@@ -426,17 +436,16 @@ function navigate(dir) {
   const card = document.getElementById("card");
 
   if (card.classList.contains("flipped")) {
-    // Card is showing Chinese (back face).
-    // Flip back to front first; update content at the 90° midpoint when
-    // both faces are hidden by backface-visibility, so the new Chinese is
-    // never visible during the transition.
+    // Back face is visible. Update the front face (hidden) first so the new
+    // content is already in place before the fade starts — no jump.
     navigating = true;
-    card.classList.remove("flipped");
+    idx = next;
+    renderContent(true);             // silently update front (opacity 0)
+    card.classList.remove("flipped"); // fade: new front in, old back out
     setTimeout(() => {
-      idx = next;
-      renderContent();
+      renderContent();               // update back face (now hidden, safe)
       navigating = false;
-    }, 250); // 250ms = half of the 500ms CSS transition
+    }, 300);
   } else {
     idx = next;
     renderContent();
@@ -616,8 +625,10 @@ async function runAutoStep() {
 
   // ── 前往下一張 ────────────────────────────────────────
   if (idx >= deck.length - 1) { stopAutoPlay(); return; }
-  card.classList.remove("flipped");
-  setTimeout(() => { if (autoPlaying) { idx++; renderContent(); } }, 250);
+  idx++;
+  renderContent(true);              // update front face (hidden) before fade
+  card.classList.remove("flipped"); // fade: new front in, old back out
+  setTimeout(() => { if (autoPlaying) renderContent(); }, 300); // update back
   await wait(500);
   if (!autoPlaying) return;
 
