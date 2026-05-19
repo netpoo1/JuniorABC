@@ -199,6 +199,12 @@
       font-size: 11px; color: #b0bec5; text-align: center; line-height: 1.8;
     }
 
+    /* ── Home link ── */
+    .home-link {
+      font-size: 13px; font-weight: 600; color: #718096; text-decoration: none;
+    }
+    .home-link:hover { color: #4299e1; }
+
     /* ── Footer ── */
     .site-footer {
       margin-top: 28px;
@@ -217,7 +223,7 @@
 <body>
 
 <div class="header">
-  <span class="app-title">JuniorABC 單字卡</span>
+  <a class="home-link" href="../">← 主選單</a>
   <span class="bucket-badge" id="bucketBadge">…</span>
 </div>
 
@@ -299,6 +305,7 @@
 // VOCAB is loaded asynchronously — see initApp() at the bottom
 let VOCAB         = [];
 let currentBucket = "7.1";
+let seenKeys      = new Set();
 
 const BUCKET_LABEL = {
   "7.0":"國一 (全冊)","7.1":"國一 (上冊)","7.2":"國一 (下冊)",
@@ -351,6 +358,19 @@ function renderSyl(syl) {
 
     return stressed ? `<span class="syl-stress">${inner}</span>` : inner;
   }).join(dot);
+}
+
+// ── Progress tracking ────────────────────────────────────
+function setCookie(name, val) {
+  document.cookie = `${name}=${encodeURIComponent(val)}; max-age=${365*86400}; path=/`;
+}
+function markSeen(wordKey) {
+  seenKeys.add(wordKey);
+  localStorage.setItem(`jrabc_seen_${currentBucket}`, JSON.stringify([...seenKeys]));
+  const keepWords = VOCAB.filter(v => v.diff === 'keep');
+  if (keepWords.length > 0 && keepWords.every(w => seenKeys.has(w.word))) {
+    setCookie(`jrabc_flash_${currentBucket}`, 'true');
+  }
 }
 
 // ── Deck mode (一般 / 簡單 / 混合) ──────────────────────
@@ -422,7 +442,9 @@ function render() {
 // ── Flip ────────────────────────────────────────────────
 function flipCard() {
   if (autoPlaying) return;
-  document.getElementById("card").classList.toggle("flipped");
+  const card = document.getElementById("card");
+  card.classList.toggle("flipped");
+  if (card.classList.contains("flipped")) markSeen(deck[idx].word);
 }
 
 // ── Navigate ────────────────────────────────────────────
@@ -612,6 +634,7 @@ async function runAutoStep() {
 
   // ── 背面：翻牌 → (中文 TTS →) 英文 → 停頓 ────────────
   card.classList.add("flipped");
+  markSeen(deck[idx].word);
 
   if (zhTTSEnabled) {
     await playChineseTTSAsync(deck[idx].zh);
@@ -681,7 +704,9 @@ document.addEventListener("keydown", e => {
     const data = await res.json();
     VOCAB         = data.words;
     currentBucket = data.bucket;
-    deck          = buildDeck();
+    const raw = localStorage.getItem(`jrabc_seen_${currentBucket}`);
+    seenKeys  = new Set(raw ? JSON.parse(raw) : []);
+    deck      = buildDeck();
     render();
   } catch (e) {
     document.getElementById("counterText").textContent = "資料載入失敗";
