@@ -218,7 +218,7 @@
 
 <div class="header">
   <span class="app-title">JuniorABC 單字卡</span>
-  <span class="bucket-badge" id="bucketBadge">7.1 國一上</span>
+  <span class="bucket-badge" id="bucketBadge">…</span>
 </div>
 
 <div class="mode-row">
@@ -297,12 +297,13 @@
 
 <script>
 // VOCAB is loaded asynchronously — see initApp() at the bottom
-let VOCAB = [];
+let VOCAB         = [];
+let currentBucket = "7.1";
 
 const BUCKET_LABEL = {
-  "7.0":"國一全","7.1":"國一上","7.2":"國一下",
-  "8.0":"國二全","8.1":"國二上","8.2":"國二下",
-  "9.0":"國三全","9.1":"國三上","9.2":"國三下"
+  "7.0":"國一 (全冊)","7.1":"國一 (上冊)","7.2":"國一 (下冊)",
+  "8.0":"國二 (全冊)","8.1":"國二 (上冊)","8.2":"國二 (下冊)",
+  "9.0":"國三 (全冊)","9.1":"國三 (上冊)","9.2":"國三 (下冊)"
 };
 
 let deckMode   = 'keep'; // 'keep' | 'easy' | 'all'
@@ -394,7 +395,7 @@ function renderContent() {
   }
 
   document.getElementById("bucketBadge").textContent =
-    `${item.bucket} ${BUCKET_LABEL[item.bucket] ?? ""}`;
+    BUCKET_LABEL[currentBucket] ?? currentBucket;
   document.getElementById("counterText").textContent = `${idx + 1} / ${deck.length}`;
   document.getElementById("progressFill").style.width =
     ((idx + 1) / deck.length * 100) + "%";
@@ -667,8 +668,9 @@ document.addEventListener("keydown", e => {
     const res = await fetch(`data/${bucket}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    VOCAB = data.words;
-    deck  = buildDeck();
+    VOCAB         = data.words;
+    currentBucket = data.bucket;
+    deck          = buildDeck();
     render();
   } catch (e) {
     document.getElementById("counterText").textContent = "資料載入失敗";

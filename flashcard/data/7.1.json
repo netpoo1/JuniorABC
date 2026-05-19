@@ -1,6 +1,6 @@
 {
   "bucket": "7.1",
-  "label": "國一上",
+  "label": "國一 (上冊)",
   "words": [
     {"word":"teacher",        "pos":"n.",         "zh":"老師",                "syl":"TEACH·er",         "diff":"keep"},
     {"word":"student",        "pos":"n.",         "zh":"學生",                "syl":"STU·dent",         "diff":"keep"},
