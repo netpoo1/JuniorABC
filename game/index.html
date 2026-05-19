@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JuniorABC 配對遊戲</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #eef2f7;
+      height: 100dvh;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Screens ── */
+    .screen { display: flex; flex-direction: column; align-items: center;
+              justify-content: center; flex: 1; padding: 24px 20px; gap: 20px; }
+    [hidden] { display: none !important; }
+
+    /* ── Start screen ── */
+    .game-title { font-size: 24px; font-weight: 800; color: #2d3748; }
+    .game-subtitle { font-size: 14px; color: #718096; }
+    .diff-group { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
+    .diff-btn {
+      padding: 16px; border: none; border-radius: 16px;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: transform .1s, opacity .15s;
+    }
+    .diff-btn:active { transform: scale(.97); }
+    .diff-keep  { background: #4299e1; color: white; }
+    .diff-easy  { background: #68d391; color: #22543d; }
+    .diff-all   { background: #9f7aea; color: white; }
+    .diff-info  { font-size: 12px; opacity: .75; margin-top: 2px; }
+    .rec-row    { font-size: 11px; color: #a0aec0; text-align: center; margin-top: -4px; letter-spacing: .3px; }
+    .clear-rec-btn {
+      margin-top: 6px; background: none; border: none;
+      font-size: 11px; color: #cbd5e0; cursor: pointer; text-decoration: underline;
+    }
+    .clear-rec-btn:hover { color: #fc8181; }
+
+    /* ── Top bar ── */
+    .top-bar {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      padding: 10px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; flex-shrink: 0;
+    }
+    .hud-item { display: flex; flex-direction: column; align-items: center; }
+    .hud-label { font-size: 10px; color: #a0aec0; font-weight: 600; letter-spacing: .5px; }
+    .hud-value { font-size: 17px; font-weight: 800; color: #2d3748; }
+    .hud-value.timer { color: #4299e1; font-variant-numeric: tabular-nums; }
+    .hud-value.errors { color: #fc8181; }
+    .progress-wrap { flex: 1; padding: 0 6px; }
+    .prog-bar { height: 5px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+    .prog-fill { height: 100%; background: #68d391; border-radius: 3px; transition: width .4s ease; }
+    .prog-text { font-size: 10px; color: #a0aec0; font-weight: 600; white-space: nowrap; }
+    .quit-btn {
+      padding: 5px 10px; border: 1.5px solid #fc8181; border-radius: 8px;
+      background: white; color: #e53e3e; font-size: 12px; font-weight: 700;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: background .15s;
+    }
+    .quit-btn:hover { background: #fff5f5; }
+
+    /* gameScreen 加入 flex 體系，讓 board 能正確佔滿剩餘高度 */
+    #gameScreen {
+      display: flex; flex-direction: column;
+      flex: 1; min-height: 0; overflow: hidden;
+    }
+
+    /* ── Board ── */
+    .board {
+      display: grid; grid-template-columns: 1fr 1fr;
+      flex: 1; min-height: 0; overflow: hidden; gap: 0;
+    }
+    /* 每側 3 欄，高度由內容決定，可捲動 */
+    .col {
+      overflow-y: auto; padding: 10px 8px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 200px));
+      grid-auto-rows: 96px;
+      gap: 12px;
+      align-content: center;
+      -webkit-overflow-scrolling: touch;
+    }
+    .col-en { border-right: 1px solid #e2e8f0; justify-content: end; padding-right: 6px; }
+    .col-zh { justify-content: start; padding-left: 6px; }
+
+    /* ── Cards ── */
+    .card {
+      border-radius: 10px; border: 2px solid transparent;
+      cursor: pointer; user-select: none;
+      transition: border-color .15s, box-shadow .15s, opacity .3s, transform .3s;
+    }
+    .card:active { transform: scale(.97); }
+
+    /* English card */
+    .card-en {
+      background: #ebf8ff; border-color: #bee3f8;
+      padding: 6px 6px 22px;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .card-en:hover  { border-color: #63b3ed; }
+    .card-en.selected {
+      border-color: #4299e1;
+      box-shadow: 0 0 0 2px rgba(66,153,225,.25);
+    }
+    .en-word { font-size: 32px; font-weight: 800; color: #1a202c; line-height: 1.2; word-break: break-word; }
+    .syl-stress { color: #2b6cb0; font-weight: 700; }
+    .syl-silent { color: #fc8181; text-decoration: line-through; }
+    .syl-dot    { color: #bee3f8; }
+    .en-pos  { display: none; }
+    /* 幫幫我：絕對定位左下角，面積 < 10% */
+    .hint-btn {
+      position: absolute; bottom: 4px; left: 4px;
+      padding: 1px 6px; border: 1px solid #bee3f8; border-radius: 4px;
+      background: white; font-size: 9px; font-weight: 600; color: #2b6cb0;
+      cursor: pointer; transition: background .15s;
+      white-space: nowrap; line-height: 1.5;
+    }
+    .hint-btn:hover:not(:disabled) { background: #ebf8ff; }
+    .hint-btn:disabled { opacity: .4; cursor: default; }
+    .hint-btn.used { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
+
+    /* Chinese card — 與 EN 卡等高 */
+    .card-zh {
+      background: #fefce8; border-color: #fef08a;
+      padding: 6px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .card-zh:hover  { border-color: #f6e05e; }
+    .card-zh.selected {
+      border-color: #d97706;
+      box-shadow: 0 0 0 2px rgba(217,119,6,.25);
+    }
+    .zh-text { font-size: 26px; font-weight: 700; color: #2d3748; text-align: center; line-height: 1.3; word-break: break-all; }
+
+    /* ── Fade-in for refilled cards ── */
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: scale(.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .card-entering {
+      animation: cardFadeIn 0.35s ease forwards;
+    }
+
+    /* ── Card states ── */
+    .card.error {
+      border-color: #fc8181 !important;
+      background: #fff5f5 !important;
+      animation: shake .25s ease;
+    }
+    .card.hint {
+      border-color: #68d391 !important;
+      box-shadow: 0 0 0 3px rgba(104,211,145,.35) !important;
+      background: #f0fff4 !important;
+    }
+    .card.matched {
+      opacity: 0; transform: scale(.88);
+      pointer-events: none;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-5px); }
+      75%      { transform: translateX(5px); }
+    }
+
+    /* ── Freeze overlay ── */
+    .freeze-overlay {
+      position: fixed; inset: 0; z-index: 10;
+      pointer-events: all;
+    }
+    .freeze-overlay[hidden] { display: none !important; pointer-events: none; }
+
+    /* ── End screen ── */
+    .result-card {
+      background: white; border-radius: 20px;
+      padding: 28px 24px; width: 100%; max-width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.1);
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .result-title { font-size: 22px; font-weight: 800; color: #2d3748; text-align: center; }
+    .result-score { font-size: 36px; font-weight: 800; color: #4299e1; text-align: center; }
+    .result-max   { font-size: 13px; color: #a0aec0; text-align: center; margin-top: -10px; }
+    .result-row   { display: flex; justify-content: space-between; align-items: center;
+                    padding: 10px 0; border-bottom: 1px solid #f0f4f8; }
+    .result-row:last-of-type { border-bottom: none; }
+    .result-label { font-size: 14px; color: #718096; }
+    .result-val   { font-size: 16px; font-weight: 700; color: #2d3748; }
+    .restart-btn {
+      margin-top: 4px; padding: 14px; border: none; border-radius: 14px;
+      background: #4299e1; color: white;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: opacity .15s;
+    }
+    .restart-btn:hover { opacity: .9; }
+
+    /* ── Loading ── */
+    .loading-msg { font-size: 15px; color: #a0aec0; }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loadingScreen" class="screen">
+  <div class="loading-msg">載入中…</div>
+</div>
+
+<!-- Start -->
+<div id="startScreen" class="screen" hidden>
+  <div class="game-title">JuniorABC 配對遊戲</div>
+  <div class="game-subtitle">找出每個英文單字對應的中文意思</div>
+  <div class="diff-group">
+    <button class="diff-btn diff-keep" onclick="startGame('keep')">
+      一般字
+      <div class="diff-info">難度較高，答對得 2 分</div>
+    </button>
+    <div class="rec-row" id="rec-keep">—</div>
+    <button class="diff-btn diff-easy" onclick="startGame('easy')">
+      簡單字
+      <div class="diff-info">難度較低，答對得 1 分</div>
+    </button>
+    <div class="rec-row" id="rec-easy">—</div>
+    <button class="diff-btn diff-all" onclick="startGame('all')">
+      混合模式
+      <div class="diff-info">全部單字，依難度計分</div>
+    </button>
+    <div class="rec-row" id="rec-all">—</div>
+    <button class="clear-rec-btn" onclick="clearRecords()">清除所有記錄</button>
+  </div>
+</div>
+
+<!-- Game -->
+<div id="gameScreen" hidden>
+
+  <div class="top-bar">
+    <div class="hud-item">
+      <span class="hud-label">分數</span>
+      <span class="hud-value" id="scoreEl">0.0</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="prog-text" id="progressText">0 / 0 完成</div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">時間</span>
+      <span class="hud-value timer" id="timerEl">00:00</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">錯誤</span>
+      <span class="hud-value errors" id="errorsEl">0</span>
+    </div>
+    <button class="quit-btn" onclick="endGame()">我不玩了</button>
+  </div>
+
+  <div class="board">
+    <div class="col col-en" id="colEn"></div>
+    <div class="col col-zh" id="colZh"></div>
+  </div>
+
+</div>
+
+<!-- Freeze overlay (blocks clicks during 2s penalty) -->
+<div id="freezeOverlay" class="freeze-overlay" hidden></div>
+
+<!-- End -->
+<div id="endScreen" class="screen" hidden>
+  <div class="result-card">
+    <div class="result-title">🎉 完成！</div>
+    <div class="result-score" id="finalScore">0.0</div>
+    <div class="result-max"  id="finalMax">/ 0 分</div>
+    <div class="result-row">
+      <span class="result-label">用時</span>
+      <span class="result-val" id="finalTime">—</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">錯誤次數</span>
+      <span class="result-val" id="finalErrors">—</span>
+    </div>
+    <button class="restart-btn" onclick="goHome()">遊戲首頁</button>
+  </div>
+</div>
+
+<script>
+// ── Vocab ──────────────────────────────────────────────────
+let VOCAB = [];
+
+// ── Game state ────────────────────────────────────────────
+let board        = [];   // [{id, word, hintUsed}]
+let enOrder      = [];   // card ids — left column order
+let zhOrder      = [];   // card ids — right column order
+let untestedPool = [];   // words not yet drawn
+let selectedEnId = null;
+let selectedZhId = null;
+let score        = 0;
+let maxScore     = 0;
+let errors       = 0;
+let matchedCount = 0;
+let totalInPool  = 0;
+let elapsed      = 0;
+let timerRef     = null;
+let idCounter    = 0;
+let refillTimer  = null;
+let currentDiff  = 'keep';
+
+const uid     = () => ++idCounter;
+
+// ── Cookie helpers ─────────────────────────────────────────
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : null;
+}
+function setCookie(name, val) {
+  document.cookie = `${name}=${encodeURIComponent(val)}; max-age=${365*86400}; path=/`;
+}
+
+// ── Records ────────────────────────────────────────────────
+function getRecord(diff) {
+  const s = getCookie(`jrabc_score_${diff}`);
+  const t = getCookie(`jrabc_time_${diff}`);
+  return { score: s !== null ? parseFloat(s) : null,
+           time:  t !== null ? parseInt(t)   : null };
+}
+function saveRecord(diff, newScore, newTime) {
+  const rec = getRecord(diff);
+  const oldScore = rec.score !== null ? parseFloat(rec.score) : null;
+  if (oldScore === null || newScore > oldScore) {
+    // new high score → update both score and time unconditionally
+    setCookie(`jrabc_score_${diff}`, newScore.toFixed(1));
+    setCookie(`jrabc_time_${diff}`,  newTime);
+  } else if (newScore === oldScore && (rec.time === null || newTime < rec.time)) {
+    // tied score → update time only if faster
+    setCookie(`jrabc_time_${diff}`, newTime);
+  }
+  renderRecords();
+}
+function clearRecords() {
+  if (!confirm('確定要清除所有記錄嗎？')) return;
+  ['keep','easy','all'].forEach(d => {
+    setCookie(`jrabc_score_${d}`, '');
+    setCookie(`jrabc_time_${d}`,  '');
+    document.cookie = `jrabc_score_${d}=; max-age=0; path=/`;
+    document.cookie = `jrabc_time_${d}=; max-age=0; path=/`;
+  });
+  renderRecords();
+}
+function renderRecords() {
+  ['keep','easy','all'].forEach(d => {
+    const el = document.getElementById(`rec-${d}`);
+    if (!el) return;
+    const rec = getRecord(d);
+    const s = rec.score !== null ? `最高分 ${rec.score.toFixed(1)}` : '';
+    const t = rec.time  !== null ? `時間 ${fmt(rec.time)}`          : '';
+    el.textContent = (s && t) ? `${s} , ${t}` : (s || t || '尚無記錄');
+  });
+}
+const shuffle = a => {
+  const b = [...a];
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+};
+const fmt = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+
+// ── Syllable renderer ──────────────────────────────────────
+function renderSyl(syl) {
+  if (!syl) return "";
+  const dot = '<span class="syl-dot">·</span>';
+  return syl.split("·").map(part => {
+    const tokens = [];
+    let last = 0;
+    for (const m of part.matchAll(/\[([^\]]+)\]/g)) {
+      if (m.index > last) tokens.push({ silent: false, text: part.slice(last, m.index) });
+      tokens.push({ silent: true, text: m[1] });
+      last = m.index + m[0].length;
+    }
+    if (last < part.length) tokens.push({ silent: false, text: part.slice(last) });
+    const stressed = tokens.some(tk => !tk.silent && /[A-Z]/.test(tk.text));
+    const inner = tokens.map(tk =>
+      tk.silent ? `<span class="syl-silent">${tk.text.toLowerCase()}</span>`
+                : tk.text.toLowerCase()
+    ).join("");
+    return stressed ? `<span class="syl-stress">${inner}</span>` : inner;
+  }).join(dot);
+}
+
+// ── Load data ──────────────────────────────────────────────
+async function loadVocab() {
+  try {
+    const res = await fetch('../flashcard/data/7.1.json');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    VOCAB = data.words;
+    document.getElementById('loadingScreen').hidden = true;
+    document.getElementById('startScreen').hidden   = false;
+    renderRecords();
+  } catch {
+    document.querySelector('#loadingScreen .loading-msg').textContent = '資料載入失敗，請重新整理頁面';
+  }
+}
+
+// ── Start game ─────────────────────────────────────────────
+function startGame(diff) {
+  currentDiff  = diff;
+  const pool = diff === 'keep' ? VOCAB.filter(v => v.diff === 'keep')
+             : diff === 'easy' ? VOCAB.filter(v => v.diff === 'easy')
+             : [...VOCAB];
+
+  maxScore     = pool.reduce((s, w) => s + (w.diff === 'keep' ? 2 : 1), 0);
+  totalInPool  = pool.length;
+  untestedPool = shuffle(pool);
+  board        = [];
+  enOrder      = [];
+  zhOrder      = [];
+  selectedEnId = null;
+  selectedZhId = null;
+  refillTimer  = null;
+  score        = 0;
+  errors       = 0;
+  matchedCount = 0;
+  elapsed      = 0;
+
+  addToBoard(Math.min(18, untestedPool.length));
+
+  document.getElementById('startScreen').hidden = true;
+  document.getElementById('gameScreen').hidden  = false;
+
+  if (timerRef) clearInterval(timerRef);
+  timerRef = setInterval(() => { elapsed++; updateHUD(); }, 1000);
+
+  renderAll();
+}
+
+// ── Board management ───────────────────────────────────────
+function addToBoard(count) {
+  const words    = untestedPool.splice(0, count);
+  const newPairs = words.map(w => ({ id: uid(), word: w, hintUsed: false }));
+  board.push(...newPairs);
+  enOrder.push(...newPairs.map(p => p.id));       // append EN in stable order
+  zhOrder = shuffle(board.map(p => p.id));        // reshuffle ZH
+}
+
+function removePair(id) {
+  board   = board.filter(p => p.id !== id);
+  enOrder = enOrder.filter(i => i !== id);
+  zhOrder = zhOrder.filter(i => i !== id);
+}
+
+function checkRefill() {
+  if (board.length === 0 && untestedPool.length === 0) {
+    endGame(); return;
+  }
+  if (board.length < 12 && untestedPool.length > 0) {
+    addToBoard(Math.min(18 - board.length, untestedPool.length));
+  }
+}
+
+// ── Render ─────────────────────────────────────────────────
+function renderAll() { renderEnCol(); renderZhCol(); updateHUD(); }
+
+function renderEnCol() {
+  const col         = document.getElementById('colEn');
+  const hintDisable = board.filter(p => !p.matched).length < 5;
+  col.innerHTML = '';
+  enOrder.forEach(id => {
+    const pair = board.find(p => p.id === id);
+    if (!pair) return;
+    const el = document.createElement('div');
+    // matched → invisible placeholder keeps grid space
+    if (pair.matched) {
+      el.className = 'card card-en matched';
+      el.id = `en-${id}`;
+      col.appendChild(el);
+      return;
+    }
+    el.className = 'card card-en' + (id === selectedEnId ? ' selected' : '');
+    el.id = `en-${id}`;
+    const btnDis  = hintDisable;
+    el.innerHTML = `
+      <div class="en-word">${pair.word.word}</div>
+      <div class="en-pos">${pair.word.pos}</div>
+      <button class="hint-btn${pair.hintUsed ? ' used' : ''}"
+              ${btnDis ? 'disabled' : ''}
+              onclick="event.stopPropagation(); useHint(${id})">
+        ${pair.hintUsed ? '已提示 (+0.5)' : '幫幫我'}
+      </button>`;
+    el.addEventListener('click', () => selectEn(id));
+    col.appendChild(el);
+  });
+}
+
+function renderZhCol() {
+  const col = document.getElementById('colZh');
+  col.innerHTML = '';
+  zhOrder.forEach(id => {
+    const pair = board.find(p => p.id === id);
+    if (!pair) return;
+    const el = document.createElement('div');
+    // matched → invisible placeholder keeps grid space
+    if (pair.matched) {
+      el.className = 'card card-zh matched';
+      el.id = `zh-${id}`;
+      col.appendChild(el);
+      return;
+    }
+    el.className = 'card card-zh' + (id === selectedZhId ? ' selected' : '');
+    el.id = `zh-${id}`;
+    el.innerHTML = `<div class="zh-text">${pair.word.zh}</div>`;
+    el.addEventListener('click', () => selectZh(id));
+    col.appendChild(el);
+  });
+}
+
+function updateHUD() {
+  document.getElementById('scoreEl').textContent    = score.toFixed(1);
+  document.getElementById('timerEl').textContent    = fmt(elapsed);
+  document.getElementById('errorsEl').textContent   = errors;
+  document.getElementById('progressText').textContent =
+    `${matchedCount} / ${totalInPool} 完成`;
+  document.getElementById('progFill').style.width =
+    (totalInPool ? (matchedCount / totalInPool * 100) : 0) + '%';
+}
+
+// ── Interaction ────────────────────────────────────────────
+function selectEn(id) {
+  if (!document.getElementById('freezeOverlay').hidden) return;
+  if (selectedZhId !== null) {
+    // ZH already chosen → try to match
+    selectedEnId = id;
+    renderEnCol();
+    tryMatch();
+  } else {
+    selectedEnId = id;
+    renderEnCol();
+    setTimeout(() => document.getElementById(`en-${id}`)?.scrollIntoView({ block:'nearest' }), 0);
+  }
+}
+
+function selectZh(id) {
+  if (!document.getElementById('freezeOverlay').hidden) return;
+  if (selectedEnId !== null) {
+    // EN already chosen → try to match
+    selectedZhId = id;
+    tryMatch();
+  } else {
+    selectedZhId = id;
+    renderZhCol();
+    setTimeout(() => document.getElementById(`zh-${id}`)?.scrollIntoView({ block:'nearest' }), 0);
+  }
+}
+
+function tryMatch() {
+  const enId = selectedEnId;
+  const zhId = selectedZhId;
+
+  if (enId === zhId) {
+    // ── Correct ──
+    const pair = board.find(p => p.id === enId);
+    const pts  = pair.hintUsed ? 0.5
+               : pair.word.diff === 'keep' ? 2.0 : 1.0;
+    score += pts;
+    matchedCount++;
+
+    const enEl = document.getElementById(`en-${enId}`);
+    const zhEl = document.getElementById(`zh-${zhId}`);
+    if (enEl) enEl.classList.add('matched');
+    if (zhEl) zhEl.classList.add('matched');
+
+    pair.matched = true;
+    selectedEnId = null;
+    selectedZhId = null;
+    updateHUD();
+
+    // debounce: reset timer on every correct match so refill only fires
+    // 400ms after the LAST match — ensures all fade-out transitions complete first
+    clearTimeout(refillTimer);
+    refillTimer = setTimeout(() => {
+      const unmatched = board.filter(p => !p.matched).length;
+
+      // all matched on this wave
+      if (unmatched === 0) {
+        if (untestedPool.length > 0) {
+          board = []; enOrder = []; zhOrder = [];
+          selectedEnId = null; selectedZhId = null;
+          addToBoard(Math.min(18, untestedPool.length));
+          renderAll();
+        } else {
+          endGame();
+        }
+        return;
+      }
+
+      // 50% threshold crossed → fill matched slots in-place (no reshuffle)
+      if (unmatched * 2 <= board.length && untestedPool.length > 0) {
+        refillInPlace();
+      }
+    }, 400);
+
+  } else {
+    // ── Wrong ──
+    errors++;
+    const enEl = document.getElementById(`en-${enId}`);
+    const zhEl = document.getElementById(`zh-${zhId}`);
+    if (enEl) enEl.classList.add('error');
+    if (zhEl) zhEl.classList.add('error');
+
+    selectedEnId = null;
+    selectedZhId = null;
+
+    document.getElementById('freezeOverlay').hidden = false;
+    updateHUD();
+
+    setTimeout(() => {
+      document.getElementById('freezeOverlay').hidden = true;
+      if (enEl) enEl.classList.remove('error');
+      if (zhEl) zhEl.classList.remove('error');
+      renderEnCol();
+      renderZhCol();
+    }, 2000);
+  }
+}
+
+// ── Refill in-place (no reshuffle, no flash) ──────────────
+function refillInPlace() {
+  const matchedPairs = board.filter(p => p.matched);
+  const count = Math.min(matchedPairs.length, untestedPool.length);
+  if (count === 0) return;
+
+  const hintDisable = (board.filter(p => !p.matched).length + count) < 5;
+
+  for (let i = 0; i < count; i++) {
+    const oldPair = matchedPairs[i];
+    const newPair = { id: uid(), word: untestedPool.splice(0, 1)[0], hintUsed: false };
+
+    // update data structures in-place
+    board[board.findIndex(p => p.id === oldPair.id)] = newPair;
+    enOrder[enOrder.indexOf(oldPair.id)] = newPair.id;
+    zhOrder[zhOrder.indexOf(oldPair.id)] = newPair.id;
+
+    // swap EN card element (same grid slot, no siblings move)
+    const oldEnEl = document.getElementById(`en-${oldPair.id}`);
+    if (oldEnEl) {
+      const el = document.createElement('div');
+      el.className = 'card card-en card-entering';
+      el.id = `en-${newPair.id}`;
+      const sylHtml = newPair.word.syl
+        ? `<div class="en-syl">${renderSyl(newPair.word.syl)}</div>` : '';
+      el.innerHTML = `
+        <div class="en-word">${newPair.word.word}</div>
+          <div class="en-pos">${newPair.word.pos}</div>
+        <button class="hint-btn" ${hintDisable ? 'disabled' : ''}
+                onclick="event.stopPropagation(); useHint(${newPair.id})">幫幫我</button>`;
+      el.addEventListener('click', () => selectEn(newPair.id));
+      oldEnEl.parentNode.replaceChild(el, oldEnEl);
+    }
+
+    // swap ZH card element (same grid slot, no siblings move)
+    const oldZhEl = document.getElementById(`zh-${oldPair.id}`);
+    if (oldZhEl) {
+      const el = document.createElement('div');
+      el.className = 'card card-zh card-entering';
+      el.id = `zh-${newPair.id}`;
+      el.innerHTML = `<div class="zh-text">${newPair.word.zh}</div>`;
+      el.addEventListener('click', () => selectZh(newPair.id));
+      oldZhEl.parentNode.replaceChild(el, oldZhEl);
+    }
+  }
+  updateHUD();
+}
+
+// ── 幫幫我 ─────────────────────────────────────────────────
+function useHint(enId) {
+  if (!document.getElementById('freezeOverlay').hidden) return;
+  if (board.filter(p => !p.matched).length < 5) return;
+
+  const pair = board.find(p => p.id === enId);
+  if (!pair || pair.matched) return;
+
+  pair.hintUsed = true;   // score penalty — stays true once set
+  selectedEnId  = enId;
+  selectedZhId  = null;
+
+  // generate candidates once; reuse on every subsequent click
+  if (!pair.hintCandidates) {
+    const wrong = shuffle(zhOrder.filter(i => {
+      if (i === enId) return false;
+      const p = board.find(b => b.id === i);
+      return p && !p.matched;
+    })).slice(0, 3);
+    pair.hintCandidates = shuffle([enId, ...wrong]);
+  }
+  const hintIds = pair.hintCandidates;
+
+  // must render BEFORE adding .hint — renderZhCol would wipe classList otherwise
+  renderEnCol();
+  renderZhCol();
+  hintIds.forEach(id => document.getElementById(`zh-${id}`)?.classList.add('hint'));
+
+  setTimeout(() => {
+    hintIds.forEach(id => document.getElementById(`zh-${id}`)?.classList.remove('hint'));
+  }, 3000);
+}
+
+// ── End game ───────────────────────────────────────────────
+function endGame() {
+  clearInterval(timerRef);
+  saveRecord(currentDiff, score, elapsed);
+  document.getElementById('gameScreen').hidden = true;
+  document.getElementById('endScreen').hidden  = false;
+  document.getElementById('finalScore').textContent  = score.toFixed(1);
+  document.getElementById('finalMax').textContent    = `/ ${maxScore} 分`;
+  document.getElementById('finalTime').textContent   = fmt(elapsed);
+  document.getElementById('finalErrors').textContent = errors;
+}
+
+// ── Home ───────────────────────────────────────────────────
+function goHome() {
+  clearInterval(timerRef);
+  document.getElementById('endScreen').hidden   = true;
+  document.getElementById('gameScreen').hidden  = true;
+  document.getElementById('startScreen').hidden = false;
+  renderRecords();
+}
+
+// ── Boot ───────────────────────────────────────────────────
+loadVocab();
+</script>
+</body>
+</html>
