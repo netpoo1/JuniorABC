@@ -255,6 +255,7 @@
 
 <script>
 // ── Vocab & bucket ──────────────────────────────────────
+const SCHOOL_YEAR = '114';
 let VOCAB = [];
 let currentBucket = '7.1';
 
@@ -365,7 +366,7 @@ async function loadVocab() {
   try {
     const params = new URLSearchParams(location.search);
     currentBucket = params.get('bucket') || '7.1';
-    const res = await fetch(`../flashcard/data/${currentBucket}.json`);
+    const res = await fetch(`../flashcard/data/${SCHOOL_YEAR}.${currentBucket}.json`);
     if (!res.ok) throw new Error();
     const data = await res.json();
     VOCAB = data.words;

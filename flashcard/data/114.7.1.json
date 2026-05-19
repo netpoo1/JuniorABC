@@ -1,4 +1,5 @@
 {
+  "year": "114",
   "bucket": "7.1",
   "label": "國一 (上冊)",
   "words": [
@@ -230,7 +231,7 @@
       "word": "white",
       "pos": "adj. / n.",
       "zh": "白色",
-      "syl": "",
+      "syl": "W[H]ITE",
       "diff": "easy"
     },
     {
@@ -297,7 +298,14 @@
       "diff": "easy"
     },
     {
-      "word": "pencil box / case",
+      "word": "pencil box",
+      "pos": "n.",
+      "zh": "鉛筆盒",
+      "syl": "PEN·cil BOX",
+      "diff": "keep"
+    },
+    {
+      "word": "pencil case",
       "pos": "n.",
       "zh": "鉛筆盒",
       "syl": "PEN·cil CASE",
@@ -342,7 +350,7 @@
       "word": "friend",
       "pos": "n.",
       "zh": "朋友",
-      "syl": "",
+      "syl": "FR[I]END",
       "diff": "easy"
     },
     {
@@ -621,7 +629,7 @@
     {
       "word": "for",
       "pos": "prep. / conj.",
-      "zh": "為了；一…就…",
+      "zh": "為了",
       "syl": "",
       "diff": "easy"
     },

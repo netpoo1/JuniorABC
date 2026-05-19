@@ -303,6 +303,7 @@
 
 <script>
 // VOCAB is loaded asynchronously — see initApp() at the bottom
+const SCHOOL_YEAR = "114";
 let VOCAB         = [];
 let currentBucket = "7.1";
 let seenKeys      = new Set();
@@ -699,7 +700,7 @@ document.addEventListener("keydown", e => {
   try {
     const params = new URLSearchParams(location.search);
     const bucket = params.get("bucket") || "7.1";
-    const res = await fetch(`data/${bucket}.json`);
+    const res = await fetch(`data/${SCHOOL_YEAR}.${bucket}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     VOCAB         = data.words;

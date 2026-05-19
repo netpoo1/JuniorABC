@@ -37,13 +37,10 @@ def extract_vocab_rows(text):
             rows.append(dict(zip(header, cells)))
     return rows
 
-def get_bucket(filename):
-    # New format: 114.7.1.006.md → 7.1
-    m = re.match(r"^\d+\.(\d+\.\d+)\.", filename)
-    if m: return m.group(1)
-    # Old format: 7.1.006.md → 7.1
-    m = re.match(r"^(\d+\.\d+)\.", filename)
-    return m.group(1) if m else None
+def get_year_and_bucket(filename):
+    """Parse '114.7.1.006.md' → ('114', '7.1')."""
+    m = re.match(r"^(\d+)\.(\d+\.\d+)\.", filename)
+    return (m.group(1), m.group(2)) if m else (None, None)
 
 def main():
     force = "--force" in sys.argv
@@ -53,9 +50,10 @@ def main():
     bucket_seen   = defaultdict(set)
 
     for md_path in sorted(ENGLISH_DIR.glob("**/*.md")):
-        bucket = get_bucket(md_path.name)
+        year, bucket = get_year_and_bucket(md_path.name)
         if not bucket:
             continue
+        key = (year, bucket)
         text = md_path.read_text(encoding="utf-8")
         for row in extract_vocab_rows(text):
             word = row.get("word","").strip()
@@ -66,10 +64,10 @@ def main():
                 continue
             syl_raw = row.get("syllables","").strip()
             syl = "" if syl_raw in ("—","","?") else syl_raw
-            key = word.lower()
-            if key not in bucket_seen[bucket]:
-                bucket_seen[bucket].add(key)
-                bucket_words[bucket].append({
+            wkey = word.lower()
+            if wkey not in bucket_seen[key]:
+                bucket_seen[key].add(wkey)
+                bucket_words[key].append({
                     "word": word,
                     "pos":  row.get("pos","").strip(),
                     "zh":   row.get("meaning_zh","").strip(),
@@ -77,13 +75,13 @@ def main():
                     "diff": diff,
                 })
 
-    for bucket, words in bucket_words.items():
-        out = DATA_DIR / f"{bucket}.json"
+    for (year, bucket), words in bucket_words.items():
+        out = DATA_DIR / f"{year}.{bucket}.json"
         if out.exists() and not force:
             print(f"  SKIP  {out.name}  (exists — use --force to overwrite)")
             continue
         out.write_text(
-            json.dumps({"bucket":bucket,"label":BUCKET_LABELS.get(bucket,bucket),"words":words},
+            json.dumps({"year":year,"bucket":bucket,"label":BUCKET_LABELS.get(bucket,bucket),"words":words},
                        ensure_ascii=False, indent=2),
             encoding="utf-8"
         )
