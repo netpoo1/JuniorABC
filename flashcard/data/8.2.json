@@ -1,0 +1,279 @@
+{
+  "bucket": "8.2",
+  "label": "國二 (下冊)",
+  "words": [
+    {
+      "word": "fever",
+      "pos": "n.",
+      "zh": "發燒",
+      "syl": "FE·ver",
+      "diff": "keep"
+    },
+    {
+      "word": "headache",
+      "pos": "n.",
+      "zh": "頭痛",
+      "syl": "HEAD·ache",
+      "diff": "keep"
+    },
+    {
+      "word": "stomachache",
+      "pos": "n.",
+      "zh": "胃痛；腹痛",
+      "syl": "STOM·ach·ache",
+      "diff": "keep"
+    },
+    {
+      "word": "runny nose",
+      "pos": "n.",
+      "zh": "流鼻水",
+      "syl": "RUN·ny NOSE",
+      "diff": "keep"
+    },
+    {
+      "word": "medicine",
+      "pos": "n.",
+      "zh": "藥；醫學",
+      "syl": "MED·i·cine",
+      "diff": "keep"
+    },
+    {
+      "word": "head",
+      "pos": "n.",
+      "zh": "頭",
+      "syl": "",
+      "diff": "easy"
+    },
+    {
+      "word": "neck",
+      "pos": "n.",
+      "zh": "脖子",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "shoulder",
+      "pos": "n.",
+      "zh": "肩膀",
+      "syl": "SHOUL·der",
+      "diff": "keep"
+    },
+    {
+      "word": "finger",
+      "pos": "n.",
+      "zh": "手指",
+      "syl": "FIN·ger",
+      "diff": "easy"
+    },
+    {
+      "word": "nail",
+      "pos": "n.",
+      "zh": "指甲",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "knee",
+      "pos": "n.",
+      "zh": "膝蓋",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "care",
+      "pos": "v. / n.",
+      "zh": "照顧；小心",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "noon",
+      "pos": "n.",
+      "zh": "正午",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lemon",
+      "pos": "n.",
+      "zh": "檸檬",
+      "syl": "LEM·on",
+      "diff": "keep"
+    },
+    {
+      "word": "root",
+      "pos": "n.",
+      "zh": "根；根源",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "reason",
+      "pos": "n.",
+      "zh": "原因；理由",
+      "syl": "REA·son",
+      "diff": "keep"
+    },
+    {
+      "word": "grade",
+      "pos": "n.",
+      "zh": "成績；年級；等級",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "poor",
+      "pos": "adj.",
+      "zh": "差的；貧窮的；可憐的",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "group",
+      "pos": "n.",
+      "zh": "群；組",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "meeting",
+      "pos": "n.",
+      "zh": "會議；集會",
+      "syl": "MEET·ing",
+      "diff": "keep"
+    },
+    {
+      "word": "mistake",
+      "pos": "n.",
+      "zh": "錯誤",
+      "syl": "mis·TAKE",
+      "diff": "keep"
+    },
+    {
+      "word": "angle",
+      "pos": "n.",
+      "zh": "角度；角落",
+      "syl": "AN·gle",
+      "diff": "keep"
+    },
+    {
+      "word": "member",
+      "pos": "n.",
+      "zh": "成員",
+      "syl": "MEM·ber",
+      "diff": "keep"
+    },
+    {
+      "word": "topic",
+      "pos": "n.",
+      "zh": "話題",
+      "syl": "TOP·ic",
+      "diff": "keep"
+    },
+    {
+      "word": "sick",
+      "pos": "adj.",
+      "zh": "生病的",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "useful",
+      "pos": "adj.",
+      "zh": "有用的",
+      "syl": "USE·ful",
+      "diff": "keep"
+    },
+    {
+      "word": "common",
+      "pos": "adj.",
+      "zh": "常見的；共同的",
+      "syl": "COM·mon",
+      "diff": "keep"
+    },
+    {
+      "word": "comfortable",
+      "pos": "adj.",
+      "zh": "舒適的；自在的",
+      "syl": "COM·fort·a·ble",
+      "diff": "keep"
+    },
+    {
+      "word": "helpful",
+      "pos": "adj.",
+      "zh": "有幫助的",
+      "syl": "HELP·ful",
+      "diff": "keep"
+    },
+    {
+      "word": "afraid",
+      "pos": "adj.",
+      "zh": "害怕的",
+      "syl": "a·FRAID",
+      "diff": "keep"
+    },
+    {
+      "word": "smart",
+      "pos": "adj.",
+      "zh": "聰明的；時髦的",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "simple",
+      "pos": "adj.",
+      "zh": "簡單的；單純的",
+      "syl": "SIM·ple",
+      "diff": "keep"
+    },
+    {
+      "word": "honest",
+      "pos": "adj.",
+      "zh": "誠實的；可信的",
+      "syl": "HON·est",
+      "diff": "keep"
+    },
+    {
+      "word": "excellent",
+      "pos": "adj.",
+      "zh": "出色的；極佳的",
+      "syl": "EX·cel·lent",
+      "diff": "keep"
+    },
+    {
+      "word": "able",
+      "pos": "adj.",
+      "zh": "能夠做…；有能力的",
+      "syl": "A·ble",
+      "diff": "keep"
+    },
+    {
+      "word": "fresh",
+      "pos": "adj.",
+      "zh": "新鮮的；新；清潔的",
+      "syl": "",
+      "diff": "keep"
+    },
+    {
+      "word": "probably",
+      "pos": "adv.",
+      "zh": "很可能；大概",
+      "syl": "PROB·a·bly",
+      "diff": "keep"
+    },
+    {
+      "word": "actually",
+      "pos": "adv.",
+      "zh": "實際上；事實上",
+      "syl": "AC·tu·al·ly",
+      "diff": "keep"
+    },
+    {
+      "word": "although",
+      "pos": "conj.",
+      "zh": "雖然",
+      "syl": "al·THOUGH",
+      "diff": "keep"
+    }
+  ]
+}

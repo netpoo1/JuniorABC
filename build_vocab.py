@@ -38,6 +38,10 @@ def extract_vocab_rows(text):
     return rows
 
 def get_bucket(filename):
+    # New format: 114.7.1.006.md → 7.1
+    m = re.match(r"^\d+\.(\d+\.\d+)\.", filename)
+    if m: return m.group(1)
+    # Old format: 7.1.006.md → 7.1
     m = re.match(r"^(\d+\.\d+)\.", filename)
     return m.group(1) if m else None
 
