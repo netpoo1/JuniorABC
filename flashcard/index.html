@@ -234,7 +234,7 @@
 
 <div class="progress-row">
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  <span class="counter" id="counterText">1 / 53</span>
+  <span class="counter" id="counterText">…</span>
 </div>
 
 <div class="scene" id="scene" onclick="flipCard()">
@@ -296,118 +296,14 @@
 </footer>
 
 <script>
-// ── Vocab data (keep-filtered items from 7.1.006 / 7.1.007 / 7.1.008) ──
-const VOCAB = [
-  // ── Keep (一般) ──────────────────────────────────────────
-  // 7.1.006 職業
-  {word:"teacher",        pos:"n.",        zh:"老師",                 bucket:"7.1", syl:"TEACH·er",        diff:"keep"},
-  {word:"student",        pos:"n.",        zh:"學生",                 bucket:"7.1", syl:"STU·dent",        diff:"keep"},
-  {word:"police officer", pos:"n.",        zh:"警察",                 bucket:"7.1", syl:"po·LICE OF·fi·cer",diff:"keep"},
-  {word:"nurse",          pos:"n.",        zh:"護理師；護士",         bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"singer",         pos:"n.",        zh:"歌手",                 bucket:"7.1", syl:"SING·er",         diff:"keep"},
-  {word:"housewife",      pos:"n.",        zh:"家庭主婦",             bucket:"7.1", syl:"HOUSE·wife",      diff:"keep"},
-  {word:"office worker",  pos:"n.",        zh:"上班族",               bucket:"7.1", syl:"OF·fice WORK·er", diff:"keep"},
-  {word:"doctor",         pos:"n.",        zh:"醫生；博士",           bucket:"7.1", syl:"DOC·tor",         diff:"keep"},
-  // 7.1.006 家人
-  {word:"family",         pos:"n.",        zh:"家庭；家人",           bucket:"7.1", syl:"FAM·i·ly",        diff:"keep"},
-  {word:"parents",        pos:"n.",        zh:"雙親",                 bucket:"7.1", syl:"PAR·ents",        diff:"keep"},
-  {word:"daughter",       pos:"n.",        zh:"女兒",                 bucket:"7.1", syl:"DAU[GH]·ter",     diff:"keep"},
-  {word:"son",            pos:"n.",        zh:"兒子",                 bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"grandpa",        pos:"n.",        zh:"爺爺；外公",           bucket:"7.1", syl:"GRAND·pa",        diff:"keep"},
-  {word:"grandma",        pos:"n.",        zh:"奶奶；外婆",           bucket:"7.1", syl:"GRAND·ma",        diff:"keep"},
-  {word:"brother",        pos:"n.",        zh:"兄；弟",               bucket:"7.1", syl:"BROTH·er",        diff:"keep"},
-  {word:"sister",         pos:"n.",        zh:"姊；妹",               bucket:"7.1", syl:"SIS·ter",         diff:"keep"},
-  {word:"uncle",          pos:"n.",        zh:"叔叔；伯父；舅舅",     bucket:"7.1", syl:"UN·cle",          diff:"keep"},
-  {word:"aunt",           pos:"n.",        zh:"嬸嬸；姑姑；阿姨",     bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"cousin",         pos:"n.",        zh:"表（堂）兄弟姊妹",     bucket:"7.1", syl:"COUS·in",         diff:"keep"},
-  {word:"husband",        pos:"n.",        zh:"丈夫",                 bucket:"7.1", syl:"HUS·band",        diff:"keep"},
-  {word:"wife",           pos:"n.",        zh:"妻子",                 bucket:"7.1", syl:"",                diff:"keep"},
-  // 7.1.007 顏色
-  {word:"purple",         pos:"adj.",      zh:"紫色",                 bucket:"7.1", syl:"PUR·ple",         diff:"keep"},
-  {word:"gray",           pos:"adj.",      zh:"灰色",                 bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"brown",          pos:"adj.",      zh:"棕色；褐色",           bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"orange",         pos:"adj.",      zh:"橙色；柳橙",           bucket:"7.1", syl:"OR·ange",         diff:"keep"},
-  {word:"pink",           pos:"adj.",      zh:"粉紅色",               bucket:"7.1", syl:"",                diff:"keep"},
-  // 7.1.007 學校
-  {word:"pencil case",    pos:"n.",        zh:"鉛筆盒",               bucket:"7.1", syl:"PEN·cil CASE",    diff:"keep"},
-  {word:"eraser",         pos:"n.",        zh:"橡皮擦",               bucket:"7.1", syl:"e·RAS·er",        diff:"keep"},
-  {word:"ruler",          pos:"n.",        zh:"尺",                   bucket:"7.1", syl:"RUL·er",          diff:"keep"},
-  {word:"notebook",       pos:"n.",        zh:"筆記本；記事本",       bucket:"7.1", syl:"NOTE·book",       diff:"keep"},
-  {word:"number",         pos:"n.",        zh:"數字；號碼",           bucket:"7.1", syl:"NUM·ber",         diff:"keep"},
-  {word:"classmate",      pos:"n.",        zh:"同班同學",             bucket:"7.1", syl:"CLASS·mate",      diff:"keep"},
-  // 7.1.007 物品
-  {word:"clock",          pos:"n.",        zh:"時鐘；計時器",         bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"sofa",           pos:"n.",        zh:"沙發",                 bucket:"7.1", syl:"SO·fa",           diff:"keep"},
-  {word:"desk",           pos:"n.",        zh:"書桌",                 bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"card",           pos:"n.",        zh:"卡片",                 bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"doll",           pos:"n.",        zh:"洋娃娃",               bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"umbrella",       pos:"n.",        zh:"雨傘",                 bucket:"7.1", syl:"um·BREL·la",      diff:"keep"},
-  // 7.1.007 動詞/其他
-  {word:"welcome",        pos:"v.",        zh:"歡迎",                 bucket:"7.1", syl:"WEL·come",        diff:"keep"},
-  {word:"hurry",          pos:"v.",        zh:"趕快；催促",           bucket:"7.1", syl:"HUR·ry",          diff:"keep"},
-  {word:"wait",           pos:"v.",        zh:"等待",                 bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"each other",     pos:"pron.",     zh:"彼此；互相",           bucket:"7.1", syl:"EACH OTH·er",     diff:"keep"},
-  {word:"turn",           pos:"v.",        zh:"輪流；翻；轉",         bucket:"7.1", syl:"",                diff:"keep"},
-  // 7.1.008 動詞
-  {word:"talk",           pos:"v.",        zh:"說話；談論",           bucket:"7.1", syl:"TA[L]K",          diff:"keep"},
-  {word:"fight",          pos:"v.",        zh:"打架；奮鬥",           bucket:"7.1", syl:"FI[GH]T",         diff:"keep"},
-  {word:"wash",           pos:"v.",        zh:"洗",                   bucket:"7.1", syl:"",                diff:"keep"},
-  // 7.1.008 形容詞
-  {word:"fat",            pos:"adj.",      zh:"胖的",                 bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"handsome",       pos:"adj.",      zh:"英俊的；好看的",       bucket:"7.1", syl:"HAN[D]·some",     diff:"keep"},
-  {word:"careful",        pos:"adj.",      zh:"小心的；謹慎的",       bucket:"7.1", syl:"CARE·ful",        diff:"keep"},
-  {word:"dear",           pos:"adj.",      zh:"親愛的；貴重的",       bucket:"7.1", syl:"",                diff:"keep"},
-  {word:"glad",           pos:"adj.",      zh:"高興的",               bucket:"7.1", syl:"",                diff:"keep"},
-  // 7.1.008 副詞
-  {word:"also",           pos:"adv.",      zh:"也；還",               bucket:"7.1", syl:"AL·so",           diff:"keep"},
-  {word:"again",          pos:"adv.",      zh:"再次；又",             bucket:"7.1", syl:"a·GAIN",          diff:"keep"},
+// VOCAB is loaded asynchronously — see initApp() at the bottom
+let VOCAB = [];
 
-  // ── Easy (簡單，預設隱藏) ─────────────────────────────────
-  // 7.1.006 easy
-  {word:"man",            pos:"n.",        zh:"男人",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"woman",          pos:"n.",        zh:"女人",                 bucket:"7.1", syl:"WOM·an",          diff:"easy"},
-  {word:"boy",            pos:"n.",        zh:"男孩",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"girl",           pos:"n.",        zh:"女孩",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"person",         pos:"n.",        zh:"人",                   bucket:"7.1", syl:"PER·son",         diff:"easy"},
-  {word:"people",         pos:"n.",        zh:"人們",                 bucket:"7.1", syl:"PEO·ple",         diff:"easy"},
-  {word:"father",         pos:"n.",        zh:"父親",                 bucket:"7.1", syl:"FA·ther",         diff:"easy"},
-  {word:"mother",         pos:"n.",        zh:"媽媽",                 bucket:"7.1", syl:"MOTH·er",         diff:"easy"},
-  // 7.1.007 easy
-  {word:"color",          pos:"n.",        zh:"顏色",                 bucket:"7.1", syl:"COL·or",          diff:"easy"},
-  {word:"black",          pos:"adj./n.",   zh:"黑色",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"red",            pos:"adj./n.",   zh:"紅色",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"white",          pos:"adj./n.",   zh:"白色",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"yellow",         pos:"adj./n.",   zh:"黃色",                 bucket:"7.1", syl:"YEL·low",         diff:"easy"},
-  {word:"green",          pos:"adj./n.",   zh:"綠色",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"school",         pos:"n.",        zh:"學校",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"class",          pos:"n.",        zh:"班級；課",             bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"friend",         pos:"n.",        zh:"朋友",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"table",          pos:"n.",        zh:"桌子",                 bucket:"7.1", syl:"TA·ble",          diff:"easy"},
-  {word:"door",           pos:"n.",        zh:"門",                   bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"wall",           pos:"n.",        zh:"牆壁",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"bed",            pos:"n.",        zh:"床",                   bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"chair",          pos:"n.",        zh:"椅子",                 bucket:"7.1", syl:"",                diff:"easy"},
-  // 7.1.008 easy
-  {word:"eat",            pos:"v.",        zh:"吃",                   bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"drink",          pos:"v.",        zh:"喝",                   bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"see",            pos:"v.",        zh:"看見",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"look",           pos:"v.",        zh:"看；看起來",           bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"have",           pos:"v.",        zh:"有；吃",               bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"good",           pos:"adj.",      zh:"好的；良好的",         bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"big",            pos:"adj.",      zh:"大的",                 bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"new",            pos:"adj.",      zh:"新的；最新的",         bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"old",            pos:"adj.",      zh:"舊的；老的",           bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"happy",          pos:"adj.",      zh:"快樂的；幸福的",       bucket:"7.1", syl:"HAP·py",          diff:"easy"},
-  {word:"too",            pos:"adv.",      zh:"也；太",               bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"so",             pos:"adv./conj.",zh:"所以；那麼；如此",     bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"now",            pos:"adv.",      zh:"現在；目前",           bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"for",            pos:"prep./conj.",zh:"為了；一…就…",       bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"with",           pos:"prep.",     zh:"跟；和；用",           bucket:"7.1", syl:"",                diff:"easy"},
-  {word:"please",         pos:"adv./v.",   zh:"請；使高興",           bucket:"7.1", syl:"",                diff:"easy"},
-];
-
-const BUCKET_LABEL = { "7.0":"國一全","7.1":"國一上","7.2":"國一下",
-                        "8.1":"國二上","8.2":"國二下","9.1":"國三上","9.2":"國三下" };
+const BUCKET_LABEL = {
+  "7.0":"國一全","7.1":"國一上","7.2":"國一下",
+  "8.0":"國二全","8.1":"國二上","8.2":"國二下",
+  "9.0":"國三全","9.1":"國三上","9.2":"國三下"
+};
 
 let deckMode   = 'keep'; // 'keep' | 'easy' | 'all'
 let isShuffled = false;
@@ -420,7 +316,7 @@ function buildDeck() {
   return isShuffled ? [...base].sort(() => Math.random() - 0.5) : [...base];
 }
 
-let deck = buildDeck();
+let deck = [];
 let idx  = 0;
 
 // ── Syllable renderer ────────────────────────────────────
@@ -764,7 +660,21 @@ document.addEventListener("keydown", e => {
 });
 
 // ── Init ────────────────────────────────────────────────
-render();
+(async () => {
+  try {
+    const params = new URLSearchParams(location.search);
+    const bucket = params.get("bucket") || "7.1";
+    const res = await fetch(`data/${bucket}.json`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    VOCAB = data.words;
+    deck  = buildDeck();
+    render();
+  } catch (e) {
+    document.getElementById("counterText").textContent = "資料載入失敗";
+    console.error("initApp:", e);
+  }
+})();
 </script>
 </body>
 </html>
