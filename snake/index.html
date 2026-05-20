@@ -229,6 +229,15 @@
       font-size: 15px; font-weight: 700; cursor: pointer;
     }
     .btn-secondary:hover { background: #718096; }
+
+    /* ── Speed selector ─────────────────────────────────── */
+    .speed-selector { display: flex; gap: 8px; justify-content: center; margin-bottom: 18px; }
+    .speed-btn {
+      background: #4a5568; color: #e2e8f0;
+      border: 2px solid transparent; border-radius: 8px;
+      padding: 7px 16px; font-size: 14px; font-weight: 700; cursor: pointer;
+    }
+    .speed-btn.speed-selected { border-color: #4299e1; background: #2b6cb0; }
   </style>
 </head>
 <body>
@@ -244,6 +253,12 @@
         「幫幫我」清掉雜音節，過關只得 0.5 分
       </div>
       <div id="startInfo" style="font-size:13px;color:#718096;margin-bottom:18px"></div>
+      <div style="font-size:13px;color:#a0aec0;margin-bottom:8px">速度選擇</div>
+      <div class="speed-selector">
+        <button class="speed-btn" data-speed="slow"   onclick="selectSpeed('slow')">慢</button>
+        <button class="speed-btn speed-selected" data-speed="medium" onclick="selectSpeed('medium')">中</button>
+        <button class="speed-btn" data-speed="fast"   onclick="selectSpeed('fast')">快</button>
+      </div>
       <div class="btn-row">
         <button class="btn-primary" onclick="startGame()">開始遊戲</button>
       </div>
@@ -298,11 +313,11 @@
 <script>
 // ── Constants ───────────────────────────────────────────────────────────────
 const SCHOOL_YEAR = '114';
-const TICK_MS     = 160;   // snake speed
+const SPEEDS      = { slow: 330, medium: 200, fast: 130 };
+let   selectedSpeed = 'medium';
 const TTS_MS      = 5000;  // TTS repeat interval
 const MAX_WRONG   = 10;
-const FOOD_COUNT  = 22;    // food items on grid at once
-const MAX_SNAKE   = 12;    // cap snake length
+const FOOD_COUNT  = 10;    // food items on grid at once
 
 // ── Dynamic grid dims (set in buildGridDOM) ──────────────────────────────────
 let GRID_COLS = 14;
@@ -338,8 +353,9 @@ let loopTimer    = null;
 let ttsTimer     = null;
 
 // cached DOM cells: key → element
-let cellEls      = {};
+let cellEls       = {};
 let prevCellState = {};
+let baseCellFontSize = 12;
 
 // ── Syllable rendering (matches flashcard) ───────────────────────────────────
 function renderSylBlock(part) {
@@ -367,10 +383,24 @@ function renderSyl(syl) {
   return syl.split('·').map(renderSylBlock).join(dot);
 }
 
-// Split syl string → individual block tokens (split by · AND space)
+function splitSilent(part) {
+  const result = [];
+  const re = /\[([A-Za-z]+)\]/g;
+  let last = 0, m;
+  while ((m = re.exec(part)) !== null) {
+    if (m.index > last) result.push(part.slice(last, m.index));
+    result.push(`[${m[1]}]`);
+    last = m.index + m[0].length;
+  }
+  if (last < part.length) result.push(part.slice(last));
+  return result.filter(b => b.length > 0);
+}
+
+// Split syl string → individual block tokens (· and spaces, then split out silent-letter markers)
 function getSylBlocks(wordObj) {
   if (!wordObj.syl) return [wordObj.word.toUpperCase()];
-  return wordObj.syl.split(/[·\s]+/).filter(b => b.length > 0);
+  const parts = wordObj.syl.split(/[·\s]+/).filter(b => b.length > 0);
+  return parts.flatMap(splitSilent);
 }
 
 // ── Grid helpers ──────────────────────────────────────────────────────────────
@@ -533,11 +563,9 @@ function moveSnake() {
     food.delete(k);
 
     if (item.wordIdx === targetWordIdx) {
-      // Correct: any uncollected target syllable completes the word eventually
+      // Correct: grow snake and track order
       snake.unshift(newHead);
-      if (snake.length > MAX_SNAKE) snake.pop();
 
-      // Track whether this syllable was eaten in the expected order
       if (item.sylIdx === expectedOrderIdx) {
         expectedOrderIdx++;
       } else {
@@ -551,9 +579,8 @@ function moveSnake() {
         return;
       }
     } else {
-      // Wrong: non-target syllable eaten
+      // Wrong: grow snake too
       snake.unshift(newHead);
-      snake.pop();
       onWrongSyllable();
       spawnDistractor(1);
     }
@@ -623,6 +650,13 @@ function stopTtsTimer() {
 }
 
 // ── Game flow ──────────────────────────────────────────────────────────────────
+function selectSpeed(s) {
+  selectedSpeed = s;
+  document.querySelectorAll('.speed-btn').forEach(b =>
+    b.classList.toggle('speed-selected', b.dataset.speed === s)
+  );
+}
+
 function startGame() {
   document.getElementById('startScreen').hidden = true;
   wrongCount = 0; score = 0; answeredIndices.clear();
@@ -631,7 +665,7 @@ function startGame() {
   initSnake();
   pickNextWord();
   gameRunning = true;
-  loopTimer   = setInterval(tick, TICK_MS);
+  loopTimer   = setInterval(tick, SPEEDS[selectedSpeed]);
 }
 
 function restartGame() {
@@ -643,7 +677,7 @@ function restartGame() {
   food.clear();
   pickNextWord();
   gameRunning = true;
-  loopTimer   = setInterval(tick, TICK_MS);
+  loopTimer   = setInterval(tick, SPEEDS[selectedSpeed]);
 }
 
 function endGame() {
@@ -659,11 +693,19 @@ function endGame() {
   document.getElementById('gameOverScreen').hidden = false;
 }
 
+function foodFontSize(block) {
+  const len = block.replace(/[\[\]]/g, '').length;
+  if (len <= 3) return baseCellFontSize;
+  if (len <= 4) return Math.max(8, baseCellFontSize - 2);
+  return Math.max(7, baseCellFontSize - 3);
+}
+
 // ── Render ─────────────────────────────────────────────────────────────────────
 function buildGridDOM() {
   const grid  = document.getElementById('gameGrid');
   const avail = Math.min(window.innerWidth - 24, 760);
   CELL_SIZE   = Math.max(34, Math.min(50, Math.floor(avail / GRID_COLS)));
+  baseCellFontSize = Math.max(10, CELL_SIZE - 28);
 
   const gridW = CELL_SIZE * GRID_COLS + 2 * (GRID_COLS - 1) + 4; // gap + padding
   grid.style.gridTemplateColumns = `repeat(${GRID_COLS}, ${CELL_SIZE}px)`;
@@ -703,15 +745,19 @@ function render() {
     if (state === 'head') {
       cell.className = 'cell snake-head';
       cell.innerHTML = '';
+      cell.style.fontSize = baseCellFontSize + 'px';
     } else if (state === 'body') {
       cell.className = 'cell snake-body';
       cell.innerHTML = '';
+      cell.style.fontSize = baseCellFontSize + 'px';
     } else if (state.startsWith('food:')) {
       cell.className = 'cell food';
       cell.innerHTML = food.get(k).rendered;
+      cell.style.fontSize = foodFontSize(food.get(k).block) + 'px';
     } else {
       cell.className = 'cell';
       cell.innerHTML = '';
+      cell.style.fontSize = baseCellFontSize + 'px';
     }
   }
 }
