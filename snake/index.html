@@ -10,8 +10,8 @@
 
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
-      background: #1a202c;
-      color: #e2e8f0;
+      background: #f0f5fc;
+      color: #1e293b;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -29,18 +29,18 @@
       padding: 10px 16px 4px;
     }
     .back-home {
-      color: #90cdf4;
+      color: #2563eb;
       text-decoration: none;
       font-size: 14px;
     }
-    .back-home:hover { color: #bee3f8; }
+    .back-home:hover { color: #1d4ed8; }
     .bucket-tag {
       font-size: 12px;
-      background: #2d3748;
-      border: 1px solid #4a5568;
+      background: #dde8f8;
+      border: 1px solid #93c5fd;
       border-radius: 4px;
       padding: 2px 8px;
-      color: #a0aec0;
+      color: #1e40af;
     }
     .tts-btn {
       background: none;
@@ -51,7 +51,7 @@
       border-radius: 6px;
       transition: background 0.15s;
     }
-    .tts-btn:hover { background: #2d3748; }
+    .tts-btn:hover { background: #dde8f8; }
 
     /* ── Question area ───────────────────────────────── */
     .question-area {
@@ -63,7 +63,7 @@
     .zh-meaning {
       font-size: 24px;
       font-weight: 700;
-      color: #f6e05e;
+      color: #92400e;
       min-height: 34px;
       margin-bottom: 8px;
     }
@@ -76,26 +76,26 @@
       align-items: center;
     }
     .syl-slot {
-      background: #2d3748;
-      border: 2px solid #4a5568;
+      background: #e8f0fb;
+      border: 2px solid #94a3b8;
       border-radius: 6px;
       padding: 4px 10px;
       font-size: 14px;
       min-width: 38px;
       text-align: center;
-      color: #718096;
+      color: #94a3b8;
       transition: border-color 0.2s;
     }
     .syl-slot.filled {
-      border-color: #48bb78;
-      color: #e2e8f0;
+      border-color: #16a34a;
+      color: #1e293b;
     }
 
     /* ── Syllable colour classes (match flashcard) ───── */
-    .syl-stress { color: #4299e1; font-weight: 700; }
-    .syl-silent { color: #fc8181; text-decoration: line-through;
-                  text-decoration-color: #fc8181; }
-    .syl-dot    { color: #718096; }
+    .syl-stress { color: #1d4ed8; font-weight: 700; }
+    .syl-silent { color: #dc2626; text-decoration: line-through;
+                  text-decoration-color: #dc2626; }
+    .syl-dot    { color: #6b7280; }
 
     /* ── Grid ────────────────────────────────────────── */
     .grid-wrapper {
@@ -107,15 +107,15 @@
     }
     .game-grid {
       display: grid;
-      gap: 2px;
-      background: #2d3748;
-      border: 2px solid #4a5568;
+      gap: 1px;
+      background: #94a3b8;
+      border: 2px solid #64748b;
       border-radius: 8px;
       padding: 2px;
       flex-shrink: 0;
     }
     .cell {
-      background: #1a202c;
+      background: #e8f0fb;
       border-radius: 3px;
       display: flex;
       align-items: center;
@@ -126,13 +126,16 @@
       line-height: 1;
       user-select: none;
     }
-    .cell.snake-head { background: #48bb78; }
-    .cell.snake-body { background: #276749; }
+    .cell.snake-head { background: #16a34a; }
+    .cell.snake-body { background: #86efac; }
     .cell.food {
-      background: #1e3a5f;
-      border: 1px solid #2c5282;
+      background: #2563eb;
+      border: 1px solid #1d4ed8;
+      color: #f0f9ff;
     }
-    .cell.safe-border { background: #1a2535; }
+    .cell.food .syl-stress { color: #bfdbfe; }
+    .cell.food .syl-silent { color: #fca5a5; text-decoration-color: #fca5a5; }
+    .cell.safe-border { background: #bfdbfe; }
 
     /* ── Footer ──────────────────────────────────────── */
     .footer {
@@ -156,8 +159,8 @@
       text-align: center;
     }
     .help-btn {
-      background: #744210;
-      color: #fefcbf;
+      background: #f59e0b;
+      color: white;
       border: none;
       border-radius: 8px;
       padding: 7px 14px;
@@ -167,10 +170,10 @@
       transition: background 0.15s;
       white-space: nowrap;
     }
-    .help-btn:hover:not(:disabled) { background: #975a16; }
+    .help-btn:hover:not(:disabled) { background: #d97706; }
     .help-btn:disabled {
-      background: #2d3748;
-      color: #718096;
+      background: #e2e8f0;
+      color: #94a3b8;
       cursor: default;
     }
 
@@ -184,8 +187,8 @@
       padding: 8px 0 12px;
     }
     .dpad-btn {
-      background: #2d3748;
-      border: 2px solid #4a5568;
+      background: #dde8f8;
+      border: 2px solid #94a3b8;
       border-radius: 10px;
       font-size: 22px;
       cursor: pointer;
@@ -195,50 +198,50 @@
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
     }
-    .dpad-btn:active { background: #4a5568; }
+    .dpad-btn:active { background: #94a3b8; }
 
     /* ── Overlays ─────────────────────────────────────── */
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.88);
+      background: rgba(0,0,0,0.72);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 100;
     }
     .overlay-card {
-      background: #2d3748;
+      background: #f8fafc;
       border-radius: 16px;
       padding: 32px 40px;
       text-align: center;
       max-width: 360px;
       width: 90%;
     }
-    .overlay-title { font-size: 30px; font-weight: 900; margin-bottom: 10px; }
-    .overlay-sub   { font-size: 14px; color: #a0aec0; margin-bottom: 22px; line-height: 1.7; }
+    .overlay-title { font-size: 30px; font-weight: 900; margin-bottom: 10px; color: #1e293b; }
+    .overlay-sub   { font-size: 14px; color: #475569; margin-bottom: 22px; line-height: 1.7; }
     .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
     .btn-primary {
-      background: #4299e1; color: white; border: none;
+      background: #2563eb; color: white; border: none;
       border-radius: 10px; padding: 11px 28px;
       font-size: 15px; font-weight: 700; cursor: pointer;
     }
-    .btn-primary:hover { background: #3182ce; }
+    .btn-primary:hover { background: #1d4ed8; }
     .btn-secondary {
-      background: #4a5568; color: white; border: none;
+      background: #64748b; color: white; border: none;
       border-radius: 10px; padding: 11px 28px;
       font-size: 15px; font-weight: 700; cursor: pointer;
     }
-    .btn-secondary:hover { background: #718096; }
+    .btn-secondary:hover { background: #94a3b8; }
 
     /* ── Speed selector ─────────────────────────────────── */
     .speed-selector { display: flex; gap: 8px; justify-content: center; margin-bottom: 18px; }
     .speed-btn {
-      background: #4a5568; color: #e2e8f0;
+      background: #dde8f8; color: #1e293b;
       border: 2px solid transparent; border-radius: 8px;
       padding: 7px 16px; font-size: 14px; font-weight: 700; cursor: pointer;
     }
-    .speed-btn.speed-selected { border-color: #4299e1; background: #2b6cb0; }
+    .speed-btn.speed-selected { border-color: #2563eb; background: #bfdbfe; color: #1d4ed8; }
   </style>
 </head>
 <body>
@@ -248,13 +251,13 @@
     <div class="overlay-card">
       <div class="overlay-title">音節蛇 🐍</div>
       <div class="overlay-sub">
-        看中文 → 找出<strong style="color:#f6e05e">全部</strong>對應音節吃完即可過關<br>
-        <span style="color:#68d391">按正確順序吃完 → 恢復 1 滴血量（最高 10 滴）</span><br>
+        看中文 → 找出<strong style="color:#92400e">全部</strong>對應音節吃完即可過關<br>
+        <span style="color:#16a34a">按正確順序吃完 → 恢復 1 滴血量（最高 10 滴）</span><br>
         吃到無關音節 -1 血，歸零遊戲結束<br>
         「幫幫我」清掉雜音節，過關只得 0.5 分
       </div>
-      <div id="startInfo" style="font-size:13px;color:#718096;margin-bottom:18px"></div>
-      <div style="font-size:13px;color:#a0aec0;margin-bottom:8px">速度選擇</div>
+      <div id="startInfo" style="font-size:13px;color:#475569;margin-bottom:18px"></div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:8px">速度選擇</div>
       <div class="speed-selector">
         <button class="speed-btn" data-speed="slow"   onclick="selectSpeed('slow')">慢</button>
         <button class="speed-btn speed-selected" data-speed="medium" onclick="selectSpeed('medium')">中</button>
@@ -264,7 +267,7 @@
         <button class="btn-primary" onclick="startGame()">開始遊戲</button>
       </div>
       <br>
-      <a href="../" style="color:#718096;font-size:13px">← 主選單</a>
+      <a href="../" style="color:#64748b;font-size:13px">← 主選單</a>
     </div>
   </div>
 
@@ -314,7 +317,7 @@
 <script>
 // ── Constants ───────────────────────────────────────────────────────────────
 const SCHOOL_YEAR = '114';
-const SPEEDS      = { slow: 330, medium: 200, fast: 130 };
+const SPEEDS      = { slow: 600, medium: 350, fast: 200 };
 let   selectedSpeed = 'medium';
 const TTS_MS      = 5000;  // TTS repeat interval
 const MAX_WRONG   = 10;
@@ -547,8 +550,8 @@ function updateCollectedSlots() {
 
 // ── Snake ──────────────────────────────────────────────────────────────────────
 function initSnake() {
+  const my = GRID_ROWS - 1;            // start on bottom safe border
   const mx = Math.floor(GRID_COLS / 2);
-  const my = Math.floor(GRID_ROWS / 2);
   snake   = [{x:mx, y:my}, {x:mx-1, y:my}, {x:mx-2, y:my}];
   dir     = {x:1, y:0};
   nextDir = {x:1, y:0};
@@ -567,8 +570,9 @@ function moveSnake() {
     food.delete(k);
 
     if (item.wordIdx === targetWordIdx) {
-      // Correct: grow snake and track order
+      // Correct: grow (cap at 10)
       snake.unshift(newHead);
+      if (snake.length > 10) snake.pop();
 
       if (item.sylIdx === expectedOrderIdx) {
         expectedOrderIdx++;
@@ -583,8 +587,10 @@ function moveSnake() {
         return;
       }
     } else {
-      // Wrong: grow snake too
+      // Wrong: advance normally then shrink by 1 (min 3 segments)
       snake.unshift(newHead);
+      snake.pop();                          // normal advance
+      if (snake.length > 3) snake.pop();   // shrink
       onWrongSyllable();
       spawnDistractor(1);
     }
@@ -608,8 +614,7 @@ function onWordComplete() {
   }
 
   setTimeout(() => {
-    initSnake();
-    pickNextWord();
+    pickNextWord();   // keeps snake length and position
     render();
     transitioning = false;
   }, 700);
@@ -693,7 +698,7 @@ function endGame() {
 
   document.getElementById('goTitle').textContent = '遊戲結束！';
   document.getElementById('goSub').innerHTML =
-    `共答對 <strong style="color:#f6e05e;font-size:22px">${
+    `共答對 <strong style="color:#92400e;font-size:22px">${
       Number.isInteger(score) ? score : score.toFixed(1)
     }</strong> 題`;
   document.getElementById('gameOverScreen').hidden = false;
@@ -709,11 +714,14 @@ function foodFontSize(block) {
 // ── Render ─────────────────────────────────────────────────────────────────────
 function buildGridDOM() {
   const grid  = document.getElementById('gameGrid');
-  const avail = Math.min(window.innerWidth - 24, 760);
-  CELL_SIZE   = Math.max(34, Math.min(50, Math.floor(avail / GRID_COLS)));
-  baseCellFontSize = Math.max(10, CELL_SIZE - 28);
+  // gap=1px, padding=2px, border=2px → total overhead per row = 1*(GRID_COLS-1)+2*2+2*2=GRID_COLS+11
+  const GAP = 1, GPAD = 2, GBORDER = 2;
+  const overhead = GAP * (GRID_COLS - 1) + 2 * (GPAD + GBORDER);
+  const wrapperInner = Math.min(window.innerWidth - 32, 760 - 32); // 16px padding each side
+  CELL_SIZE   = Math.max(22, Math.min(46, Math.floor((wrapperInner - overhead) / GRID_COLS)));
+  baseCellFontSize = Math.max(9, Math.floor(CELL_SIZE * 0.42));
 
-  const gridW = CELL_SIZE * GRID_COLS + 2 * (GRID_COLS - 1) + 4; // gap + padding
+  const gridW = CELL_SIZE * GRID_COLS + overhead;
   grid.style.gridTemplateColumns = `repeat(${GRID_COLS}, ${CELL_SIZE}px)`;
   grid.style.width = `${gridW}px`;
 
