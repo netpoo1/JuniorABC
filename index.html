@@ -69,6 +69,8 @@
     .btn-flash:hover { filter: brightness(.95); }
     .btn-game  { background: #f0fff4; color: #276749; }
     .btn-game:hover  { filter: brightness(.95); }
+    .btn-snake { background: #faf5ff; color: #553c9a; }
+    .btn-snake:hover { filter: brightness(.95); }
 
     .locked-msg { font-size: 13px; color: #a0aec0; text-align: center; padding: 6px 0 2px; }
 
@@ -156,6 +158,8 @@ function renderGrades() {
                   onclick="go('flashcard/?bucket=${mainBucket}')">📖 單字卡</button>
           <button class="action-btn btn-game"
                   onclick="go('game/?bucket=${mainBucket}')">🎮 配對遊戲</button>
+          <button class="action-btn btn-snake"
+                  onclick="go('snake/?bucket=${mainBucket}')">🐍 音節蛇</button>
         </div>`;
     } else {
       const req = GRADES.find(g => g.id === grade.requires);
