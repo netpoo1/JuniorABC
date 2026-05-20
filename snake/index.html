@@ -587,9 +587,9 @@ function moveSnake() {
     food.delete(k);
 
     if (item.wordIdx === targetWordIdx) {
-      // Correct: grow (cap at 10)
+      // Correct: grow (cap at 8)
       snake.unshift(newHead);
-      if (snake.length > 10) snake.pop();
+      if (snake.length > 8) snake.pop();
 
       if (item.sylIdx === expectedOrderIdx) {
         expectedOrderIdx++;
@@ -604,10 +604,10 @@ function moveSnake() {
         return;
       }
     } else {
-      // Wrong: advance normally then shrink by 1 (min 3 segments)
+      // Wrong: advance normally then shrink by 1 (min 2 segments)
       snake.unshift(newHead);
       snake.pop();                          // normal advance
-      if (snake.length > 3) snake.pop();   // shrink
+      if (snake.length > 2) snake.pop();   // shrink
       onWrongSyllable();
       spawnDistractor(1);
     }
@@ -675,6 +675,23 @@ function stopTtsTimer() {
   speechSynthesis.cancel();
 }
 
+// ── Dynamic tick speed ────────────────────────────────────────────────────────
+// Longer snake = faster. SPEEDS[selectedSpeed] is the midpoint (length 5).
+function computeTickMs() {
+  const len  = Math.max(2, Math.min(8, snake.length));
+  const frac = (len - 2) / 6;              // 0 at len 2 → 1 at len 8
+  const base = SPEEDS[selectedSpeed];
+  return Math.round(base * (1.8 - 1.3 * frac)); // len2: base×1.8, len8: base×0.5
+}
+
+function scheduleTick() {
+  loopTimer = setTimeout(() => {
+    if (!gameRunning) return;
+    tick();
+    scheduleTick();
+  }, computeTickMs());
+}
+
 // ── Game flow ──────────────────────────────────────────────────────────────────
 function selectSpeed(s) {
   selectedSpeed = s;
@@ -693,7 +710,7 @@ function startGame() {
   pickNextWord();
   render();
   gameRunning = true;
-  loopTimer   = setInterval(tick, SPEEDS[selectedSpeed]);
+  scheduleTick();
 }
 
 function restartGame() {
@@ -707,12 +724,12 @@ function restartGame() {
   pickNextWord();
   render();
   gameRunning = true;
-  loopTimer   = setInterval(tick, SPEEDS[selectedSpeed]);
+  scheduleTick();
 }
 
 function endGame() {
   gameRunning = false;
-  clearInterval(loopTimer); loopTimer = null;
+  clearTimeout(loopTimer); loopTimer = null;
   stopTtsTimer();
 
   document.getElementById('goTitle').textContent = '遊戲結束！';
