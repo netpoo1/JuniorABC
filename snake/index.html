@@ -238,9 +238,10 @@
     <div class="overlay-card">
       <div class="overlay-title">音節蛇 🐍</div>
       <div class="overlay-sub">
-        看中文 → 在格子裡找出對應的音節 → 按<strong style="color:#f6e05e">順序</strong>吃完<br>
-        吃錯 10 次遊戲結束<br>
-        用「幫幫我」清掉雜音節，但只得 0.5 分
+        看中文 → 找出<strong style="color:#f6e05e">全部</strong>對應音節吃完即可過關<br>
+        <span style="color:#68d391">按正確順序吃完 → 恢復 1 滴血量（最高 10 滴）</span><br>
+        吃到無關音節 -1 血，歸零遊戲結束<br>
+        「幫幫我」清掉雜音節，過關只得 0.5 分
       </div>
       <div id="startInfo" style="font-size:13px;color:#718096;margin-bottom:18px"></div>
       <div class="btn-row">
@@ -321,10 +322,12 @@ let nextDir = {x:1, y:0};
 // food: Map "x,y" → {wordIdx, sylIdx, block, rendered}
 let food = new Map();
 
-let targetWordIdx   = -1;
-let targetSylBlocks = [];
-let collectedIdx    = 0;
-let usedHelp        = false;
+let targetWordIdx    = -1;
+let targetSylBlocks  = [];
+let collectedSet     = new Set(); // which sylIdx have been collected
+let expectedOrderIdx = 0;        // next sylIdx for in-order bonus tracking
+let inOrderSoFar     = true;     // all collected so far were in order
+let usedHelp         = false;
 let wrongCount      = 0;
 let score           = 0;
 let answeredIndices = new Set();
@@ -482,10 +485,12 @@ function pickNextWord() {
     available = keepWords.map((_, i) => i);
   }
 
-  targetWordIdx   = available[Math.floor(Math.random() * available.length)];
-  targetSylBlocks = getSylBlocks(keepWords[targetWordIdx]);
-  collectedIdx    = 0;
-  usedHelp        = false;
+  targetWordIdx    = available[Math.floor(Math.random() * available.length)];
+  targetSylBlocks  = getSylBlocks(keepWords[targetWordIdx]);
+  collectedSet     = new Set();
+  expectedOrderIdx = 0;
+  inOrderSoFar     = true;
+  usedHelp         = false;
 
   const btn = document.getElementById('helpBtn');
   btn.disabled    = false;
@@ -500,7 +505,7 @@ function pickNextWord() {
 function updateCollectedSlots() {
   const el = document.getElementById('collectedSlots');
   el.innerHTML = targetSylBlocks.map((b, i) =>
-    i < collectedIdx
+    collectedSet.has(i)
       ? `<span class="syl-slot filled">${renderSylBlock(b)}</span>`
       : `<span class="syl-slot">＿</span>`
   ).join('');
@@ -527,30 +532,30 @@ function moveSnake() {
     const item = food.get(k);
     food.delete(k);
 
-    const isCorrect = item.wordIdx === targetWordIdx && item.sylIdx === collectedIdx;
-
-    if (isCorrect) {
+    if (item.wordIdx === targetWordIdx) {
+      // Correct: any uncollected target syllable completes the word eventually
       snake.unshift(newHead);
       if (snake.length > MAX_SNAKE) snake.pop();
-      collectedIdx++;
+
+      // Track whether this syllable was eaten in the expected order
+      if (item.sylIdx === expectedOrderIdx) {
+        expectedOrderIdx++;
+      } else {
+        inOrderSoFar = false;
+      }
+      collectedSet.add(item.sylIdx);
       updateCollectedSlots();
 
-      if (collectedIdx === targetSylBlocks.length) {
+      if (collectedSet.size === targetSylBlocks.length) {
         onWordComplete();
         return;
       }
     } else {
-      // Wrong — move without growing
+      // Wrong: non-target syllable eaten
       snake.unshift(newHead);
       snake.pop();
       onWrongSyllable();
-
-      // Put syllable back (target → keep in place; distractor → new distractor)
-      if (item.wordIdx === targetWordIdx) {
-        respawnTargetSyl(item.sylIdx, item.block);
-      } else {
-        spawnDistractor(1);
-      }
+      spawnDistractor(1);
     }
   } else {
     snake.unshift(newHead);
@@ -564,6 +569,12 @@ function onWordComplete() {
   answeredIndices.add(targetWordIdx);
   score += usedHelp ? 0.5 : 1;
   updateScore();
+
+  // Bonus: +1 HP for eating all syllables in correct order (max 10)
+  if (inOrderSoFar) {
+    wrongCount = Math.max(0, wrongCount - 1);
+    updateHearts();
+  }
 
   setTimeout(() => {
     initSnake();
