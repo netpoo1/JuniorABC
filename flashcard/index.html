@@ -6,6 +6,8 @@
   <title>JuniorABC 單字卡</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    button:not(:disabled):active { filter: brightness(.92); }
     [hidden] { display: none !important; }
 
     body {
@@ -109,7 +111,7 @@
       display: flex; align-items: center; gap: 6px;
       background: none;
       border: 2px solid #bee3f8; border-radius: 50px;
-      padding: 7px 18px;
+      padding: 10px 18px; min-height: 40px;
       font-size: 15px; color: #2b6cb0;
       cursor: pointer; transition: background .15s;
     }
@@ -162,16 +164,19 @@
       background: white; border-radius: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
-    .setting-label {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 14px; color: #4a5568; cursor: pointer; user-select: none;
+    .tts-toggle {
+      display: flex; align-items: center; gap: 6px;
+      padding: 9px 14px; min-height: 40px;
+      border: 2px solid #e2e8f0; border-radius: 20px;
+      background: white; font-size: 13px; font-weight: 600;
+      color: #718096; cursor: pointer; transition: all .15s;
     }
-    .setting-label input[type="checkbox"] {
-      width: 16px; height: 16px; cursor: pointer; accent-color: #4299e1;
-    }
+    .tts-toggle.on { background: #4299e1; color: white; border-color: #4299e1; }
+    .tts-toggle:disabled { opacity: .4; cursor: default; }
     .speed-group { display: flex; gap: 4px; }
     .speed-btn {
-      padding: 6px 14px; border: 2px solid #e2e8f0; border-radius: 20px;
+      padding: 9px 14px; min-height: 40px;
+      border: 2px solid #e2e8f0; border-radius: 20px;
       background: white; font-size: 13px; font-weight: 600;
       color: #718096; cursor: pointer; transition: all .15s;
     }
@@ -185,7 +190,8 @@
     }
     .mode-btn {
       flex: 1; max-width: 160px;
-      padding: 8px 0; border: 2px solid #bee3f8;
+      padding: 10px 0; min-height: 40px;
+      border: 2px solid #bee3f8;
       background: white; color: #718096;
       font-size: 13px; font-weight: 600; cursor: pointer;
       transition: background .15s, color .15s;
@@ -199,12 +205,71 @@
     .kbd-hint {
       font-size: 11px; color: #b0bec5; text-align: center; line-height: 1.8;
     }
-
-    /* ── Home link ── */
-    .home-link {
-      font-size: 13px; font-weight: 600; color: #718096; text-decoration: none;
+    .touch-hint {
+      display: none;
+      font-size: 11px; color: #b0bec5; text-align: center; line-height: 1.8;
     }
-    .home-link:hover { color: #4299e1; }
+
+    /* ── Home button ── */
+    .home-link {
+      font-size: 13px; font-weight: 600; color: #718096;
+      background: none; border: 1.5px solid #e2e8f0; border-radius: 20px;
+      padding: 6px 14px; min-height: 36px; cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .home-link:hover { background: #f0f4f8; border-color: #cbd5e0; color: #4299e1; }
+
+    /* ── Word action tags ── */
+    .word-actions {
+      width: 100%; max-width: 480px;
+      display: flex; gap: 8px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .action-tag {
+      padding: 8px 14px; min-height: 36px;
+      border: 1.5px solid; border-radius: 20px;
+      font-size: 12px; font-weight: 600; cursor: pointer; background: white;
+      transition: background .15s;
+    }
+    .action-tag.to-easy  { border-color: #68d391; color: #276749; }
+    .action-tag.to-easy:hover  { background: #f0fff4; }
+    .action-tag.to-keep  { border-color: #4299e1; color: #2b6cb0; }
+    .action-tag.to-keep:hover  { background: #ebf8ff; }
+    .action-tag.to-hide  { border-color: #feb2b2; color: #c53030; }
+    .action-tag.to-hide:hover  { background: #fff5f5; }
+    .action-tag.to-reset { border-color: #e2e8f0; color: #718096; }
+    .action-tag.to-reset:hover { background: #f7fafc; }
+
+    /* ── Hidden words panel ── */
+    .hidden-section {
+      width: 100%; max-width: 480px; margin-top: 10px;
+    }
+    .hidden-toggle {
+      width: 100%; padding: 11px 14px; min-height: 44px;
+      background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+      font-size: 13px; font-weight: 600; color: #718096; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .hidden-toggle:hover { background: #edf2f7; }
+    .hidden-list {
+      background: white; border: 1px solid #e2e8f0; border-top: none;
+      border-radius: 0 0 10px 10px;
+    }
+    .hidden-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 14px; border-bottom: 1px solid #f0f4f8; font-size: 14px;
+    }
+    .hidden-row:last-child { border-bottom: none; }
+    .hidden-en { font-weight: 700; color: #2d3748; }
+    .hidden-zh { font-size: 12px; color: #a0aec0; margin-left: 6px; }
+    .hidden-orig { font-size: 11px; color: #cbd5e0; margin-right: 8px; }
+    .restore-btn {
+      padding: 8px 14px; min-height: 36px;
+      border: 1.5px solid #4299e1; border-radius: 20px;
+      background: white; color: #2b6cb0; font-size: 12px; font-weight: 600;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .restore-btn:hover { background: #ebf8ff; }
 
     /* ── Footer ── */
     .site-footer {
@@ -219,12 +284,26 @@
       color: #a0aec0; text-decoration: none;
     }
     .site-footer a:hover { color: #4299e1; }
+
+    /* ── Touch-device adjustments: cancel sticky :hover + hide kbd hints ── */
+    @media (hover: none) {
+      .kbd-hint { display: none; }
+      .touch-hint { display: block; }
+      .audio-btn:hover { background: transparent; }
+      .action-tag.to-easy:hover,
+      .action-tag.to-keep:hover,
+      .action-tag.to-hide:hover,
+      .action-tag.to-reset:hover,
+      .restore-btn:hover { background: white; }
+      .hidden-toggle:hover { background: #f7fafc; }
+      .home-link:hover { background: transparent; border-color: #e2e8f0; color: #718096; }
+    }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <a class="home-link" href="../">← 主選單</a>
+  <button class="home-link" onclick="location.href='../'">← 主選單</button>
   <span class="bucket-badge" id="bucketBadge">…</span>
 </div>
 
@@ -234,8 +313,8 @@
 </div>
 
 <div class="mode-row" style="margin-bottom:14px;">
-  <button class="mode-btn active" id="dm-keep" onclick="setDeckMode('keep')">一般模式</button>
-  <button class="mode-btn"        id="dm-easy" onclick="setDeckMode('easy')">簡單模式</button>
+  <button class="mode-btn active" id="dm-keep" onclick="setDeckMode('keep')">重點單字</button>
+  <button class="mode-btn"        id="dm-easy" onclick="setDeckMode('easy')">熟悉單字</button>
   <button class="mode-btn"        id="dm-all"  onclick="setDeckMode('all')">混合模式</button>
 </div>
 
@@ -271,6 +350,8 @@
   </div>
 </div>
 
+<div class="word-actions" id="wordActions"></div>
+
 <div class="controls">
   <button class="btn btn-prev"    id="prevBtn"    onclick="navigate(-1)">← 上一張</button>
   <button class="btn btn-shuffle" id="shuffleBtn" onclick="toggleShuffle()">🔀 亂序</button>
@@ -278,9 +359,9 @@
 </div>
 
 <div class="settings-row">
-  <label class="setting-label">
-    <input type="checkbox" id="zhTTSToggle"> 中文語音
-  </label>
+  <button class="tts-toggle" id="zhTTSBtn" onclick="toggleZhTTS()">
+    <span id="zhTTSIcon">🔇</span> 中文語音
+  </button>
   <div class="speed-group">
     <button class="speed-btn"        id="spd-fast"   onclick="setSpeed('fast')">快</button>
     <button class="speed-btn active" id="spd-medium" onclick="setSpeed('medium')">中</button>
@@ -292,8 +373,21 @@
   <button class="btn-auto" id="autoBtn" onclick="toggleAutoPlay()">▶ 自動播放</button>
 </div>
 
+<div class="hidden-section" id="hiddenSection" hidden>
+  <button class="hidden-toggle" onclick="toggleHiddenPanel()">
+    <span>🙈 隱藏的單字</span>
+    <span id="hiddenCountBadge"></span>
+  </button>
+  <div id="hiddenList" class="hidden-list" hidden></div>
+</div>
+
 <div class="kbd-hint">
   ← → 換張 &nbsp;|&nbsp; 空白鍵 翻牌 &nbsp;|&nbsp; P 發音 &nbsp;|&nbsp; ESC 停止自動<br>
+  音節標記：<span style="color:#4299e1;font-weight:700;">藍色粗體</span>=重音 &nbsp;|&nbsp; <span style="color:#fc8181;text-decoration:line-through;">紅色刪除線</span>=不發音字母
+</div>
+
+<div class="touch-hint">
+  👈 左右滑動換張 👉 &nbsp;|&nbsp; 點擊卡片翻面<br>
   音節標記：<span style="color:#4299e1;font-weight:700;">藍色粗體</span>=重音 &nbsp;|&nbsp; <span style="color:#fc8181;text-decoration:line-through;">紅色刪除線</span>=不發音字母
 </div>
 
@@ -320,9 +414,12 @@ let isShuffled = false;
 let mode       = 'en2zh'; // 'en2zh' | 'zh2en'
 
 function buildDeck() {
-  const base = deckMode === 'all'  ? VOCAB :
-               deckMode === 'easy' ? VOCAB.filter(v => v.diff === "easy") :
-                                     VOCAB.filter(v => v.diff === "keep");
+  const c = getCustoms();
+  const eff = w => c[w.word] ?? w.diff;
+  const base = VOCAB.filter(w =>
+    eff(w) !== 'hidden' &&
+    (deckMode === 'all' || eff(w) === deckMode)
+  );
   return isShuffled ? [...base].sort(() => Math.random() - 0.5) : [...base];
 }
 
@@ -362,6 +459,106 @@ function renderSyl(syl) {
   }).join(dot);
 }
 
+// ── Custom word overrides (localStorage per bucket) ──────
+// Storage: jrabc_custom_{bucket} → { word: 'easy'|'keep'|'hidden' }
+function getCustoms() {
+  try { return JSON.parse(localStorage.getItem(`jrabc_custom_${currentBucket}`) || '{}'); }
+  catch { return {}; }
+}
+function saveCustoms(c) {
+  localStorage.setItem(`jrabc_custom_${currentBucket}`, JSON.stringify(c));
+}
+function setCustom(word, newDiff) {
+  const c = getCustoms();
+  const orig = VOCAB.find(w => w.word === word)?.diff;
+  if (newDiff === orig) delete c[word]; // back to default → remove override
+  else c[word] = newDiff;
+  saveCustoms(c);
+}
+
+function markToEasy() {
+  setCustom(deck[idx].word, 'easy');
+  const prev = idx;
+  deck = buildDeck();
+  idx = Math.min(prev, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+function markToKeep() {
+  setCustom(deck[idx].word, 'keep');
+  const prev = idx;
+  deck = buildDeck();
+  idx = Math.min(prev, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+function hideCurrentWord() {
+  setCustom(deck[idx].word, 'hidden');
+  const prev = idx;
+  deck = buildDeck();
+  idx = Math.min(prev, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+function restoreWord(word) {
+  const c = getCustoms();
+  delete c[word];
+  saveCustoms(c);
+  deck = buildDeck();
+  const ni = deck.findIndex(w => w.word === word);
+  idx = ni >= 0 ? ni : Math.min(idx, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+
+function renderWordActions() {
+  const el = document.getElementById('wordActions');
+  if (!el) return;
+  if (!deck.length) { el.innerHTML = ''; return; }
+  const item = deck[idx];
+  const c    = getCustoms();
+  const eff  = c[item.word] ?? item.diff;
+  let html   = '';
+  if (eff === 'keep')
+    html += `<button class="action-tag to-easy" onclick="markToEasy()">⬇ 列為熟悉單字</button>`;
+  else if (eff === 'easy')
+    html += `<button class="action-tag to-keep" onclick="markToKeep()">⬆ 升為重點單字</button>`;
+  html += `<button class="action-tag to-hide" onclick="hideCurrentWord()">🙈 隱藏</button>`;
+  if (c[item.word]) {
+    const safe = item.word.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    html += `<button class="action-tag to-reset" data-word="${safe}" onclick="restoreWord(this.dataset.word)">↺ 還原預設</button>`;
+  }
+  el.innerHTML = html;
+}
+
+function renderHiddenPanel() {
+  const c      = getCustoms();
+  const hidden = VOCAB.filter(w => c[w.word] === 'hidden');
+  const section = document.getElementById('hiddenSection');
+  const badge   = document.getElementById('hiddenCountBadge');
+  const list    = document.getElementById('hiddenList');
+  if (!section) return;
+  section.hidden = hidden.length === 0;
+  if (badge) badge.textContent = `${hidden.length} 個`;
+  if (!list) return;
+  if (!hidden.length) { list.hidden = true; list.innerHTML = ''; return; }
+  list.innerHTML = hidden.map(w => {
+    const safe = w.word.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    return `
+    <div class="hidden-row">
+      <div>
+        <span class="hidden-en">${w.word}</span>
+        <span class="hidden-zh">${w.zh}</span>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <span class="hidden-orig">${w.diff === 'keep' ? '重點' : '熟悉'}</span>
+        <button class="restore-btn" data-word="${safe}" onclick="restoreWord(this.dataset.word)">恢復</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleHiddenPanel() {
+  const list = document.getElementById('hiddenList');
+  if (list) list.hidden = !list.hidden;
+}
+
 // ── Progress tracking ────────────────────────────────────
 function setCookie(name, val) {
   document.cookie = `${name}=${encodeURIComponent(val)}; max-age=${365*86400}; path=/`;
@@ -369,8 +566,9 @@ function setCookie(name, val) {
 function markSeen(wordKey) {
   seenKeys.add(wordKey);
   localStorage.setItem(`jrabc_seen_${currentBucket}`, JSON.stringify([...seenKeys]));
-  const keepWords = VOCAB.filter(v => v.diff === 'keep');
-  if (keepWords.length > 0 && keepWords.every(w => seenKeys.has(w.word))) {
+  const c = getCustoms();
+  const visKeep = VOCAB.filter(v => (c[v.word] ?? v.diff) === 'keep');
+  if (visKeep.length > 0 && visKeep.every(w => seenKeys.has(w.word))) {
     setCookie(`jrabc_flash_${currentBucket}`, 'true');
   }
 }
@@ -433,10 +631,23 @@ function renderContent(skipBack = false) {
     ((idx + 1) / deck.length * 100) + "%";
   document.getElementById("prevBtn").disabled = idx === 0;
   document.getElementById("nextBtn").disabled = idx === deck.length - 1;
+  renderWordActions();
 }
 
 // render: full reset including flip state (used on init and shuffle)
 function render() {
+  if (!deck.length) {
+    document.getElementById('counterText').textContent = '0 / 0';
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('frontMainText').textContent = '—';
+    document.getElementById('syllablesText').innerHTML = '';
+    document.getElementById('frontSubText').textContent = '';
+    document.getElementById('backMainText').textContent = '(全部已隱藏)';
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('wordActions').innerHTML = '';
+    return;
+  }
   renderContent();
   document.getElementById("card").classList.remove("flipped");
 }
@@ -444,6 +655,8 @@ function render() {
 // ── Flip ────────────────────────────────────────────────
 function flipCard() {
   if (autoPlaying) return;
+  // Suppress the synthetic click that follows a horizontal swipe
+  if (swipeProcessed) { swipeProcessed = false; return; }
   const card = document.getElementById("card");
   card.classList.toggle("flipped");
   if (card.classList.contains("flipped")) markSeen(deck[idx].word);
@@ -547,6 +760,14 @@ function setSpeed(s) {
   });
 }
 
+function toggleZhTTS() {
+  zhTTSEnabled = !zhTTSEnabled;
+  const btn  = document.getElementById("zhTTSBtn");
+  const icon = document.getElementById("zhTTSIcon");
+  btn.classList.toggle("on", zhTTSEnabled);
+  if (icon) icon.textContent = zhTTSEnabled ? "🔊" : "🔇";
+}
+
 function wait(ms) {
   return new Promise(resolve => {
     autoTimer = setTimeout(() => { autoTimer = null; resolve(); }, ms);
@@ -607,7 +828,7 @@ function playChineseTTSAsync(text) {
 }
 
 function setAutoControls(disabled) {
-  ["prevBtn", "nextBtn", "shuffleBtn", "modeEnZh", "modeZhEn", "zhTTSToggle",
+  ["prevBtn", "nextBtn", "shuffleBtn", "modeEnZh", "modeZhEn", "zhTTSBtn",
    "spd-fast", "spd-medium", "spd-slow", "dm-keep", "dm-easy", "dm-all"]
     .forEach(id => { const el = document.getElementById(id); if (el) el.disabled = disabled; });
 }
@@ -661,7 +882,6 @@ async function runAutoStep() {
 }
 
 function startAutoPlay() {
-  zhTTSEnabled = document.getElementById("zhTTSToggle").checked;
   autoPlaying  = true;
   updateAutoBtn();
   setAutoControls(true);
@@ -682,6 +902,29 @@ function toggleAutoPlay() {
   if (autoPlaying) stopAutoPlay();
   else             startAutoPlay();
 }
+
+// ── Touch swipe (flashcard navigation) ───────────────────
+let cardTouchOrigin = null;
+let swipeProcessed  = false;
+
+(() => {
+  const scene = document.getElementById('scene');
+  if (!scene) return;
+  scene.addEventListener('touchstart', e => {
+    cardTouchOrigin = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+    swipeProcessed  = false;
+  }, {passive: true});
+  scene.addEventListener('touchend', e => {
+    if (!cardTouchOrigin || autoPlaying) return;
+    const dx = e.changedTouches[0].clientX - cardTouchOrigin.x;
+    const dy = e.changedTouches[0].clientY - cardTouchOrigin.y;
+    cardTouchOrigin = null;
+    if (Math.abs(dx) < 40) return;            // small move → let tap flip
+    if (Math.abs(dx) <= Math.abs(dy)) return; // vertical-dominant → let page scroll
+    swipeProcessed = true;
+    navigate(dx > 0 ? -1 : 1);                // → previous, ← next
+  }, {passive: true});
+})();
 
 // ── Keyboard shortcuts ───────────────────────────────────
 document.addEventListener("keydown", e => {
@@ -710,6 +953,7 @@ document.addEventListener("keydown", e => {
     seenKeys  = new Set(raw ? JSON.parse(raw) : []);
     deck      = buildDeck();
     render();
+    renderHiddenPanel();
   } catch (e) {
     document.getElementById("counterText").textContent = "資料載入失敗";
     console.error("initApp:", e);

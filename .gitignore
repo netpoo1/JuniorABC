@@ -33,6 +33,9 @@ $RECYCLE.BIN/
 *.key
 secrets/
 
+# ---------- Local Claude Code settings ----------
+.claude/
+
 # ---------- Build / Dependencies (common) ----------
 node_modules/
 dist/

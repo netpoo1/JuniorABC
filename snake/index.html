@@ -6,6 +6,8 @@
   <title>JuniorABC — 音節蛇</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    button:not(:disabled):active { filter: brightness(.92); }
     [hidden] { display: none !important; }
 
     body {
@@ -29,11 +31,13 @@
       padding: 10px 16px 4px;
     }
     .back-home {
-      color: #2563eb;
-      text-decoration: none;
-      font-size: 14px;
+      font-size: 14px; font-weight: 600;
+      color: #2563eb; background: none;
+      border: 1px solid #bfdbfe; border-radius: 20px;
+      padding: 6px 14px; min-height: 36px; cursor: pointer;
+      transition: color .15s, border-color .15s;
     }
-    .back-home:hover { color: #1d4ed8; }
+    .back-home:hover { color: #1d4ed8; border-color: #93c5fd; }
     .bucket-tag {
       font-size: 12px;
       background: #dde8f8;
@@ -47,7 +51,8 @@
       border: none;
       font-size: 22px;
       cursor: pointer;
-      padding: 2px 6px;
+      padding: 6px 10px;
+      min-height: 38px;
       border-radius: 6px;
       transition: background 0.15s;
     }
@@ -176,12 +181,12 @@
       pointer-events: none;
     }
 
-    /* ── Snake tail ──────────────────────────────────── */
+    /* ── Snake tail (diamond) ────────────────────────── */
     .cell.snake-tail {
-      background: radial-gradient(circle at 42% 36%, #86efac, #14532d 82%);
-      border-radius: 50%;
-      transform: scale(0.58);
-      box-shadow: 0 1px 4px rgba(0,0,0,.18);
+      background: linear-gradient(135deg, #86efac 0%, #22c55e 45%, #15803d 100%);
+      border-radius: 5px;
+      transform: scale(0.52) rotate(45deg);
+      box-shadow: 0 2px 5px rgba(0,0,0,.22);
     }
 
     /* ── Food gems ───────────────────────────────────── */
@@ -203,6 +208,60 @@
     .cell.food .syl-silent { color: #fca5a5; text-decoration-color: #fca5a5; }
 
     .cell.safe-border { background: #bfdbfe; }
+
+    /* ── Wrong-syllable feedback ────────────────────────── */
+    @keyframes gridShake {
+      0%,100% { transform: translateX(0); }
+      15%  { transform: translateX(-9px); }
+      30%  { transform: translateX(9px); }
+      50%  { transform: translateX(-6px); }
+      68%  { transform: translateX(6px); }
+      84%  { transform: translateX(-3px); }
+    }
+    .grid-wrapper.wrong-shake { animation: gridShake 0.42s ease; }
+
+    @keyframes wrongPopup {
+      0%   { opacity: 1; transform: translateY(0) scale(1.2); }
+      50%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-56px) scale(0.85); }
+    }
+    .wrong-popup {
+      position: fixed;
+      pointer-events: none;
+      font-size: 19px;
+      font-weight: 900;
+      color: #dc2626;
+      text-shadow: 0 1px 4px rgba(0,0,0,.22);
+      animation: wrongPopup 0.9s ease forwards;
+      z-index: 500;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    /* ── Corner hints (shown during celebrating) ────────── */
+    @keyframes cornerPulse {
+      0%, 100% {
+        background: #fef3c7;
+        box-shadow: 0 0 6px rgba(245,158,11,.55);
+      }
+      50% {
+        background: #fbbf24;
+        box-shadow: 0 0 18px rgba(245,158,11,.95), inset 0 0 6px rgba(255,255,255,.4);
+      }
+    }
+    .cell.corner-hint {
+      animation: cornerPulse 0.75s ease-in-out infinite;
+      border-radius: 6px;
+      font-size: 14px !important;
+      line-height: 1;
+    }
+    /* ↗ symbol via ::before — stays centred regardless of cell size */
+    .cell.corner-hint::before {
+      content: '★';
+      position: absolute;
+      font-size: 60%;
+      opacity: .75;
+    }
 
     /* ── Footer ──────────────────────────────────────── */
     .footer {
@@ -230,7 +289,8 @@
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 7px 14px;
+      padding: 9px 16px;
+      min-height: 40px;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -306,35 +366,121 @@
     .speed-btn {
       background: #dde8f8; color: #1e293b;
       border: 2px solid transparent; border-radius: 8px;
-      padding: 7px 16px; font-size: 14px; font-weight: 700; cursor: pointer;
+      padding: 9px 18px; min-height: 40px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
     }
     .speed-btn.speed-selected { border-color: #2563eb; background: #bfdbfe; color: #1d4ed8; }
+
+    /* ── Difficulty selector (start screen) ─────────────── */
+    .diff-group { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+    .diff-btn {
+      padding: 13px 16px; border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 700; cursor: pointer; text-align: left;
+      transition: transform .1s, opacity .15s;
+    }
+    .diff-btn:active { transform: scale(.97); }
+    .diff-keep { background: #dbeafe; color: #1e40af; }
+    .diff-keep:hover { background: #bfdbfe; }
+    .diff-easy { background: #dcfce7; color: #166534; }
+    .diff-easy:hover { background: #bbf7d0; }
+    .diff-all  { background: #ede9fe; color: #4c1d95; }
+    .diff-all:hover  { background: #ddd6fe; }
+    .diff-info { font-size: 12px; opacity: .72; margin-top: 3px; font-weight: 500; }
+    .rec-row {
+      font-size: 11px; color: #94a3b8; text-align: center;
+      margin-top: -6px; letter-spacing: .3px;
+    }
+    .clear-rec-btn {
+      margin-top: 4px; background: none;
+      border: 1px solid #e2e8f0; border-radius: 18px;
+      padding: 8px 16px; min-height: 36px;
+      font-size: 11px; color: #94a3b8; cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .clear-rec-btn:hover { color: #dc2626; border-color: #dc2626; }
+
+    /* ── Footer ── */
+    .site-footer {
+      margin-top: 16px; padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+      width: 100%; max-width: 800px;
+      text-align: center;
+      font-size: 11px; color: #a0aec0; line-height: 1.9;
+    }
+    .site-footer a { color: #a0aec0; text-decoration: none; }
+    .site-footer a:hover { color: #4299e1; }
+
+    /* ── Game meta bar (progress + timer) ─────────────── */
+    .game-meta {
+      display: flex; justify-content: center; gap: 16px;
+      font-size: 12px; color: #64748b;
+      min-height: 16px; margin-bottom: 2px;
+    }
+
+    /* ── Quit button ─────────────────────────────────── */
+    .quit-btn {
+      background: none; border: 1px solid #94a3b8;
+      border-radius: 6px; color: #64748b;
+      font-size: 12px; font-weight: 600;
+      padding: 8px 14px; min-height: 36px; cursor: pointer;
+    }
+    .quit-btn:hover { border-color: #dc2626; color: #dc2626; }
+
+    /* ── Touch-device adjustments: cancel sticky :hover ── */
+    @media (hover: none) {
+      .back-home:hover { color: #2563eb; border-color: #bfdbfe; }
+      .tts-btn:hover { background: transparent; }
+      .help-btn:hover:not(:disabled) { background: #f59e0b; }
+      .btn-primary:hover { background: #2563eb; }
+      .btn-secondary:hover { background: #64748b; }
+      .diff-keep:hover { background: #dbeafe; }
+      .diff-easy:hover { background: #dcfce7; }
+      .diff-all:hover { background: #ede9fe; }
+      .clear-rec-btn:hover { color: #94a3b8; border-color: #e2e8f0; }
+      .quit-btn:hover { color: #64748b; border-color: #94a3b8; }
+    }
   </style>
 </head>
 <body>
 
   <!-- Start screen -->
   <div class="overlay" id="startScreen">
-    <div class="overlay-card">
+    <div class="overlay-card" style="max-height:92dvh;overflow-y:auto;padding:24px 28px;">
       <div class="overlay-title">音節蛇 🐍</div>
-      <div class="overlay-sub">
-        看中文 → 找出<strong style="color:#92400e">全部</strong>對應音節吃完即可過關<br>
-        <span style="color:#16a34a">按正確順序吃完 → 恢復 1 滴血量（最高 10 滴）</span><br>
+      <div class="overlay-sub" style="margin-bottom:14px;">
+        看中文 → 找出<strong style="color:#92400e">全部</strong>音節依序吃完即可過關<br>
+        <span style="color:#16a34a">重點單字＋音節≥2＋依序＋無錯誤 → 補 1 滴血</span><br>
         吃到無關音節 -1 血，歸零遊戲結束<br>
         「幫幫我」清掉雜音節，過關只得 0.5 分
       </div>
-      <div id="startInfo" style="font-size:13px;color:#475569;margin-bottom:18px"></div>
-      <div style="font-size:13px;color:#64748b;margin-bottom:8px">速度選擇</div>
+      <div id="startInfo" style="font-size:13px;color:#475569;margin-bottom:12px;"></div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:6px;">速度選擇</div>
       <div class="speed-selector">
         <button class="speed-btn" data-speed="slow"   onclick="selectSpeed('slow')">慢</button>
         <button class="speed-btn speed-selected" data-speed="medium" onclick="selectSpeed('medium')">中</button>
         <button class="speed-btn" data-speed="fast"   onclick="selectSpeed('fast')">快</button>
       </div>
-      <div class="btn-row">
-        <button class="btn-primary" onclick="startGame()">開始遊戲</button>
+      <div style="font-size:13px;color:#64748b;margin-bottom:8px;">難度選擇</div>
+      <div class="diff-group">
+        <button class="diff-btn diff-keep" onclick="startGame('keep')">
+          重點單字
+          <div class="diff-info">難度較高，符合條件可補血</div>
+        </button>
+        <div class="rec-row" id="snake-rec-keep">—</div>
+        <button class="diff-btn diff-easy" onclick="startGame('easy')">
+          熟悉單字
+          <div class="diff-info">基礎單字，不補血</div>
+        </button>
+        <div class="rec-row" id="snake-rec-easy">—</div>
+        <button class="diff-btn diff-all" onclick="startGame('all')">
+          混合模式
+          <div class="diff-info">全部單字混合出題</div>
+        </button>
+        <div class="rec-row" id="snake-rec-all">—</div>
+        <button class="clear-rec-btn" onclick="clearSnakeRecords()">清除本冊記錄</button>
       </div>
       <br>
-      <a href="../" style="color:#64748b;font-size:13px">← 主選單</a>
+      <button class="back-home" style="font-size:13px;color:#64748b;border-color:#e2e8f0;" onclick="location.href='../'">← 主選單</button>
     </div>
   </div>
 
@@ -352,12 +498,17 @@
 
   <!-- Main UI -->
   <div class="top-bar">
-    <a href="../" class="back-home">← 主選單</a>
+    <button class="back-home" onclick="location.href='../'">← 主選單</button>
     <span class="bucket-tag" id="bucketTag"></span>
+    <button class="quit-btn" id="quitBtn" onclick="quitGame()" hidden>我不玩了</button>
     <button class="tts-btn" id="ttsBtn" onclick="speakWord()" title="播放發音">🔊</button>
   </div>
 
   <div class="question-area">
+    <div class="game-meta" id="gameMeta">
+      <span id="progressDisplay"></span>
+      <span id="timerDisplay"></span>
+    </div>
     <div class="zh-meaning" id="zhMeaning">—</div>
     <div class="collected-slots" id="collectedSlots"></div>
   </div>
@@ -387,7 +538,8 @@ const SCHOOL_YEAR = '114';
 const SPEEDS      = { slow: 600, medium: 350, fast: 200 };
 let   selectedSpeed = 'medium';
 const TTS_MS      = 5000;  // TTS repeat interval
-const MAX_WRONG   = 10;
+const MAX_WRONG   = 8;
+const INIT_WRONG  = 4;     // start with 4 HP (MAX_WRONG - INIT_WRONG hearts shown)
 const FOOD_COUNT  = 8;     // food items on grid at once
 
 // ── Dynamic grid dims (set in buildGridDOM) ──────────────────────────────────
@@ -396,9 +548,10 @@ let GRID_ROWS = 10;
 let CELL_SIZE = 40;
 
 // ── Vocab data ───────────────────────────────────────────────────────────────
-let VOCAB      = [];
-let keepWords  = [];
+let VOCAB         = [];
+let keepWords     = [];
 let currentBucket = '7.1';
+let currentDiff   = 'keep';
 
 // ── Game state ────────────────────────────────────────────────────────────────
 let snake   = [];          // [{x,y}], head first
@@ -414,8 +567,9 @@ let collectedSet     = new Set(); // which sylIdx have been collected
 let expectedOrderIdx = 0;        // next sylIdx for in-order bonus tracking
 let inOrderSoFar     = true;     // all collected so far were in order
 let usedHelp         = false;
-let wrongCount      = 0;
-let score           = 0;
+let wrongCount       = 0;
+let wrongInThisWord  = false;  // any wrong syllable eaten in current word
+let score            = 0;
 let answeredIndices = new Set();
 
 let gameRunning  = false;
@@ -428,6 +582,9 @@ let cellEls          = {};
 let prevCellState    = {};
 let baseCellFontSize = 12;
 let borderCells      = new Set();
+
+let gameStartTime  = 0;
+let timerInterval  = null;
 
 // ── Syllable rendering (matches flashcard) ───────────────────────────────────
 function renderSylBlock(part) {
@@ -466,6 +623,12 @@ function splitSilent(part) {
   }
   if (last < part.length) result.push(part.slice(last));
   return result.filter(b => b.length > 0);
+}
+
+// Returns the visible letter sequence of a syl block (case/bracket-insensitive).
+// 'SO' → 'so', 'so' → 'so', '[K]NEE' → 'knee'  — used for visual dedup.
+function sylBlockDisplayText(part) {
+  return part.replace(/[\[\]]/g, '').toLowerCase();
 }
 
 // Split syl string → individual block tokens (· and spaces, then split out silent-letter markers)
@@ -529,7 +692,9 @@ function buildFoodSet() {
     wordIdx: targetWordIdx, sylIdx: si, block
   }));
 
-  const targetBlockSet = new Set(targetSylBlocks);
+  // Track all display-texts already on the board (targets + chosen distractors).
+  // Comparison is visual (strip brackets, lowercase) so 'SO' and 'so' both map to 'so'.
+  const usedDisplayTexts = new Set(targetSylBlocks.map(sylBlockDisplayText));
 
   const others = keepWords
     .map((w, i) => ({w, i}))
@@ -539,11 +704,11 @@ function buildFoodSet() {
   for (const {w, i} of others) {
     if (items.length >= FOOD_COUNT) break;
     const blocks = getSylBlocks(w);
-    // exclude any block that visually matches a target syllable
-    const available = blocks.filter(b => !targetBlockSet.has(b));
+    const available = blocks.filter(b => !usedDisplayTexts.has(sylBlockDisplayText(b)));
     if (!available.length) continue;
     const block = available[Math.floor(Math.random() * available.length)];
     items.push({wordIdx: i, sylIdx: blocks.indexOf(block), block});
+    usedDisplayTexts.add(sylBlockDisplayText(block)); // prevent further duplicates
   }
 
   shuffle(items);
@@ -571,11 +736,8 @@ function useHelp() {
 
 // ── Target word ───────────────────────────────────────────────────────────────
 function pickNextWord() {
-  let available = keepWords.map((_, i) => i).filter(i => !answeredIndices.has(i));
-  if (available.length === 0) {
-    answeredIndices.clear();
-    available = keepWords.map((_, i) => i);
-  }
+  const available = keepWords.map((_, i) => i).filter(i => !answeredIndices.has(i));
+  if (available.length === 0) return; // all done — endGameComplete() handles this
 
   targetWordIdx    = available[Math.floor(Math.random() * available.length)];
   targetSylBlocks  = getSylBlocks(keepWords[targetWordIdx]);
@@ -583,6 +745,7 @@ function pickNextWord() {
   expectedOrderIdx = 0;
   inOrderSoFar     = true;
   usedHelp         = false;
+  wrongInThisWord  = false;
 
   const btn = document.getElementById('helpBtn');
   btn.disabled    = false;
@@ -615,9 +778,17 @@ function initSnake() {
 function isCorner(x, y) {
   return (x === 0 || x === GRID_COLS - 1) && (y === 0 || y === GRID_ROWS - 1);
 }
+function isCornerKey(k) {
+  return k === key(0, 0) || k === key(GRID_COLS - 1, 0) ||
+         k === key(0, GRID_ROWS - 1) || k === key(GRID_COLS - 1, GRID_ROWS - 1);
+}
 
 function startNextWord() {
   celebrating = false;
+  if (answeredIndices.size >= keepWords.length) {
+    endGameComplete();
+    return;
+  }
   pickNextWord();
   render();
 }
@@ -663,6 +834,7 @@ function moveSnake() {
       snake.unshift(newHead);
       snake.pop();                          // normal advance
       if (snake.length > 2) snake.pop();   // shrink
+      showWrongFeedback(nx, ny);
       onWrongSyllable();
     }
   } else {
@@ -677,8 +849,15 @@ function onWordComplete() {
   answeredIndices.add(targetWordIdx);
   score += usedHelp ? 0.5 : 1;
   updateScore();
+  updateProgress();
 
-  if (inOrderSoFar) {
+  // Heal: normal-level word (diff !== 'easy'), ≥2 syllables, in-order, zero mistakes this word
+  const word = keepWords[targetWordIdx];
+  const canHeal = word.diff !== 'easy' &&
+                  targetSylBlocks.length >= 2 &&
+                  inOrderSoFar &&
+                  !wrongInThisWord;
+  if (canHeal) {
     wrongCount = Math.max(0, wrongCount - 1);
     updateHearts();
   }
@@ -687,11 +866,35 @@ function onWordComplete() {
   stopTtsTimer();
 
   document.getElementById('helpBtn').disabled = true;
-  document.getElementById('zhMeaning').innerHTML =
-    '<span style="color:#16a34a;font-size:20px">✓ 通關！引導蛇到任一角落 ➜ 下一關</span>';
+  const isLast = answeredIndices.size >= keepWords.length;
+  document.getElementById('zhMeaning').innerHTML = isLast
+    ? '<span style="color:#16a34a;font-size:20px">✓ 最後一關！引導蛇到任一角落 ➜ 完成</span>'
+    : '<span style="color:#16a34a;font-size:20px">✓ 通關！引導蛇到任一角落 ➜ 下一關</span>';
+}
+
+function showWrongFeedback(x, y) {
+  // Shake the grid wrapper
+  const wrapper = document.querySelector('.grid-wrapper');
+  wrapper.classList.remove('wrong-shake');
+  void wrapper.offsetWidth; // force reflow so re-adding triggers animation
+  wrapper.classList.add('wrong-shake');
+  wrapper.addEventListener('animationend', () => wrapper.classList.remove('wrong-shake'), {once: true});
+
+  // Floating "-1 💔" rising from the eaten cell
+  const cell = cellEls[key(x, y)];
+  if (!cell) return;
+  const r = cell.getBoundingClientRect();
+  const popup = document.createElement('div');
+  popup.className = 'wrong-popup';
+  popup.textContent = '-1 💔';
+  popup.style.left = (r.left + r.width / 2 - 28) + 'px';
+  popup.style.top  = (r.top - 4) + 'px';
+  document.body.appendChild(popup);
+  popup.addEventListener('animationend', () => popup.remove(), {once: true});
 }
 
 function onWrongSyllable() {
+  wrongInThisWord = true;
   wrongCount++;
   updateHearts();
   if (wrongCount >= MAX_WRONG) endGame();
@@ -706,6 +909,129 @@ function updateHearts() {
   const rem = MAX_WRONG - wrongCount;
   document.getElementById('heartsDisplay').textContent =
     '❤️'.repeat(Math.max(rem, 0)) + '🖤'.repeat(Math.min(wrongCount, MAX_WRONG));
+}
+
+// ── Custom word overrides (mirrors flashcard localStorage) ────────────────────
+function applyWordCustoms(words) {
+  try {
+    const c = JSON.parse(localStorage.getItem(`jrabc_custom_${currentBucket}`) || '{}');
+    return words
+      .map(w => c[w.word] ? {...w, diff: c[w.word]} : w)
+      .filter(w => w.diff !== 'hidden');
+  } catch { return words; }
+}
+
+// ── Cookie helpers ────────────────────────────────────────────────────────────
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : null;
+}
+function setCookie(name, val) {
+  document.cookie = `${name}=${encodeURIComponent(val)}; max-age=${365*86400}; path=/`;
+}
+
+// ── Snake records (per-bucket, per-diff) ──────────────────────────────────────
+function snakeRecKey(diff, type) {
+  return `jrabc_snake_${type}_${currentBucket}_${diff}`;
+}
+function getSnakeRecord(diff) {
+  const s = getCookie(snakeRecKey(diff, 'score'));
+  const t = getCookie(snakeRecKey(diff, 'time'));
+  return { score: s !== null ? parseFloat(s) : null,
+           time:  t !== null ? parseInt(t)   : null };
+}
+function saveSnakeRecord(diff, newScore, newTimeMs) {
+  const rec = getSnakeRecord(diff);
+  const better = rec.score === null || newScore > rec.score;
+  const sameScore = !better && newScore === rec.score;
+  if (better) {
+    setCookie(snakeRecKey(diff, 'score'), newScore.toFixed(1));
+    if (newTimeMs !== null) setCookie(snakeRecKey(diff, 'time'), newTimeMs);
+  } else if (sameScore && newTimeMs !== null && (rec.time === null || newTimeMs < rec.time)) {
+    setCookie(snakeRecKey(diff, 'time'), newTimeMs);
+  }
+  renderSnakeRecords();
+}
+function clearSnakeRecords() {
+  if (!confirm('確定要清除本冊蛇遊戲記錄嗎？')) return;
+  ['keep','easy','all'].forEach(d => {
+    document.cookie = `${snakeRecKey(d, 'score')}=; max-age=0; path=/`;
+    document.cookie = `${snakeRecKey(d, 'time')}=; max-age=0; path=/`;
+  });
+  renderSnakeRecords();
+}
+function renderSnakeRecords() {
+  ['keep','easy','all'].forEach(d => {
+    const el = document.getElementById(`snake-rec-${d}`);
+    if (!el) return;
+    const rec = getSnakeRecord(d);
+    const s = rec.score !== null ? `最高分 ${rec.score.toFixed(1)}` : '';
+    const t = rec.time  !== null ? `最快 ${formatTime(rec.time)}`   : '';
+    el.textContent = (s && t) ? `${s} · ${t}` : (s || t || '尚無記錄');
+  });
+}
+
+// ── Timer & progress ──────────────────────────────────────────────────────────
+function formatTime(ms) {
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  return `${m}:${String(s % 60).padStart(2, '0')}`;
+}
+
+function updateProgress() {
+  const el = document.getElementById('progressDisplay');
+  if (el) el.textContent = `${answeredIndices.size} / ${keepWords.length} 個單字`;
+}
+
+function startTimerDisplay() {
+  stopTimerDisplay();
+  const el = document.getElementById('timerDisplay');
+  timerInterval = setInterval(() => {
+    if (el) el.textContent = `⏱ ${formatTime(Date.now() - gameStartTime)}`;
+  }, 1000);
+}
+
+function stopTimerDisplay() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+function endGameComplete() {
+  gameRunning = false;
+  clearTimeout(loopTimer); loopTimer = null;
+  stopTtsTimer();
+  stopTimerDisplay();
+  document.getElementById('quitBtn').hidden = true;
+
+  const totalMs = Date.now() - gameStartTime;
+  saveSnakeRecord(currentDiff, score, totalMs);
+  const elapsed = formatTime(totalMs);
+  document.getElementById('goTitle').textContent = '🎉 全部通關！';
+  document.getElementById('goSub').innerHTML =
+    `全部 <strong>${keepWords.length}</strong> 個單字完成！<br>` +
+    `得分：<strong style="color:#92400e;font-size:22px">${
+      Number.isInteger(score) ? score : score.toFixed(1)
+    }</strong><br>` +
+    `用時：<strong>${elapsed}</strong>`;
+  document.getElementById('gameOverScreen').hidden = false;
+}
+
+function quitGame() {
+  gameRunning = false;
+  clearTimeout(loopTimer); loopTimer = null;
+  stopTtsTimer();
+  stopTimerDisplay();
+  document.getElementById('quitBtn').hidden = true;
+
+  saveSnakeRecord(currentDiff, score, null); // no time for incomplete runs
+  const elapsed = formatTime(Date.now() - gameStartTime);
+  document.getElementById('goTitle').textContent = '中途放棄';
+  document.getElementById('goSub').innerHTML =
+    `得分：<strong style="color:#92400e;font-size:22px">${
+      Number.isInteger(score) ? score : score.toFixed(1)
+    }</strong><br>` +
+    `進度：<strong>${answeredIndices.size} / ${keepWords.length}</strong> 個單字<br>` +
+    `用時：<strong>${elapsed}</strong>`;
+  document.getElementById('gameOverScreen').hidden = false;
 }
 
 // ── TTS ────────────────────────────────────────────────────────────────────────
@@ -754,29 +1080,55 @@ function selectSpeed(s) {
   );
 }
 
-function startGame() {
+function startGame(diff) {
+  currentDiff = diff || 'keep';
+  const base = applyWordCustoms(VOCAB);
+  if (currentDiff === 'easy') {
+    keepWords = base.filter(w => w.diff === 'easy');
+  } else if (currentDiff === 'all') {
+    keepWords = base.filter(w => w.diff === 'keep' || w.diff === 'easy');
+  } else {
+    keepWords = base.filter(w => w.diff === 'keep');
+  }
   document.getElementById('startScreen').hidden = true;
-  wrongCount = 0; score = 0; answeredIndices.clear();
+  wrongCount = INIT_WRONG; score = 0; answeredIndices.clear();
   celebrating = false;
   updateScore(); updateHearts();
   buildGridDOM();
   initSnake();
   pickNextWord();
+  updateProgress();
   render();
+  gameStartTime = Date.now();
+  startTimerDisplay();
+  document.getElementById('quitBtn').hidden = false;
   gameRunning = true;
   scheduleTick();
 }
 
 function restartGame() {
+  // Re-apply the same difficulty filter chosen at start
+  const base = applyWordCustoms(VOCAB);
+  if (currentDiff === 'easy') {
+    keepWords = base.filter(w => w.diff === 'easy');
+  } else if (currentDiff === 'all') {
+    keepWords = base.filter(w => w.diff === 'keep' || w.diff === 'easy');
+  } else {
+    keepWords = base.filter(w => w.diff === 'keep');
+  }
   document.getElementById('gameOverScreen').hidden = true;
-  wrongCount = 0; score = 0; answeredIndices.clear();
+  wrongCount = INIT_WRONG; score = 0; answeredIndices.clear();
   celebrating = false;
   updateScore(); updateHearts();
   buildGridDOM();
   initSnake();
   food.clear();
   pickNextWord();
+  updateProgress();
   render();
+  gameStartTime = Date.now();
+  startTimerDisplay();
+  document.getElementById('quitBtn').hidden = false;
   gameRunning = true;
   scheduleTick();
 }
@@ -785,12 +1137,18 @@ function endGame() {
   gameRunning = false;
   clearTimeout(loopTimer); loopTimer = null;
   stopTtsTimer();
+  stopTimerDisplay();
+  document.getElementById('quitBtn').hidden = true;
 
+  saveSnakeRecord(currentDiff, score, null); // no time for hearts-depleted end
+  const elapsed = formatTime(Date.now() - gameStartTime);
   document.getElementById('goTitle').textContent = '遊戲結束！';
   document.getElementById('goSub').innerHTML =
-    `共答對 <strong style="color:#92400e;font-size:22px">${
+    `得分：<strong style="color:#92400e;font-size:22px">${
       Number.isInteger(score) ? score : score.toFixed(1)
-    }</strong> 題`;
+    }</strong> 題<br>` +
+    `進度：<strong>${answeredIndices.size} / ${keepWords.length}</strong> 個單字<br>` +
+    `用時：<strong>${elapsed}</strong>`;
   document.getElementById('gameOverScreen').hidden = false;
 }
 
@@ -846,7 +1204,7 @@ function render() {
     else if (k === tailKey)    state = 'tail';
     else if (ss.has(k))        state = 'body';
     else if (food.has(k))      state = 'food:' + food.get(k).block;
-    else if (borderCells.has(k)) state = 'safe';
+    else if (borderCells.has(k)) state = (celebrating && isCornerKey(k)) ? 'corner' : 'safe';
     else state = '';
 
     if (prevCellState[k] === state) continue;
@@ -870,6 +1228,10 @@ function render() {
       cell.className = 'cell food';
       cell.innerHTML = food.get(k).rendered;
       cell.style.fontSize = foodFontSize(food.get(k).block) + 'px';
+    } else if (state === 'corner') {
+      cell.className = 'cell corner-hint';
+      cell.innerHTML = '';
+      cell.style.fontSize = baseCellFontSize + 'px';
     } else if (state === 'safe') {
       cell.className = 'cell safe-border';
       cell.innerHTML = '';
@@ -939,13 +1301,20 @@ document.addEventListener('touchend', e => {
     const res  = await fetch(`../flashcard/data/${SCHOOL_YEAR}.${currentBucket}.json`);
     const data = await res.json();
     VOCAB      = data.words;
-    keepWords  = VOCAB.filter(w => w.diff === 'keep');
+    // keepWords is set by startGame() based on chosen difficulty
     buildGridDOM();
+    renderSnakeRecords();
   } catch {
     document.getElementById('startScreen').innerHTML =
       '<div class="overlay-card" style="color:#fc8181">資料載入失敗，請重新整理</div>';
   }
 })();
 </script>
+
+<footer class="site-footer">
+  <div>荷芯數位工作室</div>
+  <div>© 2026 &nbsp;<a href="mailto:service@lotus-core.com.tw">service@lotus-core.com.tw</a></div>
+</footer>
+
 </body>
 </html>
