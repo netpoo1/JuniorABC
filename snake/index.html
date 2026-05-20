@@ -321,7 +321,7 @@ const SPEEDS      = { slow: 600, medium: 350, fast: 200 };
 let   selectedSpeed = 'medium';
 const TTS_MS      = 5000;  // TTS repeat interval
 const MAX_WRONG   = 10;
-const FOOD_COUNT  = 10;    // food items on grid at once
+const FOOD_COUNT  = 8;     // food items on grid at once
 
 // ── Dynamic grid dims (set in buildGridDOM) ──────────────────────────────────
 let GRID_COLS = 14;
@@ -425,29 +425,43 @@ function shuffle(arr) {
   return arr;
 }
 
-function getFreeCells(count) {
-  const occupied = snakeSet();
-  food.forEach((_, k) => occupied.add(k));
-  const free = [];
+// Returns up to `count` inner cells where no two are 4-directionally adjacent.
+function getIsolatedFreeCells(count) {
+  const excl = snakeSet();
+  borderCells.forEach(k => excl.add(k));
+  food.forEach((_, k) => {
+    excl.add(k);
+    const [fx, fy] = k.split(',').map(Number);
+    [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dx,dy]) => excl.add(key(fx+dx, fy+dy)));
+  });
+
+  const cands = [];
   for (let y = 0; y < GRID_ROWS; y++)
     for (let x = 0; x < GRID_COLS; x++) {
-      const k = key(x, y);
-      if (!occupied.has(k) && !borderCells.has(k)) free.push({x, y});
+      if (!excl.has(key(x, y))) cands.push({x, y});
     }
-  shuffle(free);
-  return free.slice(0, count);
+  shuffle(cands);
+
+  const result = [];
+  for (const {x, y} of cands) {
+    if (result.length >= count) break;
+    const k = key(x, y);
+    if (excl.has(k)) continue;
+    result.push({x, y});
+    excl.add(k);
+    [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dx,dy]) => excl.add(key(x+dx, y+dy)));
+  }
+  return result;
 }
 
 // ── Food management ───────────────────────────────────────────────────────────
 function buildFoodSet() {
   food.clear();
 
-  // All target syllables first
   const items = targetSylBlocks.map((block, si) => ({
     wordIdx: targetWordIdx, sylIdx: si, block
   }));
 
-  // Fill rest with random syllables from other words
   const others = keepWords
     .map((w, i) => ({w, i}))
     .filter(({i}) => i !== targetWordIdx);
@@ -461,42 +475,11 @@ function buildFoodSet() {
   }
 
   shuffle(items);
-  const cells = getFreeCells(items.length);
+  const cells = getIsolatedFreeCells(items.length);
   items.forEach(({wordIdx, sylIdx, block}, idx) => {
     if (idx >= cells.length) return;
     const {x, y} = cells[idx];
     food.set(key(x, y), {wordIdx, sylIdx, block, rendered: renderSylBlock(block)});
-  });
-}
-
-function spawnDistractor(count = 1) {
-  const others = keepWords
-    .map((w, i) => ({w, i}))
-    .filter(({i}) => i !== targetWordIdx);
-  shuffle(others);
-
-  const newItems = [];
-  for (const {w, i} of others) {
-    if (newItems.length >= count) break;
-    const blocks = getSylBlocks(w);
-    const si = Math.floor(Math.random() * blocks.length);
-    newItems.push({wordIdx: i, sylIdx: si, block: blocks[si]});
-  }
-
-  const cells = getFreeCells(newItems.length);
-  newItems.forEach(({wordIdx, sylIdx, block}, idx) => {
-    if (idx >= cells.length) return;
-    const {x, y} = cells[idx];
-    food.set(key(x, y), {wordIdx, sylIdx, block, rendered: renderSylBlock(block)});
-  });
-}
-
-function respawnTargetSyl(sylIdx, block) {
-  const cells = getFreeCells(1);
-  if (!cells.length) return;
-  const {x, y} = cells[0];
-  food.set(key(x, y), {
-    wordIdx: targetWordIdx, sylIdx, block, rendered: renderSylBlock(block)
   });
 }
 
@@ -609,7 +592,6 @@ function moveSnake() {
       snake.pop();                          // normal advance
       if (snake.length > 2) snake.pop();   // shrink
       onWrongSyllable();
-      spawnDistractor(1);
     }
   } else {
     snake.unshift(newHead);
