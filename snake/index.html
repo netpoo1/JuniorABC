@@ -117,6 +117,8 @@
     .cell {
       background: #e8f0fb;
       border-radius: 3px;
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -126,15 +128,62 @@
       line-height: 1;
       user-select: none;
     }
-    .cell.snake-head { background: #16a34a; }
-    .cell.snake-body { background: #86efac; }
+
+    /* ── Snake head ──────────────────────────────────── */
+    .cell.snake-head {
+      background: radial-gradient(circle at 38% 32%, #d1fae5, #16a34a 68%);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(74,222,128,.6),
+                  inset 0 -3px 5px rgba(0,0,0,.18);
+    }
+    /* Eyes: pupil(dark) → sclera(white) → outline(dark) */
+    .cell.snake-head::before,
+    .cell.snake-head::after {
+      content: '';
+      position: absolute;
+      width: 25%;
+      height: 25%;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(0,0,0,.9) 0%, rgba(0,0,0,.9) 35%,
+        #fff           35%, #fff           68%,
+        rgba(0,0,0,.5) 68%);
+    }
+    .cell.snake-head[data-dir="r"]::before { top: 18%; right: 14%; }
+    .cell.snake-head[data-dir="r"]::after  { bottom: 18%; right: 14%; }
+    .cell.snake-head[data-dir="l"]::before { top: 18%; left: 14%; }
+    .cell.snake-head[data-dir="l"]::after  { bottom: 18%; left: 14%; }
+    .cell.snake-head[data-dir="d"]::before { bottom: 14%; left: 18%; }
+    .cell.snake-head[data-dir="d"]::after  { bottom: 14%; right: 18%; }
+    .cell.snake-head[data-dir="u"]::before { top: 14%; left: 18%; }
+    .cell.snake-head[data-dir="u"]::after  { top: 14%; right: 18%; }
+
+    /* ── Snake body ──────────────────────────────────── */
+    .cell.snake-body {
+      background: linear-gradient(145deg, #86efac, #22c55e 55%, #16a34a);
+      border-radius: 4px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.28),
+                  0 1px 3px rgba(0,0,0,.1);
+    }
+
+    /* ── Food gems ───────────────────────────────────── */
+    @keyframes foodGlow {
+      0%,100% { box-shadow: 0 2px 7px rgba(37,99,235,.4),
+                             inset 0 1px 0 rgba(255,255,255,.28); }
+      50%     { box-shadow: 0 2px 16px rgba(99,102,241,.7),
+                             inset 0 1px 0 rgba(255,255,255,.28); }
+    }
     .cell.food {
-      background: #2563eb;
-      border: 1px solid #1d4ed8;
-      color: #f0f9ff;
+      background: linear-gradient(145deg, #93c5fd, #3b82f6 48%, #1d4ed8);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,.22);
+      animation: foodGlow 2.5s ease-in-out infinite;
     }
     .cell.food .syl-stress { color: #bfdbfe; }
     .cell.food .syl-silent { color: #fca5a5; text-decoration-color: #fca5a5; }
+
     .cell.safe-border { background: #bfdbfe; }
 
     /* ── Footer ──────────────────────────────────────── */
@@ -782,6 +831,7 @@ function render() {
     if (state === 'head') {
       cell.className = 'cell snake-head';
       cell.innerHTML = '';
+      cell.dataset.dir = dir.x === 1 ? 'r' : dir.x === -1 ? 'l' : dir.y === 1 ? 'd' : 'u';
       cell.style.fontSize = baseCellFontSize + 'px';
     } else if (state === 'body') {
       cell.className = 'cell snake-body';
