@@ -160,10 +160,28 @@
 
     /* ── Snake body ──────────────────────────────────── */
     .cell.snake-body {
-      background: linear-gradient(145deg, #86efac, #22c55e 55%, #16a34a);
-      border-radius: 4px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.28),
+      background: linear-gradient(145deg, #86efac, #22c55e 55%, #15803d);
+      border-radius: 5px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.3),
                   0 1px 3px rgba(0,0,0,.1);
+    }
+    /* sheen highlight on each segment */
+    .cell.snake-body::after {
+      content: '';
+      position: absolute;
+      width: 38%; height: 28%;
+      top: 12%; left: 26%;
+      background: rgba(255,255,255,.24);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* ── Snake tail ──────────────────────────────────── */
+    .cell.snake-tail {
+      background: radial-gradient(circle at 42% 36%, #86efac, #14532d 82%);
+      border-radius: 50%;
+      transform: scale(0.58);
+      box-shadow: 0 1px 4px rgba(0,0,0,.18);
     }
 
     /* ── Food gems ───────────────────────────────────── */
@@ -815,12 +833,14 @@ function buildGridDOM() {
 function render() {
   const ss      = snakeSet();
   const headKey = snake.length ? key(snake[0].x, snake[0].y) : null;
+  const tailKey = snake.length > 1 ? key(snake[snake.length-1].x, snake[snake.length-1].y) : null;
 
   for (const k in cellEls) {
     let state;
-    if (k === headKey)    state = 'head';
-    else if (ss.has(k))   state = 'body';
-    else if (food.has(k)) state = 'food:' + food.get(k).block;
+    if (k === headKey)         state = 'head';
+    else if (k === tailKey)    state = 'tail';
+    else if (ss.has(k))        state = 'body';
+    else if (food.has(k))      state = 'food:' + food.get(k).block;
     else if (borderCells.has(k)) state = 'safe';
     else state = '';
 
@@ -835,6 +855,10 @@ function render() {
       cell.style.fontSize = baseCellFontSize + 'px';
     } else if (state === 'body') {
       cell.className = 'cell snake-body';
+      cell.innerHTML = '';
+      cell.style.fontSize = baseCellFontSize + 'px';
+    } else if (state === 'tail') {
+      cell.className = 'cell snake-tail';
       cell.innerHTML = '';
       cell.style.fontSize = baseCellFontSize + 'px';
     } else if (state.startsWith('food:')) {
