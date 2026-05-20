@@ -132,6 +132,7 @@
       background: #1e3a5f;
       border: 1px solid #2c5282;
     }
+    .cell.safe-border { background: #1a2535; }
 
     /* ── Footer ──────────────────────────────────────── */
     .footer {
@@ -353,9 +354,10 @@ let loopTimer    = null;
 let ttsTimer     = null;
 
 // cached DOM cells: key → element
-let cellEls       = {};
-let prevCellState = {};
+let cellEls          = {};
+let prevCellState    = {};
 let baseCellFontSize = 12;
+let borderCells      = new Set();
 
 // ── Syllable rendering (matches flashcard) ───────────────────────────────────
 function renderSylBlock(part) {
@@ -425,8 +427,10 @@ function getFreeCells(count) {
   food.forEach((_, k) => occupied.add(k));
   const free = [];
   for (let y = 0; y < GRID_ROWS; y++)
-    for (let x = 0; x < GRID_COLS; x++)
-      if (!occupied.has(key(x, y))) free.push({x, y});
+    for (let x = 0; x < GRID_COLS; x++) {
+      const k = key(x, y);
+      if (!occupied.has(k) && !borderCells.has(k)) free.push({x, y});
+    }
   shuffle(free);
   return free.slice(0, count);
 }
@@ -664,6 +668,7 @@ function startGame() {
   buildGridDOM();
   initSnake();
   pickNextWord();
+  render();
   gameRunning = true;
   loopTimer   = setInterval(tick, SPEEDS[selectedSpeed]);
 }
@@ -676,6 +681,7 @@ function restartGame() {
   initSnake();
   food.clear();
   pickNextWord();
+  render();
   gameRunning = true;
   loopTimer   = setInterval(tick, SPEEDS[selectedSpeed]);
 }
@@ -713,16 +719,20 @@ function buildGridDOM() {
 
   grid.innerHTML = '';
   cellEls = {}; prevCellState = {};
+  borderCells.clear();
 
   for (let y = 0; y < GRID_ROWS; y++) {
     for (let x = 0; x < GRID_COLS; x++) {
+      const k    = key(x, y);
+      const onBorder = x === 0 || x === GRID_COLS - 1 || y === 0 || y === GRID_ROWS - 1;
       const cell = document.createElement('div');
-      cell.className = 'cell';
+      cell.className = onBorder ? 'cell safe-border' : 'cell';
       cell.style.width  = `${CELL_SIZE}px`;
       cell.style.height = `${CELL_SIZE}px`;
-      cell.style.fontSize = `${Math.max(10, CELL_SIZE - 28)}px`;
+      cell.style.fontSize = `${baseCellFontSize}px`;
       grid.appendChild(cell);
-      cellEls[key(x, y)] = cell;
+      cellEls[k] = cell;
+      if (onBorder) borderCells.add(k);
     }
   }
 }
@@ -733,9 +743,10 @@ function render() {
 
   for (const k in cellEls) {
     let state;
-    if (k === headKey)  state = 'head';
-    else if (ss.has(k)) state = 'body';
+    if (k === headKey)    state = 'head';
+    else if (ss.has(k))   state = 'body';
     else if (food.has(k)) state = 'food:' + food.get(k).block;
+    else if (borderCells.has(k)) state = 'safe';
     else state = '';
 
     if (prevCellState[k] === state) continue;
@@ -754,6 +765,10 @@ function render() {
       cell.className = 'cell food';
       cell.innerHTML = food.get(k).rendered;
       cell.style.fontSize = foodFontSize(food.get(k).block) + 'px';
+    } else if (state === 'safe') {
+      cell.className = 'cell safe-border';
+      cell.innerHTML = '';
+      cell.style.fontSize = baseCellFontSize + 'px';
     } else {
       cell.className = 'cell';
       cell.innerHTML = '';
