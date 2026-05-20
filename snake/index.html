@@ -529,6 +529,8 @@ function buildFoodSet() {
     wordIdx: targetWordIdx, sylIdx: si, block
   }));
 
+  const targetBlockSet = new Set(targetSylBlocks);
+
   const others = keepWords
     .map((w, i) => ({w, i}))
     .filter(({i}) => i !== targetWordIdx);
@@ -537,8 +539,11 @@ function buildFoodSet() {
   for (const {w, i} of others) {
     if (items.length >= FOOD_COUNT) break;
     const blocks = getSylBlocks(w);
-    const si = Math.floor(Math.random() * blocks.length);
-    items.push({wordIdx: i, sylIdx: si, block: blocks[si]});
+    // exclude any block that visually matches a target syllable
+    const available = blocks.filter(b => !targetBlockSet.has(b));
+    if (!available.length) continue;
+    const block = available[Math.floor(Math.random() * available.length)];
+    items.push({wordIdx: i, sylIdx: blocks.indexOf(block), block});
   }
 
   shuffle(items);
