@@ -352,7 +352,7 @@ let score           = 0;
 let answeredIndices = new Set();
 
 let gameRunning  = false;
-let transitioning = false;
+let celebrating  = false;   // true after word complete, until snake hits a corner
 let loopTimer    = null;
 let ttsTimer     = null;
 
@@ -557,6 +557,16 @@ function initSnake() {
   nextDir = {x:1, y:0};
 }
 
+function isCorner(x, y) {
+  return (x === 0 || x === GRID_COLS - 1) && (y === 0 || y === GRID_ROWS - 1);
+}
+
+function startNextWord() {
+  celebrating = false;
+  pickNextWord();
+  render();
+}
+
 function moveSnake() {
   dir = {...nextDir};
   const head = snake[0];
@@ -564,6 +574,13 @@ function moveSnake() {
   const ny   = (head.y + dir.y + GRID_ROWS) % GRID_ROWS;
   const k    = key(nx, ny);
   const newHead = {x: nx, y: ny};
+
+  if (celebrating) {
+    snake.unshift(newHead);
+    snake.pop();
+    if (isCorner(nx, ny)) startNextWord();
+    return;
+  }
 
   if (food.has(k)) {
     const item = food.get(k);
@@ -602,22 +619,22 @@ function moveSnake() {
 
 // ── Game events ────────────────────────────────────────────────────────────────
 function onWordComplete() {
-  transitioning = true;
+  celebrating = true;
   answeredIndices.add(targetWordIdx);
   score += usedHelp ? 0.5 : 1;
   updateScore();
 
-  // Bonus: +1 HP for eating all syllables in correct order (max 10)
   if (inOrderSoFar) {
     wrongCount = Math.max(0, wrongCount - 1);
     updateHearts();
   }
 
-  setTimeout(() => {
-    pickNextWord();   // keeps snake length and position
-    render();
-    transitioning = false;
-  }, 700);
+  food.clear();   // all distractors vanish immediately
+  stopTtsTimer();
+
+  document.getElementById('helpBtn').disabled = true;
+  document.getElementById('zhMeaning').innerHTML =
+    '<span style="color:#16a34a;font-size:20px">✓ 通關！引導蛇到任一角落 ➜ 下一關</span>';
 }
 
 function onWrongSyllable() {
@@ -669,6 +686,7 @@ function selectSpeed(s) {
 function startGame() {
   document.getElementById('startScreen').hidden = true;
   wrongCount = 0; score = 0; answeredIndices.clear();
+  celebrating = false;
   updateScore(); updateHearts();
   buildGridDOM();
   initSnake();
@@ -681,6 +699,7 @@ function startGame() {
 function restartGame() {
   document.getElementById('gameOverScreen').hidden = true;
   wrongCount = 0; score = 0; answeredIndices.clear();
+  celebrating = false;
   updateScore(); updateHearts();
   buildGridDOM();
   initSnake();
@@ -786,7 +805,7 @@ function render() {
 }
 
 function tick() {
-  if (!gameRunning || transitioning) return;
+  if (!gameRunning) return;
   moveSnake();
   render();
 }
