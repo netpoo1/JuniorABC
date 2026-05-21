@@ -8,6 +8,7 @@
       "pos": "n.",
       "zh": "發燒",
       "syl": "FE·ver",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -15,6 +16,7 @@
       "pos": "n.",
       "zh": "頭痛",
       "syl": "HEAD·ache",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -22,6 +24,15 @@
       "pos": "n.",
       "zh": "胃痛；腹痛",
       "syl": "STOM·ach·ache",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sore throat",
+      "pos": "n.",
+      "zh": "喉嚨痛",
+      "syl": "SORE THROAT",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -29,6 +40,7 @@
       "pos": "n.",
       "zh": "流鼻水",
       "syl": "RUN·ny NOSE",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -36,6 +48,7 @@
       "pos": "n.",
       "zh": "藥；醫學",
       "syl": "MED·i·cine",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -43,6 +56,7 @@
       "pos": "n.",
       "zh": "頭",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -50,6 +64,7 @@
       "pos": "n.",
       "zh": "脖子",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -57,6 +72,7 @@
       "pos": "n.",
       "zh": "肩膀",
       "syl": "SHOUL·der",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -64,6 +80,7 @@
       "pos": "n.",
       "zh": "手指",
       "syl": "FIN·ger",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -71,6 +88,7 @@
       "pos": "n.",
       "zh": "指甲",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -78,20 +96,31 @@
       "pos": "n.",
       "zh": "膝蓋",
       "syl": "[K]NEE",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "matter",
+      "pos": "n. / v.",
+      "zh": "事情；要緊；有關係",
+      "syl": "MAT·ter",
+      "forms": "",
       "diff": "keep"
     },
     {
       "word": "care",
       "pos": "v. / n.",
-      "zh": "照顧；小心",
+      "zh": "照顧；關心；小心",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
       "word": "noon",
       "pos": "n.",
-      "zh": "正午",
+      "zh": "正午；中午",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -99,6 +128,7 @@
       "pos": "n.",
       "zh": "檸檬",
       "syl": "LEM·on",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -106,6 +136,7 @@
       "pos": "n.",
       "zh": "根；根源",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -113,20 +144,15 @@
       "pos": "n.",
       "zh": "原因；理由",
       "syl": "REA·son",
+      "forms": "",
       "diff": "keep"
     },
     {
-      "word": "grade",
-      "pos": "n.",
-      "zh": "成績；年級；等級",
+      "word": "point",
+      "pos": "n. / v.",
+      "zh": "分數；得分；點；指",
       "syl": "",
-      "diff": "keep"
-    },
-    {
-      "word": "poor",
-      "pos": "adj.",
-      "zh": "差的；貧窮的；可憐的",
-      "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -134,6 +160,23 @@
       "pos": "n.",
       "zh": "群；組",
       "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "grade",
+      "pos": "n.",
+      "zh": "成績；年級；等級",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "test",
+      "pos": "n. / v.",
+      "zh": "測驗；考試",
+      "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -141,6 +184,7 @@
       "pos": "n.",
       "zh": "會議；集會",
       "syl": "MEET·ing",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -148,6 +192,7 @@
       "pos": "n.",
       "zh": "錯誤",
       "syl": "mis·TAKE",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -155,6 +200,7 @@
       "pos": "n.",
       "zh": "角度；角落",
       "syl": "AN·gle",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -162,13 +208,119 @@
       "pos": "n.",
       "zh": "成員",
       "syl": "MEM·ber",
+      "forms": "",
       "diff": "keep"
     },
     {
-      "word": "topic",
+      "word": "example",
       "pos": "n.",
-      "zh": "話題",
-      "syl": "TOP·ic",
+      "zh": "例子；範例",
+      "syl": "ex·AM·ple",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "explain",
+      "pos": "v.",
+      "zh": "解釋；說明",
+      "syl": "ex·PLAIN",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "pass",
+      "pos": "v. / n.",
+      "zh": "通過；經過；及格",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "throw",
+      "pos": "v.",
+      "zh": "丟擲；投擲",
+      "syl": "",
+      "forms": "throw-threw-thrown",
+      "diff": "keep"
+    },
+    {
+      "word": "win",
+      "pos": "v.",
+      "zh": "贏；獲勝",
+      "syl": "",
+      "forms": "win-won-won",
+      "diff": "keep"
+    },
+    {
+      "word": "fail",
+      "pos": "v.",
+      "zh": "失敗；不及格",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "count",
+      "pos": "v. / n.",
+      "zh": "計算；算數",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "begin",
+      "pos": "v.",
+      "zh": "開始",
+      "syl": "be·GIN",
+      "forms": "begin-began-begun",
+      "diff": "keep"
+    },
+    {
+      "word": "expect",
+      "pos": "v.",
+      "zh": "期待；預期",
+      "syl": "ex·PECT",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "allow",
+      "pos": "v.",
+      "zh": "允許",
+      "syl": "al·LOW",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bring",
+      "pos": "v.",
+      "zh": "帶來",
+      "syl": "",
+      "forms": "bring-brought-brought",
+      "diff": "keep"
+    },
+    {
+      "word": "push",
+      "pos": "v. / n.",
+      "zh": "推；按",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "define",
+      "pos": "v.",
+      "zh": "定義",
+      "syl": "de·FINE",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "celebrate",
+      "pos": "v.",
+      "zh": "慶祝",
+      "syl": "CEL·e·brate",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -176,6 +328,7 @@
       "pos": "adj.",
       "zh": "生病的",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -183,6 +336,7 @@
       "pos": "adj.",
       "zh": "有用的",
       "syl": "USE·ful",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -190,6 +344,7 @@
       "pos": "adj.",
       "zh": "常見的；共同的",
       "syl": "COM·mon",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -197,6 +352,7 @@
       "pos": "adj.",
       "zh": "舒適的；自在的",
       "syl": "COM·fort·a·ble",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -204,6 +360,7 @@
       "pos": "adj.",
       "zh": "有幫助的",
       "syl": "HELP·ful",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -211,6 +368,7 @@
       "pos": "adj.",
       "zh": "害怕的",
       "syl": "a·FRAID",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -218,6 +376,7 @@
       "pos": "adj.",
       "zh": "聰明的；時髦的",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -225,6 +384,7 @@
       "pos": "adj.",
       "zh": "簡單的；單純的",
       "syl": "SIM·ple",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -232,6 +392,7 @@
       "pos": "adj.",
       "zh": "誠實的",
       "syl": "[H]ON·est",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -239,6 +400,7 @@
       "pos": "adj.",
       "zh": "出色的；極佳的",
       "syl": "EX·cel·lent",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -246,6 +408,7 @@
       "pos": "adj.",
       "zh": "能夠做…；有能力的",
       "syl": "A·ble",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -253,6 +416,7 @@
       "pos": "adj.",
       "zh": "新鮮的",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -260,6 +424,7 @@
       "pos": "adv.",
       "zh": "很可能；大概",
       "syl": "PROB·a·bly",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -267,6 +432,7 @@
       "pos": "adv.",
       "zh": "實際上；事實上",
       "syl": "AC·tu·al·ly",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -274,6 +440,7 @@
       "pos": "conj.",
       "zh": "雖然",
       "syl": "al·THOUGH",
+      "forms": "",
       "diff": "keep"
     }
   ]

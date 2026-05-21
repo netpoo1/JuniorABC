@@ -74,6 +74,14 @@
     .btn-snake { background: #faf5ff; color: #553c9a; }
     .btn-snake:hover { filter: brightness(.95); }
 
+    /* ── Bucket sections (multi-semester layout) ── */
+    .bucket-tag {
+      font-size: 11px; font-weight: 700; color: #718096;
+      background: #edf2f7; padding: 2px 9px; border-radius: 10px;
+      flex-shrink: 0; align-self: center;
+    }
+    .bucket-sep { height: 1px; background: #edf2f7; margin: 14px 0; }
+
     .locked-msg { font-size: 13px; color: #a0aec0; text-align: center; padding: 6px 0 2px; }
 
     /* ── Reset button ── */
@@ -123,7 +131,7 @@
 const GRADES = [
   {
     id: '7', label: '國一', sub: 'Grade 7', color: '#4299e1',
-    buckets: [{ id: '7.1', label: '上冊' }],
+    buckets: [{ id: '7.1', label: '上冊' }, { id: '7.2', label: '下冊' }],
     requires: null
   },
   {
@@ -153,21 +161,33 @@ function renderGrades() {
   c.innerHTML = '';
 
   GRADES.forEach(grade => {
-    const unlocked   = isGradeUnlocked(grade);
-    const done       = isGradeDone(grade.id);
-    const mainBucket = grade.buckets[0].id;
+    const unlocked = isGradeUnlocked(grade);
+    const done     = isGradeDone(grade.id);
 
     const card = document.createElement('div');
     card.className = 'grade-card' + (unlocked ? '' : ' locked');
     card.style.setProperty('--gc', grade.color);
 
     if (unlocked) {
-      const dots = grade.buckets.map(b => `
-        <div class="prog-item">
-          <div class="prog-dot ${isFlashDone(b.id) ? 'done' : ''}"></div>單字卡複習
+      const multiSem = grade.buckets.length > 1;
+      const sections = grade.buckets.map((b, i) => `
+        ${i > 0 ? '<div class="bucket-sep"></div>' : ''}
+        <div class="progress-row">
+          ${multiSem ? `<span class="bucket-tag">${b.label}</span>` : ''}
+          <div class="prog-item">
+            <div class="prog-dot ${isFlashDone(b.id) ? 'done' : ''}"></div>單字卡複習
+          </div>
+          <div class="prog-item">
+            <div class="prog-dot ${isGameDone(b.id) ? 'done' : ''}"></div>遊戲 60%
+          </div>
         </div>
-        <div class="prog-item">
-          <div class="prog-dot ${isGameDone(b.id) ? 'done' : ''}"></div>遊戲 60%
+        <div class="action-row">
+          <button class="action-btn btn-flash"
+                  onclick="go('flashcard/?bucket=${b.id}')">📖 單字卡</button>
+          <button class="action-btn btn-game"
+                  onclick="go('game/?bucket=${b.id}')">🎮 配對遊戲</button>
+          <button class="action-btn btn-snake"
+                  onclick="go('snake/?bucket=${b.id}')">🐍 音節蛇</button>
         </div>`).join('');
 
       card.innerHTML = `
@@ -178,15 +198,7 @@ function renderGrades() {
             ${done ? '<span class="grade-done-badge">✓ 已通關</span>' : ''}
           </div>
         </div>
-        <div class="progress-row">${dots}</div>
-        <div class="action-row">
-          <button class="action-btn btn-flash"
-                  onclick="go('flashcard/?bucket=${mainBucket}')">📖 單字卡</button>
-          <button class="action-btn btn-game"
-                  onclick="go('game/?bucket=${mainBucket}')">🎮 配對遊戲</button>
-          <button class="action-btn btn-snake"
-                  onclick="go('snake/?bucket=${mainBucket}')">🐍 音節蛇</button>
-        </div>`;
+        ${sections}`;
     } else {
       const req = GRADES.find(g => g.id === grade.requires);
       card.innerHTML = `

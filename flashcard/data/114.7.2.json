@@ -1,0 +1,647 @@
+{
+  "year": "114",
+  "bucket": "7.2",
+  "label": "國一 (下冊)",
+  "words": [
+    {
+      "word": "exercise",
+      "pos": "n. / v.",
+      "zh": "運動；練習",
+      "syl": "EX·er·cise",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sport",
+      "pos": "n.",
+      "zh": "運動",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "game",
+      "pos": "n.",
+      "zh": "遊戲；比賽",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "player",
+      "pos": "n.",
+      "zh": "球員；選手；播放器",
+      "syl": "PLAY·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "baseball",
+      "pos": "n.",
+      "zh": "棒球",
+      "syl": "BASE·ball",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "basketball",
+      "pos": "n.",
+      "zh": "籃球",
+      "syl": "BAS·ket·ball",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "dance",
+      "pos": "n. / v.",
+      "zh": "舞蹈；跳舞",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "television",
+      "pos": "n.",
+      "zh": "電視",
+      "syl": "tel·e·VI·sion",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "computer",
+      "pos": "n.",
+      "zh": "電腦",
+      "syl": "com·PU·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "telephone",
+      "pos": "n.",
+      "zh": "電話",
+      "syl": "TEL·e·phone",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "kite",
+      "pos": "n.",
+      "zh": "風箏",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "song",
+      "pos": "n.",
+      "zh": "歌曲",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "piano",
+      "pos": "n.",
+      "zh": "鋼琴",
+      "syl": "pi·AN·o",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "concert",
+      "pos": "n.",
+      "zh": "演奏會；音樂會",
+      "syl": "CON·cert",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "body",
+      "pos": "n.",
+      "zh": "身體",
+      "syl": "BOD·y",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "face",
+      "pos": "n.",
+      "zh": "臉",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "ear",
+      "pos": "n.",
+      "zh": "耳朵",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "eye",
+      "pos": "n.",
+      "zh": "眼睛",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "nose",
+      "pos": "n.",
+      "zh": "鼻子",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "mouth",
+      "pos": "n.",
+      "zh": "嘴",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "tooth",
+      "pos": "n.",
+      "zh": "牙齒（pl. teeth）",
+      "syl": "",
+      "forms": "pl. teeth",
+      "diff": "keep"
+    },
+    {
+      "word": "lip",
+      "pos": "n.",
+      "zh": "嘴唇",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hair",
+      "pos": "n.",
+      "zh": "頭髮；毛髮",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "arm",
+      "pos": "n.",
+      "zh": "手臂",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "leg",
+      "pos": "n.",
+      "zh": "腿",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "breakfast",
+      "pos": "n.",
+      "zh": "早餐",
+      "syl": "BREAK·fast",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lunch",
+      "pos": "n.",
+      "zh": "午餐",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "dinner",
+      "pos": "n.",
+      "zh": "晚餐",
+      "syl": "DIN·ner",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "homework",
+      "pos": "n.",
+      "zh": "功課（不可數）",
+      "syl": "HOME·work",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hour",
+      "pos": "n.",
+      "zh": "小時（h 不發音）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "shower",
+      "pos": "n.",
+      "zh": "淋浴；陣雨",
+      "syl": "SHOW·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "library",
+      "pos": "n.",
+      "zh": "圖書館",
+      "syl": "LI·brar·y",
+      "forms": "pl. libraries",
+      "diff": "keep"
+    },
+    {
+      "word": "life",
+      "pos": "n.",
+      "zh": "生命；生活；人生",
+      "syl": "",
+      "forms": "pl. lives",
+      "diff": "keep"
+    },
+    {
+      "word": "trouble",
+      "pos": "n. / v.",
+      "zh": "麻煩；折磨",
+      "syl": "TROU·ble",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "side",
+      "pos": "n.",
+      "zh": "面；邊",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hundred",
+      "pos": "n.",
+      "zh": "百",
+      "syl": "HUN·dred",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "centimeter",
+      "pos": "n.",
+      "zh": "公分（= cm）",
+      "syl": "CEN·ti·me·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "height",
+      "pos": "n.",
+      "zh": "身高；高度",
+      "syl": "HEI[GH]T",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "play",
+      "pos": "v. / n.",
+      "zh": "玩；打；彈；播放",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "love",
+      "pos": "v. / n.",
+      "zh": "喜愛；愛",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "like",
+      "pos": "v. / prep.",
+      "zh": "喜歡；像；如同",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "jump",
+      "pos": "v. / n.",
+      "zh": "跳躍",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sing",
+      "pos": "v.",
+      "zh": "唱歌",
+      "syl": "",
+      "forms": "sing-sang-sung",
+      "diff": "keep"
+    },
+    {
+      "word": "swim",
+      "pos": "v.",
+      "zh": "游泳",
+      "syl": "",
+      "forms": "swim-swam-swum",
+      "diff": "keep"
+    },
+    {
+      "word": "join",
+      "pos": "v.",
+      "zh": "加入；連接",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hurt",
+      "pos": "v.",
+      "zh": "使受傷；受傷",
+      "syl": "",
+      "forms": "hurt-hurt-hurt",
+      "diff": "keep"
+    },
+    {
+      "word": "practice",
+      "pos": "v. / n.",
+      "zh": "練習",
+      "syl": "PRAC·tice",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "put",
+      "pos": "v.",
+      "zh": "放置",
+      "syl": "",
+      "forms": "put-put-put",
+      "diff": "keep"
+    },
+    {
+      "word": "download",
+      "pos": "v. / n.",
+      "zh": "下載",
+      "syl": "DOWN·load",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "upload",
+      "pos": "v. / n.",
+      "zh": "上傳",
+      "syl": "UP·load",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "early",
+      "pos": "adj. / adv.",
+      "zh": "早的；早地",
+      "syl": "EAR·ly",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "late",
+      "pos": "adj. / adv.",
+      "zh": "遲的；晚的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "every",
+      "pos": "adj.",
+      "zh": "每；每個",
+      "syl": "EV·ery",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "much",
+      "pos": "adj. / adv.",
+      "zh": "多的（修飾不可數名詞）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "poor",
+      "pos": "adj.",
+      "zh": "差的；貧窮的；可憐的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "tired",
+      "pos": "adj.",
+      "zh": "累的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "strong",
+      "pos": "adj.",
+      "zh": "強壯的；強烈的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "large",
+      "pos": "adj.",
+      "zh": "大的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "thick",
+      "pos": "adj.",
+      "zh": "厚的；粗的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "thin",
+      "pos": "adj.",
+      "zh": "薄的；瘦的；淡的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "fat",
+      "pos": "adj.",
+      "zh": "胖的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "different",
+      "pos": "adj.",
+      "zh": "不同的",
+      "syl": "DIF·fer·ent",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "top",
+      "pos": "adj.",
+      "zh": "頂尖的；最高的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "born",
+      "pos": "adj.",
+      "zh": "天生的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hard-working",
+      "pos": "adj.",
+      "zh": "勤勞的；努力的",
+      "syl": "HARD-WORK·ing",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "enough",
+      "pos": "adj. / adv.",
+      "zh": "足夠的；足夠地",
+      "syl": "e·NOUGH",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "always",
+      "pos": "adv.",
+      "zh": "總是",
+      "syl": "AL·ways",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "usually",
+      "pos": "adv.",
+      "zh": "通常",
+      "syl": "U·su·al·ly",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "often",
+      "pos": "adv.",
+      "zh": "常常",
+      "syl": "OF·ten",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sometimes",
+      "pos": "adv.",
+      "zh": "有時候",
+      "syl": "SOME·times",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "seldom",
+      "pos": "adv.",
+      "zh": "很少",
+      "syl": "SEL·dom",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "never",
+      "pos": "adv.",
+      "zh": "絕不；從不",
+      "syl": "NEV·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "once",
+      "pos": "adv.",
+      "zh": "一次；一度",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "twice",
+      "pos": "adv.",
+      "zh": "兩次",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "then",
+      "pos": "adv. / conj.",
+      "zh": "然後；那麼；當時",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "out",
+      "pos": "adv. / prep.",
+      "zh": "到…外面；向外",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "during",
+      "pos": "prep.",
+      "zh": "在…期間",
+      "syl": "DUR·ing",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "about",
+      "pos": "prep. / adv.",
+      "zh": "關於；大約",
+      "syl": "a·BOUT",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "everybody",
+      "pos": "pron.",
+      "zh": "每個人（= everyone）",
+      "syl": "EV·ery·bod·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "both",
+      "pos": "pron. / adj.",
+      "zh": "兩者都",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    }
+  ]
+}

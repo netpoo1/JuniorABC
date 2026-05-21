@@ -8,6 +8,7 @@
       "pos": "n.",
       "zh": "老師",
       "syl": "TEACH·er",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -15,6 +16,7 @@
       "pos": "n.",
       "zh": "學生",
       "syl": "STU·dent",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -22,6 +24,7 @@
       "pos": "n.",
       "zh": "警察",
       "syl": "po·LICE OF·fi·cer",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -29,6 +32,7 @@
       "pos": "n.",
       "zh": "護理師；護士",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -36,6 +40,7 @@
       "pos": "n.",
       "zh": "歌手",
       "syl": "SING·er",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -43,6 +48,7 @@
       "pos": "n.",
       "zh": "家庭主婦",
       "syl": "HOUSE·wife",
+      "forms": "pl. housewives",
       "diff": "keep"
     },
     {
@@ -50,6 +56,7 @@
       "pos": "n.",
       "zh": "上班族",
       "syl": "OF·fice WORK·er",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -57,6 +64,7 @@
       "pos": "n.",
       "zh": "醫生；博士",
       "syl": "DOC·tor",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -64,6 +72,7 @@
       "pos": "n.",
       "zh": "男人",
       "syl": "",
+      "forms": "pl. men",
       "diff": "easy"
     },
     {
@@ -71,6 +80,7 @@
       "pos": "n.",
       "zh": "女人",
       "syl": "WOM·an",
+      "forms": "pl. women",
       "diff": "easy"
     },
     {
@@ -78,6 +88,7 @@
       "pos": "n.",
       "zh": "男孩",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -85,6 +96,15 @@
       "pos": "n.",
       "zh": "女孩",
       "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "baby",
+      "pos": "n.",
+      "zh": "嬰兒",
+      "syl": "BA·by",
+      "forms": "pl. babies",
       "diff": "easy"
     },
     {
@@ -92,6 +112,7 @@
       "pos": "n.",
       "zh": "人",
       "syl": "PER·son",
+      "forms": "pl. people",
       "diff": "easy"
     },
     {
@@ -99,6 +120,7 @@
       "pos": "n.",
       "zh": "人們",
       "syl": "PEO·ple",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -106,6 +128,7 @@
       "pos": "n.",
       "zh": "家庭；家人",
       "syl": "FAM·i·ly",
+      "forms": "pl. families",
       "diff": "keep"
     },
     {
@@ -113,6 +136,7 @@
       "pos": "n.",
       "zh": "父親",
       "syl": "FA·ther",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -120,6 +144,7 @@
       "pos": "n.",
       "zh": "媽媽",
       "syl": "MOTH·er",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -127,6 +152,7 @@
       "pos": "n.",
       "zh": "雙親",
       "syl": "PAR·ents",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -134,6 +160,7 @@
       "pos": "n.",
       "zh": "女兒",
       "syl": "DAU[GH]·ter",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -141,6 +168,7 @@
       "pos": "n.",
       "zh": "兒子",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -148,6 +176,7 @@
       "pos": "n.",
       "zh": "爺爺；外公（口語）",
       "syl": "GRAND·pa",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -155,6 +184,7 @@
       "pos": "n.",
       "zh": "奶奶；外婆（口語）",
       "syl": "GRAND·ma",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -162,6 +192,7 @@
       "pos": "n.",
       "zh": "兄；弟",
       "syl": "BROTH·er",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -169,6 +200,7 @@
       "pos": "n.",
       "zh": "姊；妹",
       "syl": "SIS·ter",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -176,6 +208,7 @@
       "pos": "n.",
       "zh": "叔叔；伯父；舅舅",
       "syl": "UN·cle",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -183,6 +216,7 @@
       "pos": "n.",
       "zh": "嬸嬸；姑姑；阿姨；舅媽",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -190,6 +224,7 @@
       "pos": "n.",
       "zh": "表（堂）兄弟姊妹",
       "syl": "COUS·in",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -197,6 +232,7 @@
       "pos": "n.",
       "zh": "丈夫",
       "syl": "HUS·band",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -204,6 +240,7 @@
       "pos": "n.",
       "zh": "妻子",
       "syl": "",
+      "forms": "pl. wives",
       "diff": "keep"
     },
     {
@@ -211,6 +248,7 @@
       "pos": "n.",
       "zh": "顏色",
       "syl": "COL·or",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -218,6 +256,15 @@
       "pos": "adj. / n.",
       "zh": "黑色",
       "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "blue",
+      "pos": "adj. / n.",
+      "zh": "藍色",
+      "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -225,6 +272,7 @@
       "pos": "adj. / n.",
       "zh": "紅色",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -232,6 +280,7 @@
       "pos": "adj. / n.",
       "zh": "白色",
       "syl": "W[H]ITE",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -239,6 +288,7 @@
       "pos": "adj. / n.",
       "zh": "黃色",
       "syl": "YEL·low",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -246,6 +296,7 @@
       "pos": "adj. / n.",
       "zh": "紫色",
       "syl": "PUR·ple",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -253,6 +304,7 @@
       "pos": "adj. / n.",
       "zh": "灰色",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -260,6 +312,7 @@
       "pos": "adj. / n.",
       "zh": "棕色；褐色",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -267,6 +320,7 @@
       "pos": "adj. / n.",
       "zh": "橙色；柳橙",
       "syl": "OR·ange",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -274,6 +328,7 @@
       "pos": "adj. / n.",
       "zh": "粉紅色",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -281,6 +336,7 @@
       "pos": "adj. / n.",
       "zh": "綠色",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -288,20 +344,31 @@
       "pos": "n.",
       "zh": "學校",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
-      "word": "class",
+      "word": "classroom",
       "pos": "n.",
-      "zh": "班級；課",
+      "zh": "教室",
+      "syl": "CLASS·room",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "pen",
+      "pos": "n.",
+      "zh": "原子筆",
       "syl": "",
-      "diff": "easy"
+      "forms": "",
+      "diff": "keep"
     },
     {
       "word": "pencil box",
       "pos": "n.",
       "zh": "鉛筆盒",
       "syl": "PEN·cil BOX",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -309,6 +376,7 @@
       "pos": "n.",
       "zh": "鉛筆盒",
       "syl": "PEN·cil CASE",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -316,6 +384,7 @@
       "pos": "n.",
       "zh": "橡皮擦",
       "syl": "e·RAS·er",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -323,13 +392,23 @@
       "pos": "n.",
       "zh": "尺",
       "syl": "RUL·er",
+      "forms": "",
       "diff": "keep"
     },
     {
-      "word": "notebook",
+      "word": "marker",
       "pos": "n.",
-      "zh": "筆記本；記事本",
-      "syl": "NOTE·book",
+      "zh": "彩色筆；麥克筆",
+      "syl": "MARK·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "comic book",
+      "pos": "n.",
+      "zh": "漫畫書",
+      "syl": "COM·ic BOOK",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -337,13 +416,23 @@
       "pos": "n.",
       "zh": "數字；號碼",
       "syl": "NUM·ber",
+      "forms": "",
       "diff": "keep"
+    },
+    {
+      "word": "class",
+      "pos": "n.",
+      "zh": "班級；一(節)課",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
     },
     {
       "word": "classmate",
       "pos": "n.",
       "zh": "同班同學",
       "syl": "CLASS·mate",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -351,6 +440,7 @@
       "pos": "n.",
       "zh": "朋友",
       "syl": "FR[I]END",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -358,6 +448,7 @@
       "pos": "n.",
       "zh": "桌子",
       "syl": "TA·ble",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -365,6 +456,7 @@
       "pos": "n.",
       "zh": "門",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -372,6 +464,7 @@
       "pos": "n.",
       "zh": "牆壁",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -379,13 +472,23 @@
       "pos": "n.",
       "zh": "時鐘；計時器",
       "syl": "",
+      "forms": "",
       "diff": "keep"
+    },
+    {
+      "word": "name",
+      "pos": "n.",
+      "zh": "名字",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
     },
     {
       "word": "sofa",
       "pos": "n.",
       "zh": "沙發",
       "syl": "SO·fa",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -393,6 +496,7 @@
       "pos": "n.",
       "zh": "床",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -400,6 +504,7 @@
       "pos": "n.",
       "zh": "書桌",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -407,6 +512,7 @@
       "pos": "n.",
       "zh": "椅子",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -414,6 +520,15 @@
       "pos": "n.",
       "zh": "卡片",
       "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "picture",
+      "pos": "n.",
+      "zh": "照片；圖片",
+      "syl": "PIC·ture",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -421,6 +536,7 @@
       "pos": "n.",
       "zh": "洋娃娃",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -428,27 +544,7 @@
       "pos": "n.",
       "zh": "雨傘",
       "syl": "um·BREL·la",
-      "diff": "keep"
-    },
-    {
-      "word": "welcome",
-      "pos": "v. / n.",
-      "zh": "歡迎",
-      "syl": "WEL·come",
-      "diff": "keep"
-    },
-    {
-      "word": "hurry",
-      "pos": "v.",
-      "zh": "趕快；催促",
-      "syl": "HUR·ry",
-      "diff": "keep"
-    },
-    {
-      "word": "wait",
-      "pos": "v.",
-      "zh": "等待",
-      "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -456,13 +552,71 @@
       "pos": "pron.",
       "zh": "彼此；互相",
       "syl": "EACH OTH·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "guy",
+      "pos": "n.",
+      "zh": "傢伙",
+      "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
       "word": "turn",
       "pos": "v. / n.",
-      "zh": "輪流；翻；轉",
+      "zh": "機會；輪流；轉彎",
       "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "thank",
+      "pos": "v.",
+      "zh": "感謝",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "welcome",
+      "pos": "v. / n.",
+      "zh": "歡迎",
+      "syl": "WEL·come",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "use",
+      "pos": "v. / n.",
+      "zh": "使用；利用",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hurry",
+      "pos": "v.",
+      "zh": "趕快；催促",
+      "syl": "HUR·ry",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "wait",
+      "pos": "v.",
+      "zh": "等待",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "wake",
+      "pos": "v.",
+      "zh": "醒來；叫醒",
+      "syl": "",
+      "forms": "wake-woke-woken",
       "diff": "keep"
     },
     {
@@ -470,27 +624,31 @@
       "pos": "v.",
       "zh": "說話；談論",
       "syl": "TA[L]K",
+      "forms": "",
       "diff": "keep"
     },
     {
-      "word": "eat",
+      "word": "say",
       "pos": "v.",
-      "zh": "吃",
+      "zh": "說；告訴",
       "syl": "",
-      "diff": "easy"
+      "forms": "say-said-said",
+      "diff": "keep"
     },
     {
-      "word": "drink",
-      "pos": "v.",
-      "zh": "喝",
+      "word": "check",
+      "pos": "v. / n.",
+      "zh": "檢查；確認",
       "syl": "",
-      "diff": "easy"
+      "forms": "",
+      "diff": "keep"
     },
     {
       "word": "fight",
       "pos": "v.",
-      "zh": "打架；奮鬥",
+      "zh": "打架；戰鬥",
       "syl": "FI[GH]T",
+      "forms": "fight-fought-fought",
       "diff": "keep"
     },
     {
@@ -498,6 +656,15 @@
       "pos": "v.",
       "zh": "洗",
       "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "follow",
+      "pos": "v.",
+      "zh": "跟隨；遵守",
+      "syl": "FOL·low",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -505,13 +672,39 @@
       "pos": "v.",
       "zh": "看見",
       "syl": "",
+      "forms": "see-saw-seen",
       "diff": "easy"
+    },
+    {
+      "word": "read",
+      "pos": "v.",
+      "zh": "讀；閱讀",
+      "syl": "",
+      "forms": "read-read-read",
+      "diff": "keep"
+    },
+    {
+      "word": "watch",
+      "pos": "v. / n.",
+      "zh": "看；觀看；錶",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
     },
     {
       "word": "look",
       "pos": "v.",
       "zh": "看；看起來",
       "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "go",
+      "pos": "v.",
+      "zh": "去；變得；進行",
+      "syl": "",
+      "forms": "go-went-gone",
       "diff": "easy"
     },
     {
@@ -519,27 +712,87 @@
       "pos": "v.",
       "zh": "有；吃",
       "syl": "",
+      "forms": "have-had-had",
       "diff": "easy"
+    },
+    {
+      "word": "open",
+      "pos": "v. / adj.",
+      "zh": "打開；開的",
+      "syl": "O·pen",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "run",
+      "pos": "v.",
+      "zh": "跑；流動",
+      "syl": "",
+      "forms": "run-ran-run",
+      "diff": "keep"
     },
     {
       "word": "good",
       "pos": "adj.",
       "zh": "好的；良好的",
       "syl": "",
+      "forms": "",
       "diff": "easy"
+    },
+    {
+      "word": "bad",
+      "pos": "adj.",
+      "zh": "壞的；糟糕的；不良的",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "happy",
+      "pos": "adj.",
+      "zh": "快樂的；幸福的",
+      "syl": "HAP·py",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "sad",
+      "pos": "adj.",
+      "zh": "傷心的；難過的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
     },
     {
       "word": "big",
       "pos": "adj.",
       "zh": "大的",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
-      "word": "fat",
+      "word": "small",
       "pos": "adj.",
-      "zh": "胖的",
+      "zh": "小的",
       "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "tall",
+      "pos": "adj.",
+      "zh": "高的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "special",
+      "pos": "adj. / n.",
+      "zh": "特別的；特殊的",
+      "syl": "SPE·cial",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -547,6 +800,7 @@
       "pos": "adj.",
       "zh": "新的；最新的",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -554,62 +808,127 @@
       "pos": "adj.",
       "zh": "舊的；老的",
       "syl": "",
+      "forms": "",
       "diff": "easy"
+    },
+    {
+      "word": "young",
+      "pos": "adj.",
+      "zh": "年輕的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
     },
     {
       "word": "handsome",
       "pos": "adj.",
       "zh": "英俊的；好看的",
       "syl": "HAN[D]·some",
+      "forms": "",
       "diff": "keep"
     },
     {
-      "word": "happy",
+      "word": "beautiful",
       "pos": "adj.",
-      "zh": "快樂的；幸福的",
-      "syl": "HAP·py",
-      "diff": "easy"
+      "zh": "漂亮的；美麗的",
+      "syl": "BEAU·ti·ful",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hungry",
+      "pos": "adj.",
+      "zh": "飢餓的",
+      "syl": "HUN·gry",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sorry",
+      "pos": "adj.",
+      "zh": "抱歉的；遺憾的",
+      "syl": "SOR·ry",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "favorite",
+      "pos": "adj. / n.",
+      "zh": "最喜愛的",
+      "syl": "FA·vor·ite",
+      "forms": "",
+      "diff": "keep"
     },
     {
       "word": "careful",
       "pos": "adj.",
       "zh": "小心的；謹慎的",
       "syl": "CARE·ful",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "quiet",
+      "pos": "adj.",
+      "zh": "安靜的",
+      "syl": "QUI·et",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "safe",
+      "pos": "adj.",
+      "zh": "安全的",
+      "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
       "word": "dear",
       "pos": "adj.",
-      "zh": "親愛的；貴重的",
+      "zh": "親愛的",
       "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
-      "word": "glad",
-      "pos": "adj.",
-      "zh": "高興的",
-      "syl": "",
-      "diff": "keep"
+      "word": "very",
+      "pos": "adv.",
+      "zh": "非常",
+      "syl": "VER·y",
+      "forms": "",
+      "diff": "easy"
     },
     {
       "word": "too",
       "pos": "adv.",
       "zh": "也；太",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
-      "word": "so",
-      "pos": "adv. / conj.",
-      "zh": "所以；那麼；如此",
-      "syl": "",
-      "diff": "easy"
-    },
-    {
-      "word": "also",
+      "word": "really",
       "pos": "adv.",
-      "zh": "也；還",
-      "syl": "AL·so",
+      "zh": "真地；非常",
+      "syl": "REAL·ly",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "maybe",
+      "pos": "adv.",
+      "zh": "也許；可能",
+      "syl": "MAY·be",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sure",
+      "pos": "adj. / adv.",
+      "zh": "當然；確定的",
+      "syl": "",
+      "forms": "",
       "diff": "keep"
     },
     {
@@ -617,6 +936,7 @@
       "pos": "adv.",
       "zh": "現在；目前",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -624,13 +944,31 @@
       "pos": "adv.",
       "zh": "再次；又",
       "syl": "a·GAIN",
+      "forms": "",
       "diff": "keep"
     },
     {
       "word": "for",
       "pos": "prep. / conj.",
-      "zh": "為了",
+      "zh": "為了；給",
       "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "from",
+      "pos": "prep.",
+      "zh": "從；來自",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "of",
+      "pos": "prep.",
+      "zh": "…的",
+      "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
@@ -638,14 +976,864 @@
       "pos": "prep.",
       "zh": "跟；和；用",
       "syl": "",
+      "forms": "",
       "diff": "easy"
     },
     {
       "word": "please",
       "pos": "adv. / v.",
-      "zh": "請；使高興",
+      "zh": "請；拜託",
       "syl": "",
+      "forms": "",
       "diff": "easy"
+    },
+    {
+      "word": "animal",
+      "pos": "n.",
+      "zh": "動物",
+      "syl": "AN·i·mal",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "dog",
+      "pos": "n.",
+      "zh": "狗",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "cat",
+      "pos": "n.",
+      "zh": "貓",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "cow",
+      "pos": "n.",
+      "zh": "牛",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lion",
+      "pos": "n.",
+      "zh": "獅子",
+      "syl": "LI·on",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "tiger",
+      "pos": "n.",
+      "zh": "老虎",
+      "syl": "TI·ger",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "elephant",
+      "pos": "n.",
+      "zh": "大象",
+      "syl": "EL·e·phant",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "zebra",
+      "pos": "n.",
+      "zh": "斑馬",
+      "syl": "ZE·bra",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "horse",
+      "pos": "n.",
+      "zh": "馬",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "mouse",
+      "pos": "n.",
+      "zh": "鼠（小型；pl. mice）",
+      "syl": "",
+      "forms": "pl. mice",
+      "diff": "keep"
+    },
+    {
+      "word": "rat",
+      "pos": "n.",
+      "zh": "老鼠（大型）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "pig",
+      "pos": "n.",
+      "zh": "豬",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "rabbit",
+      "pos": "n.",
+      "zh": "兔子",
+      "syl": "RAB·bit",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "monkey",
+      "pos": "n.",
+      "zh": "猴子",
+      "syl": "MON·key",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "fox",
+      "pos": "n.",
+      "zh": "狐狸",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bear",
+      "pos": "n.",
+      "zh": "熊",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bird",
+      "pos": "n.",
+      "zh": "鳥",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "bug",
+      "pos": "n.",
+      "zh": "蟲；蟲子",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "morning",
+      "pos": "n.",
+      "zh": "早上",
+      "syl": "MORN·ing",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "afternoon",
+      "pos": "n.",
+      "zh": "下午",
+      "syl": "af·ter·NOON",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "evening",
+      "pos": "n.",
+      "zh": "傍晚；晚上",
+      "syl": "EVE·ning",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "night",
+      "pos": "n.",
+      "zh": "夜晚；夜間",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "minute",
+      "pos": "n.",
+      "zh": "分鐘",
+      "syl": "MIN·ute",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Monday",
+      "pos": "n.",
+      "zh": "星期一",
+      "syl": "MON·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Tuesday",
+      "pos": "n.",
+      "zh": "星期二",
+      "syl": "TUES·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Wednesday",
+      "pos": "n.",
+      "zh": "星期三",
+      "syl": "WEDNES·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Thursday",
+      "pos": "n.",
+      "zh": "星期四",
+      "syl": "THURS·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Friday",
+      "pos": "n.",
+      "zh": "星期五",
+      "syl": "FRI·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Saturday",
+      "pos": "n.",
+      "zh": "星期六",
+      "syl": "SAT·ur·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Sunday",
+      "pos": "n.",
+      "zh": "星期日",
+      "syl": "SUN·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "week",
+      "pos": "n.",
+      "zh": "星期；週",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "weekend",
+      "pos": "n.",
+      "zh": "週末",
+      "syl": "WEEK·end",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "today",
+      "pos": "n. / adv.",
+      "zh": "今天；今日",
+      "syl": "to·DAY",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "day",
+      "pos": "n.",
+      "zh": "日；白天",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "date",
+      "pos": "n.",
+      "zh": "日期；約會",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "January",
+      "pos": "n.",
+      "zh": "一月",
+      "syl": "JAN·u·ar·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "February",
+      "pos": "n.",
+      "zh": "二月",
+      "syl": "FEB·ru·ar·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "March",
+      "pos": "n.",
+      "zh": "三月",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "April",
+      "pos": "n.",
+      "zh": "四月",
+      "syl": "A·pril",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "May",
+      "pos": "n.",
+      "zh": "五月",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "June",
+      "pos": "n.",
+      "zh": "六月",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "July",
+      "pos": "n.",
+      "zh": "七月",
+      "syl": "ju·LY",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "August",
+      "pos": "n.",
+      "zh": "八月",
+      "syl": "AU·gust",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "September",
+      "pos": "n.",
+      "zh": "九月",
+      "syl": "sep·TEM·ber",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "October",
+      "pos": "n.",
+      "zh": "十月",
+      "syl": "oc·TO·ber",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "November",
+      "pos": "n.",
+      "zh": "十一月",
+      "syl": "no·VEM·ber",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "December",
+      "pos": "n.",
+      "zh": "十二月",
+      "syl": "de·CEM·ber",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "month",
+      "pos": "n.",
+      "zh": "月份",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "year",
+      "pos": "n.",
+      "zh": "年",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "holiday",
+      "pos": "n.",
+      "zh": "假日；節日",
+      "syl": "HOL·i·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Thanksgiving",
+      "pos": "n.",
+      "zh": "感恩節",
+      "syl": "THANKS·giv·ing",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Christmas",
+      "pos": "n.",
+      "zh": "聖誕節",
+      "syl": "CHRIS[T]·mas",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "New Year's Eve",
+      "pos": "n.",
+      "zh": "元旦前夕；除夕",
+      "syl": "NEW YEAR'S EVE",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "time",
+      "pos": "n.",
+      "zh": "時間（不可數）；次數（可數）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "place",
+      "pos": "n.",
+      "zh": "地方；地點",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "house",
+      "pos": "n.",
+      "zh": "房子；住宅",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "home",
+      "pos": "n.",
+      "zh": "家",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "living room",
+      "pos": "n.",
+      "zh": "客廳",
+      "syl": "LIV·ing ROOM",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "kitchen",
+      "pos": "n.",
+      "zh": "廚房",
+      "syl": "KITCH·en",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bedroom",
+      "pos": "n.",
+      "zh": "臥室",
+      "syl": "BED·room",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bathroom",
+      "pos": "n.",
+      "zh": "浴室；廁所",
+      "syl": "BATH·room",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "dining room",
+      "pos": "n.",
+      "zh": "飯廳；餐廳",
+      "syl": "DIN·ing ROOM",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "zoo",
+      "pos": "n.",
+      "zh": "動物園",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "park",
+      "pos": "n.",
+      "zh": "公園",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "music",
+      "pos": "n.",
+      "zh": "音樂",
+      "syl": "MU·sic",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "video",
+      "pos": "n.",
+      "zh": "錄影；影片",
+      "syl": "VID·e·o",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "English",
+      "pos": "n. / adj.",
+      "zh": "英文；英語",
+      "syl": "ENG·lish",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "movie",
+      "pos": "n.",
+      "zh": "電影",
+      "syl": "MOV·ie",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "party",
+      "pos": "n.",
+      "zh": "派對；宴會；政黨",
+      "syl": "PAR·ty",
+      "forms": "pl. parties",
+      "diff": "keep"
+    },
+    {
+      "word": "band",
+      "pos": "n.",
+      "zh": "樂團；樂隊",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "kiss",
+      "pos": "n. / v.",
+      "zh": "親吻",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "birthday",
+      "pos": "n.",
+      "zh": "生日",
+      "syl": "BIRTH·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "mud",
+      "pos": "n.",
+      "zh": "泥巴；污泥",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "king",
+      "pos": "n.",
+      "zh": "國王",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "blow",
+      "pos": "v.",
+      "zh": "（風）吹；吹（氣）",
+      "syl": "",
+      "forms": "blow-blew-blown",
+      "diff": "keep"
+    },
+    {
+      "word": "report",
+      "pos": "v. / n.",
+      "zh": "報告；報導",
+      "syl": "re·PORT",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "walk",
+      "pos": "v. / n.",
+      "zh": "走路；步行",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "meet",
+      "pos": "v.",
+      "zh": "遇見；認識；碰面",
+      "syl": "",
+      "forms": "meet-met-met",
+      "diff": "keep"
+    },
+    {
+      "word": "help",
+      "pos": "v. / n.",
+      "zh": "幫助；幫忙",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "line",
+      "pos": "v. / n.",
+      "zh": "沿著…形成一排；線；行",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sleep",
+      "pos": "v. / n.",
+      "zh": "睡覺；睡眠",
+      "syl": "",
+      "forms": "sleep-slept-slept",
+      "diff": "easy"
+    },
+    {
+      "word": "cute",
+      "pos": "adj.",
+      "zh": "可愛的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lovely",
+      "pos": "adj.",
+      "zh": "可愛的；美好的",
+      "syl": "LOVE·ly",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "great",
+      "pos": "adj.",
+      "zh": "很棒的；偉大的",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "ready",
+      "pos": "adj.",
+      "zh": "準備好的；成熟的",
+      "syl": "REA·dy",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "popular",
+      "pos": "adj.",
+      "zh": "受歡迎的；流行的",
+      "syl": "POP·u·lar",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "all",
+      "pos": "adj. / pron.",
+      "zh": "所有的；全部",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "important",
+      "pos": "adj.",
+      "zh": "重要的",
+      "syl": "im·POR·tant",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lucky",
+      "pos": "adj.",
+      "zh": "幸運的",
+      "syl": "LUCK·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "next",
+      "pos": "adj. / adv.",
+      "zh": "下一個的；鄰近的；接下來",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "some",
+      "pos": "adj. / pron.",
+      "zh": "一些；某些",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "any",
+      "pos": "adj. / pron.",
+      "zh": "任何的；一些（疑問/否定）",
+      "syl": "AN·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "many",
+      "pos": "adj.",
+      "zh": "許多的（＋可數名詞）",
+      "syl": "MAN·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "healthy",
+      "pos": "adj.",
+      "zh": "健康的",
+      "syl": "HEALTH·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "a.m.",
+      "pos": "adv.",
+      "zh": "上午（縮寫）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "p.m.",
+      "pos": "adv.",
+      "zh": "下午（縮寫）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "o'clock",
+      "pos": "adv.",
+      "zh": "整點",
+      "syl": "o'CLOCK",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "together",
+      "pos": "adv.",
+      "zh": "一起；共同",
+      "syl": "to·GETH·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "also",
+      "pos": "adv.",
+      "zh": "也；此外",
+      "syl": "AL·so",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "only",
+      "pos": "adv. / adj.",
+      "zh": "只；僅；唯一的",
+      "syl": "ON·ly",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "so",
+      "pos": "adv. / conj.",
+      "zh": "如此地；所以",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "here",
+      "pos": "adv.",
+      "zh": "這裡",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "there",
+      "pos": "adv.",
+      "zh": "那裡",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "before",
+      "pos": "prep. / conj.",
+      "zh": "在…之前",
+      "syl": "be·FORE",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "around",
+      "pos": "prep. / adv.",
+      "zh": "在…附近；大約；到處",
+      "syl": "a·ROUND",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "inside",
+      "pos": "prep. / adv.",
+      "zh": "在…裡面；室內",
+      "syl": "IN·side",
+      "forms": "",
+      "diff": "keep"
     }
   ]
 }

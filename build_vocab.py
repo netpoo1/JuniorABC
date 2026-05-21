@@ -64,15 +64,18 @@ def main():
                 continue
             syl_raw = row.get("syllables","").strip()
             syl = "" if syl_raw in ("—","","?") else syl_raw
+            forms_raw = row.get("forms","").strip()
+            forms = "" if forms_raw in ("—","","?") else forms_raw
             wkey = word.lower()
             if wkey not in bucket_seen[key]:
                 bucket_seen[key].add(wkey)
                 bucket_words[key].append({
-                    "word": word,
-                    "pos":  row.get("pos","").strip(),
-                    "zh":   row.get("meaning_zh","").strip(),
-                    "syl":  syl,
-                    "diff": diff,
+                    "word":  word,
+                    "pos":   row.get("pos","").strip(),
+                    "zh":    row.get("meaning_zh","").strip(),
+                    "syl":   syl,
+                    "forms": forms,
+                    "diff":  diff,
                 })
 
     for (year, bucket), words in bucket_words.items():

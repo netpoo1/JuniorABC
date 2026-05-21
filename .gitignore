@@ -36,6 +36,10 @@ secrets/
 # ---------- Local Claude Code settings ----------
 .claude/
 
+# ---------- Copyright-protected source images (textbook scans) ----------
+# Vocabulary PNGs are scans of textbook pages — must NOT be on GitHub
+english/V001945/*.png
+
 # ---------- Build / Dependencies (common) ----------
 node_modules/
 dist/
