@@ -291,13 +291,14 @@
 
     /* ── Footer ── */
     .site-footer {
-      margin-top: 28px;
+      margin-top: auto;
       padding-top: 16px;
       border-top: 1px solid #e2e8f0;
       width: 100%; max-width: 480px;
       text-align: center;
       font-size: 11px; color: #a0aec0; line-height: 1.9;
     }
+    .site-footer > div:first-child { margin-top: 28px; }
     .site-footer a {
       color: #a0aec0; text-decoration: none;
     }
@@ -492,9 +493,9 @@ function saveCustoms(c) {
 }
 function setCustom(word, newDiff) {
   const c = getCustoms();
-  const orig = VOCAB.find(w => w.word === word)?.diff;
-  if (newDiff === orig) delete c[word]; // back to default → remove override
-  else c[word] = newDiff;
+  // Always record user action (don't auto-remove when matching default).
+  // This ensures "ever-marked-easy" is trackable for home-page progress.
+  c[word] = newDiff;
   saveCustoms(c);
 }
 

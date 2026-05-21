@@ -110,18 +110,20 @@
     .card:active { transform: scale(.97); }
     .card-en {
       background: #ebf8ff; border-color: #bee3f8;
-      padding: 6px 6px 36px; position: relative; overflow: hidden;
+      padding: 6px; position: relative; overflow: hidden;
       display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     }
     .card-en:hover  { border-color: #63b3ed; }
     .card-en.selected { border-color: #4299e1; box-shadow: 0 0 0 2px rgba(66,153,225,.25); }
     .en-word { font-size: 32px; font-weight: 800; color: #1a202c; line-height: 1.2; word-break: break-word; }
+    .en-word.long   { font-size: 24px; }
+    .en-word.x-long { font-size: 18px; }
     .en-pos  { display: none; }
     .hint-btn {
-      position: absolute; bottom: 4px; left: 4px; right: 4px;
-      padding: 6px 8px; border: 1px solid #bee3f8; border-radius: 6px;
+      position: absolute; bottom: 4px; left: 4px;
+      padding: 2px 8px; border: 1px solid #bee3f8; border-radius: 5px;
       background: white; font-size: 11px; font-weight: 600; color: #2b6cb0;
-      cursor: pointer; min-height: 30px;
+      cursor: pointer; min-height: 20px;
       transition: background .15s; white-space: nowrap; line-height: 1.3;
     }
     .hint-btn:hover:not(:disabled) { background: #ebf8ff; }
@@ -129,12 +131,23 @@
     .hint-btn.used { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
     .card-zh {
       background: #fefce8; border-color: #fef08a;
-      padding: 6px; overflow: hidden;
+      padding: 6px; overflow: hidden; position: relative;
       display: flex; align-items: center; justify-content: center; text-align: center;
     }
+    .audio-btn {
+      position: absolute; bottom: 4px; left: 4px;
+      padding: 2px 8px; border: 1px solid #fde68a; border-radius: 5px;
+      background: white; font-size: 11px; font-weight: 600; color: #92400e;
+      cursor: pointer; min-height: 20px;
+      transition: background .15s; white-space: nowrap; line-height: 1.3;
+    }
+    .audio-btn:hover { background: #fef3c7; }
+    .audio-btn.playing { background: #fef08a; color: #78350f; }
     .card-zh:hover  { border-color: #f6e05e; }
     .card-zh.selected { border-color: #d97706; box-shadow: 0 0 0 2px rgba(217,119,6,.25); }
     .zh-text { font-size: 26px; font-weight: 700; color: #2d3748; text-align: center; line-height: 1.3; word-break: break-all; }
+    .zh-text.long   { font-size: 20px; }
+    .zh-text.x-long { font-size: 16px; }
 
     @keyframes cardFadeIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
     .card-entering { animation: cardFadeIn 0.35s ease forwards; }
@@ -180,12 +193,14 @@
 
     /* ── Footer ── */
     .site-footer {
-      margin-top: 28px; padding-top: 16px;
+      margin-top: auto; padding-top: 16px;
       border-top: 1px solid #e2e8f0;
       width: 100%; max-width: 480px;
+      align-self: center;
       text-align: center;
       font-size: 11px; color: #a0aec0; line-height: 1.9;
     }
+    .site-footer > div:first-child { margin-top: 28px; }
     .site-footer a { color: #a0aec0; text-decoration: none; }
     .site-footer a:hover { color: #4299e1; }
 
@@ -195,6 +210,7 @@
       .card-en:hover { border-color: #bee3f8; }
       .card-zh:hover { border-color: #fef08a; }
       .hint-btn:hover:not(:disabled) { background: white; }
+      .audio-btn:hover { background: white; }
       .quit-btn:hover { background: white; }
       .restart-btn:hover { opacity: 1; }
       .clear-rec-btn:hover { color: #94a3b8; border-color: #e2e8f0; }
@@ -468,6 +484,76 @@ function addToBoard(count) {
 // ── Render ──────────────────────────────────────────────
 function renderAll() { renderEnCol(); renderZhCol(); updateHUD(); }
 
+// Adaptive font-size based on text length
+function enSizeClass(text) {
+  const n = text.length;
+  if (n >= 14) return ' x-long';
+  if (n >= 10) return ' long';
+  return '';
+}
+function zhSizeClass(text) {
+  const n = text.length;
+  if (n >= 11) return ' x-long';
+  if (n >= 7)  return ' long';
+  return '';
+}
+
+// Audio playback for "聽發音" — does NOT affect score
+let _gameAudio = null;
+async function playWordAudio(pairId, btn) {
+  const pair = board.find(p => p.id === pairId);
+  if (!pair) return;
+  const word = pair.word.word;
+
+  // Cancel previous playback
+  if (_gameAudio) { _gameAudio.pause(); _gameAudio = null; }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+
+  const stopUi = () => { if (btn) btn.classList.remove('playing'); };
+  if (btn) btn.classList.add('playing');
+
+  // Try dictionary API audio
+  try {
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      const data = await res.json();
+      const phonetics = data[0]?.phonetics ?? [];
+      const usEntry  = phonetics.find(p => p.audio && p.audio.includes('-us'));
+      const anyEntry = phonetics.find(p => p.audio && p.audio.trim() !== '');
+      const audioUrl = (usEntry ?? anyEntry)?.audio;
+      if (audioUrl) {
+        _gameAudio = new Audio(audioUrl);
+        const played = await new Promise(resolve => {
+          _gameAudio.onended = () => { _gameAudio = null; resolve(true);  };
+          _gameAudio.onerror = () => { _gameAudio = null; resolve(false); };
+          _gameAudio.play().catch(() => { _gameAudio = null; resolve(false); });
+        });
+        if (played) { stopUi(); return; }
+      }
+    }
+  } catch (_) {}
+
+  // Fall back to Web Speech (iOS-friendly delay after cancel)
+  if ('speechSynthesis' in window) {
+    setTimeout(() => {
+      const utt = new SpeechSynthesisUtterance(word);
+      utt.lang = 'en-US';
+      utt.rate = 0.85;
+      utt.onend   = stopUi;
+      utt.onerror = stopUi;
+      speechSynthesis.speak(utt);
+    }, 60);
+  } else {
+    stopUi();
+  }
+}
+
 function renderEnCol() {
   const col         = document.getElementById('colEn');
   const hintDisable = board.filter(p => !p.matched).length < 5;
@@ -483,7 +569,7 @@ function renderEnCol() {
     el.className = 'card card-en' + (id === selectedEnId ? ' selected' : '');
     el.id = `en-${id}`;
     el.innerHTML = `
-      <div class="en-word">${pair.word.word}</div>
+      <div class="en-word${enSizeClass(pair.word.word)}">${pair.word.word}</div>
       <div class="en-pos">${pair.word.pos}</div>
       <button class="hint-btn${pair.hintUsed ? ' used' : ''}"
               ${hintDisable ? 'disabled' : ''}
@@ -508,7 +594,9 @@ function renderZhCol() {
     }
     el.className = 'card card-zh' + (id === selectedZhId ? ' selected' : '');
     el.id = `zh-${id}`;
-    el.innerHTML = `<div class="zh-text">${pair.word.zh}</div>`;
+    el.innerHTML = `<div class="zh-text${zhSizeClass(pair.word.zh)}">${pair.word.zh}</div>
+      <button class="audio-btn"
+              onclick="event.stopPropagation(); playWordAudio(${id}, this)">🔊 聽發音</button>`;
     el.addEventListener('click', () => selectZh(id));
     col.appendChild(el);
   });
@@ -608,7 +696,7 @@ function refillInPlace() {
       const el = document.createElement('div');
       el.className = 'card card-en card-entering'; el.id = `en-${newPair.id}`;
       el.innerHTML = `
-        <div class="en-word">${newPair.word.word}</div>
+        <div class="en-word${enSizeClass(newPair.word.word)}">${newPair.word.word}</div>
         <div class="en-pos">${newPair.word.pos}</div>
         <button class="hint-btn" ${hintDisable ? 'disabled' : ''}
                 onclick="event.stopPropagation(); useHint(${newPair.id})">幫幫我</button>`;
@@ -619,7 +707,9 @@ function refillInPlace() {
     if (oldZhEl) {
       const el = document.createElement('div');
       el.className = 'card card-zh card-entering'; el.id = `zh-${newPair.id}`;
-      el.innerHTML = `<div class="zh-text">${newPair.word.zh}</div>`;
+      el.innerHTML = `<div class="zh-text${zhSizeClass(newPair.word.zh)}">${newPair.word.zh}</div>
+        <button class="audio-btn"
+                onclick="event.stopPropagation(); playWordAudio(${newPair.id}, this)">🔊 聽發音</button>`;
       el.addEventListener('click', () => selectZh(newPair.id));
       oldZhEl.parentNode.replaceChild(el, oldZhEl);
     }
