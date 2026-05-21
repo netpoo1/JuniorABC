@@ -1,0 +1,535 @@
+{
+  "year": "114",
+  "bucket": "8.1",
+  "label": "國二 (上冊)",
+  "words": [
+    {
+      "word": "subject",
+      "pos": "n.",
+      "zh": "主題；科目",
+      "syl": "SUB·ject",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "math",
+      "pos": "n.",
+      "zh": "數學",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "science",
+      "pos": "n.",
+      "zh": "科學",
+      "syl": "SCI·ence",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Chinese",
+      "pos": "n. / adj.",
+      "zh": "中文；中國人",
+      "syl": "chi·NESE",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "history",
+      "pos": "n.",
+      "zh": "歷史",
+      "syl": "HIS·to·ry",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "PE",
+      "pos": "n.",
+      "zh": "體育（physical education）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "club",
+      "pos": "n.",
+      "zh": "社團；俱樂部",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "soccer",
+      "pos": "n.",
+      "zh": "足球",
+      "syl": "SOC·cer",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "violin",
+      "pos": "n.",
+      "zh": "小提琴",
+      "syl": "vi·o·LIN",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "season",
+      "pos": "n.",
+      "zh": "季節",
+      "syl": "SEA·son",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "summer",
+      "pos": "n.",
+      "zh": "夏天",
+      "syl": "SUM·mer",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "autumn",
+      "pos": "n.",
+      "zh": "秋天（= fall）",
+      "syl": "AU·tum[n]",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "winter",
+      "pos": "n.",
+      "zh": "冬天",
+      "syl": "WIN·ter",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "weather",
+      "pos": "n.",
+      "zh": "天氣",
+      "syl": "WEATH·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "wind",
+      "pos": "n.",
+      "zh": "風",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sun",
+      "pos": "n.",
+      "zh": "太陽",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cloud",
+      "pos": "n.",
+      "zh": "雲",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Taiwan",
+      "pos": "n.",
+      "zh": "臺灣",
+      "syl": "TAI·wan",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "the ROC",
+      "pos": "n.",
+      "zh": "中華民國（Republic of China）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "the USA",
+      "pos": "n.",
+      "zh": "美國（the United States of America；the US）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "American",
+      "pos": "n. / adj.",
+      "zh": "美國的；美國人",
+      "syl": "a·MER·i·can",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Japan",
+      "pos": "n.",
+      "zh": "日本",
+      "syl": "ja·PAN",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "end",
+      "pos": "n. / v.",
+      "zh": "結尾；結束",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "vacation",
+      "pos": "n.",
+      "zh": "假期",
+      "syl": "va·CA·tion",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "festival",
+      "pos": "n.",
+      "zh": "節慶；節日",
+      "syl": "FES·ti·val",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "trip",
+      "pos": "n.",
+      "zh": "旅行；行程",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "joke",
+      "pos": "n. / v.",
+      "zh": "笑話；開玩笑",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "postcard",
+      "pos": "n.",
+      "zh": "明信片",
+      "syl": "POST·card",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "gift",
+      "pos": "n.",
+      "zh": "禮物",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "toy",
+      "pos": "n.",
+      "zh": "玩具",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "robot",
+      "pos": "n.",
+      "zh": "機器人",
+      "syl": "RO·bot",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "jacket",
+      "pos": "n.",
+      "zh": "夾克；外套",
+      "syl": "JACK·et",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "fact",
+      "pos": "n.",
+      "zh": "事實",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "health",
+      "pos": "n.",
+      "zh": "健康",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "engineer",
+      "pos": "n.",
+      "zh": "工程師",
+      "syl": "en·gi·NEER",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "send",
+      "pos": "v.",
+      "zh": "送；寄",
+      "syl": "",
+      "forms": "send-sent-sent",
+      "diff": "keep"
+    },
+    {
+      "word": "buy",
+      "pos": "v.",
+      "zh": "買；購買",
+      "syl": "",
+      "forms": "buy-bought-bought",
+      "diff": "keep"
+    },
+    {
+      "word": "teach",
+      "pos": "v.",
+      "zh": "教",
+      "syl": "",
+      "forms": "teach-taught-taught",
+      "diff": "keep"
+    },
+    {
+      "word": "write",
+      "pos": "v.",
+      "zh": "寫",
+      "syl": "",
+      "forms": "write-wrote-written",
+      "diff": "keep"
+    },
+    {
+      "word": "hate",
+      "pos": "v.",
+      "zh": "恨；討厭",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "speak",
+      "pos": "v.",
+      "zh": "說；講",
+      "syl": "",
+      "forms": "speak-spoke-spoken",
+      "diff": "keep"
+    },
+    {
+      "word": "pull",
+      "pos": "v.",
+      "zh": "拉；拖",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hear",
+      "pos": "v.",
+      "zh": "聽見；聽說",
+      "syl": "",
+      "forms": "hear-heard-heard",
+      "diff": "keep"
+    },
+    {
+      "word": "think",
+      "pos": "v.",
+      "zh": "想；認為",
+      "syl": "",
+      "forms": "think-thought-thought",
+      "diff": "keep"
+    },
+    {
+      "word": "hold",
+      "pos": "v.",
+      "zh": "抓住；握住；舉行",
+      "syl": "",
+      "forms": "hold-held-held",
+      "diff": "keep"
+    },
+    {
+      "word": "learn",
+      "pos": "v.",
+      "zh": "學；學習",
+      "syl": "",
+      "forms": "learn-learnt-learnt",
+      "diff": "keep"
+    },
+    {
+      "word": "own",
+      "pos": "v. / adj.",
+      "zh": "擁有；自己的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "finish",
+      "pos": "v.",
+      "zh": "完成",
+      "syl": "FIN·ish",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "start",
+      "pos": "v. / n.",
+      "zh": "開始；啟動",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "give",
+      "pos": "v.",
+      "zh": "給予",
+      "syl": "",
+      "forms": "give-gave-given",
+      "diff": "keep"
+    },
+    {
+      "word": "drop",
+      "pos": "v. / n.",
+      "zh": "落下；下降；掉落",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sunny",
+      "pos": "adj.",
+      "zh": "晴朗的；陽光普照的",
+      "syl": "SUN·ny",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "snowy",
+      "pos": "adj.",
+      "zh": "下雪的；多雪的",
+      "syl": "SNOW·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "rainy",
+      "pos": "adj.",
+      "zh": "多雨的；下雨的",
+      "syl": "RAIN·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cloudy",
+      "pos": "adj.",
+      "zh": "多雲的；陰天的",
+      "syl": "CLOUD·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cool",
+      "pos": "adj.",
+      "zh": "涼爽的；涼的；冷靜的；酷的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "windy",
+      "pos": "adj.",
+      "zh": "風大的；多風的",
+      "syl": "WIND·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "heavy",
+      "pos": "adj.",
+      "zh": "重的；大量的",
+      "syl": "HEAV·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "mad",
+      "pos": "adj.",
+      "zh": "生氣的；發狂的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "strange",
+      "pos": "adj.",
+      "zh": "陌生的；奇怪的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "interesting",
+      "pos": "adj.",
+      "zh": "有趣的",
+      "syl": "IN·ter·est·ing",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "same",
+      "pos": "adj.",
+      "zh": "同樣的；相同的",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "wrong",
+      "pos": "adj.",
+      "zh": "錯的；不對的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "difficult",
+      "pos": "adj.",
+      "zh": "困難的",
+      "syl": "DIF·fi·cult",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "magic",
+      "pos": "adj. / n.",
+      "zh": "神奇的；魔法的；魔術",
+      "syl": "MAG·ic",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "soon",
+      "pos": "adv.",
+      "zh": "很快地；不久",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    }
+  ]
+}
