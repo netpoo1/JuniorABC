@@ -68,6 +68,14 @@
       "diff": "keep"
     },
     {
+      "word": "TV",
+      "pos": "n.",
+      "zh": "電視",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
       "word": "computer",
       "pos": "n.",
       "zh": "電腦",
@@ -294,8 +302,16 @@
     {
       "word": "centimeter",
       "pos": "n.",
-      "zh": "公分（= cm）",
+      "zh": "公分",
       "syl": "CEN·ti·me·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cm",
+      "pos": "n.",
+      "zh": "公分",
+      "syl": "",
       "forms": "",
       "diff": "keep"
     },
@@ -630,8 +646,16 @@
     {
       "word": "everybody",
       "pos": "pron.",
-      "zh": "每個人（= everyone）",
+      "zh": "每個人",
       "syl": "EV·ery·bod·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "everyone",
+      "pos": "pron.",
+      "zh": "每個人",
+      "syl": "EV·ery·one",
       "forms": "",
       "diff": "keep"
     },
@@ -640,6 +664,1134 @@
       "pos": "pron. / adj.",
       "zh": "兩者都",
       "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cookie",
+      "pos": "n.",
+      "zh": "餅乾",
+      "syl": "COOK·ie",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hamburger",
+      "pos": "n.",
+      "zh": "漢堡",
+      "syl": "HAM·burg·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "burger",
+      "pos": "n.",
+      "zh": "漢堡",
+      "syl": "BUR·ger",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sandwich",
+      "pos": "n.",
+      "zh": "三明治",
+      "syl": "SAND·wich",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "salad",
+      "pos": "n.",
+      "zh": "沙拉",
+      "syl": "SAL·ad",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "egg",
+      "pos": "n.",
+      "zh": "蛋",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "snack",
+      "pos": "n.",
+      "zh": "點心；零食",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "meal",
+      "pos": "n.",
+      "zh": "一餐",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "water",
+      "pos": "n.",
+      "zh": "水",
+      "syl": "WA·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "ice",
+      "pos": "n.",
+      "zh": "冰",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "coffee",
+      "pos": "n.",
+      "zh": "咖啡",
+      "syl": "COF·fee",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "juice",
+      "pos": "n.",
+      "zh": "果汁",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "milk",
+      "pos": "n.",
+      "zh": "牛奶",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "tea",
+      "pos": "n.",
+      "zh": "茶",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sugar",
+      "pos": "n.",
+      "zh": "糖",
+      "syl": "SUG·ar",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "popcorn",
+      "pos": "n.",
+      "zh": "爆米花",
+      "syl": "POP·corn",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "salt",
+      "pos": "n.",
+      "zh": "鹽",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "soup",
+      "pos": "n.",
+      "zh": "湯",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "food",
+      "pos": "n.",
+      "zh": "食物",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cake",
+      "pos": "n.",
+      "zh": "蛋糕",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "pizza",
+      "pos": "n.",
+      "zh": "披薩",
+      "syl": "PIZ·za",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "fruit",
+      "pos": "n.",
+      "zh": "水果",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "candy",
+      "pos": "n.",
+      "zh": "糖果",
+      "syl": "CAN·dy",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "chocolate",
+      "pos": "n.",
+      "zh": "巧克力",
+      "syl": "CHOC·o·late",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "pie",
+      "pos": "n.",
+      "zh": "派",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "plate",
+      "pos": "n.",
+      "zh": "盤子",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bottle",
+      "pos": "n.",
+      "zh": "瓶子",
+      "syl": "BOT·tle",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "glass",
+      "pos": "n.",
+      "zh": "玻璃；玻璃杯",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "cup",
+      "pos": "n.",
+      "zh": "杯子",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bowl",
+      "pos": "n.",
+      "zh": "碗",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "can",
+      "pos": "n.",
+      "zh": "罐",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bag",
+      "pos": "n.",
+      "zh": "袋子",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "string",
+      "pos": "n.",
+      "zh": "一串；細繩；線",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "painting",
+      "pos": "n.",
+      "zh": "畫作",
+      "syl": "PAINT·ing",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "art",
+      "pos": "n.",
+      "zh": "美術；藝術",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sky",
+      "pos": "n.",
+      "zh": "天空",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "street",
+      "pos": "n.",
+      "zh": "街道",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "tree",
+      "pos": "n.",
+      "zh": "樹",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "flower",
+      "pos": "n.",
+      "zh": "花",
+      "syl": "FLOW·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "fire",
+      "pos": "n.",
+      "zh": "火",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "clerk",
+      "pos": "n.",
+      "zh": "店員",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sir",
+      "pos": "n.",
+      "zh": "先生；長官",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "dollar",
+      "pos": "n.",
+      "zh": "元（美元）",
+      "syl": "DOL·lar",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "thousand",
+      "pos": "n.",
+      "zh": "千",
+      "syl": "THOU·sand",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "item",
+      "pos": "n.",
+      "zh": "項目",
+      "syl": "I·tem",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "part",
+      "pos": "n.",
+      "zh": "部分；角色",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "relative",
+      "pos": "n.",
+      "zh": "親戚",
+      "syl": "REL·a·tive",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "tonight",
+      "pos": "n. / adv.",
+      "zh": "今晚",
+      "syl": "to·NIGHT",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "eat",
+      "pos": "v.",
+      "zh": "吃",
+      "syl": "",
+      "forms": "eat-ate-eaten",
+      "diff": "keep"
+    },
+    {
+      "word": "want",
+      "pos": "v.",
+      "zh": "想要；希望",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lend",
+      "pos": "v.",
+      "zh": "借出",
+      "syl": "",
+      "forms": "lend-lent-lent",
+      "diff": "keep"
+    },
+    {
+      "word": "borrow",
+      "pos": "v.",
+      "zh": "借入",
+      "syl": "BOR·row",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "need",
+      "pos": "v.",
+      "zh": "需要",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "enjoy",
+      "pos": "v.",
+      "zh": "享受；喜愛",
+      "syl": "en·JOY",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "get",
+      "pos": "v.",
+      "zh": "得到；變得",
+      "syl": "",
+      "forms": "get-got-got/gotten",
+      "diff": "keep"
+    },
+    {
+      "word": "thirsty",
+      "pos": "adj.",
+      "zh": "口渴的",
+      "syl": "THIRST·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sweet",
+      "pos": "adj.",
+      "zh": "甜的；可愛的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hot",
+      "pos": "adj.",
+      "zh": "熱的；辣的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bright",
+      "pos": "adj.",
+      "zh": "明亮的；聰明的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "dark",
+      "pos": "adj.",
+      "zh": "黑暗的；深色的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "easy",
+      "pos": "adj.",
+      "zh": "容易的",
+      "syl": "EA·sy",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "another",
+      "pos": "adj. / pron.",
+      "zh": "另一個",
+      "syl": "a·NOTH·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "yummy",
+      "pos": "adj.",
+      "zh": "美味的",
+      "syl": "YUM·my",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "more",
+      "pos": "adj. / adv.",
+      "zh": "更多的；更",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "later",
+      "pos": "adv.",
+      "zh": "晚點；之後；待會兒",
+      "syl": "LA·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "else",
+      "pos": "adv. / adj.",
+      "zh": "其他的；另外",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "by",
+      "pos": "prep.",
+      "zh": "藉由；搭乘；在…旁邊",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "and",
+      "pos": "conj.",
+      "zh": "和；以及",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "but",
+      "pos": "conj.",
+      "zh": "但是",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "or",
+      "pos": "conj.",
+      "zh": "或者",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "so",
+      "pos": "conj. / adv.",
+      "zh": "因此；如此",
+      "syl": "",
+      "forms": "",
+      "diff": "easy"
+    },
+    {
+      "word": "may",
+      "pos": "aux.",
+      "zh": "可以；可能",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "world",
+      "pos": "n.",
+      "zh": "世界",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hill",
+      "pos": "n.",
+      "zh": "小山；山丘",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "mountain",
+      "pos": "n.",
+      "zh": "山；高山",
+      "syl": "MOUN·tain",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "island",
+      "pos": "n.",
+      "zh": "島嶼",
+      "syl": "IS·land",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "river",
+      "pos": "n.",
+      "zh": "河流",
+      "syl": "RIV·er",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "lake",
+      "pos": "n.",
+      "zh": "湖",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "beach",
+      "pos": "n.",
+      "zh": "海灘",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "sea",
+      "pos": "n.",
+      "zh": "海",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "farm",
+      "pos": "n.",
+      "zh": "農場",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "playground",
+      "pos": "n.",
+      "zh": "操場；遊樂場",
+      "syl": "PLAY·ground",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "church",
+      "pos": "n.",
+      "zh": "教堂",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "airport",
+      "pos": "n.",
+      "zh": "機場",
+      "syl": "AIR·port",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "station",
+      "pos": "n.",
+      "zh": "車站；局；所",
+      "syl": "STA·tion",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "market",
+      "pos": "n.",
+      "zh": "市場",
+      "syl": "MAR·ket",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "supermarket",
+      "pos": "n.",
+      "zh": "超市",
+      "syl": "SU·per·mar·ket",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "bookstore",
+      "pos": "n.",
+      "zh": "書店",
+      "syl": "BOOK·store",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "post office",
+      "pos": "n.",
+      "zh": "郵局",
+      "syl": "POST OF·fice",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "theater",
+      "pos": "n.",
+      "zh": "戲院；劇院",
+      "syl": "THE·a·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "department store",
+      "pos": "n.",
+      "zh": "百貨公司",
+      "syl": "de·PART·ment STORE",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "restaurant",
+      "pos": "n.",
+      "zh": "餐廳",
+      "syl": "RES·tau·rant",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "temple",
+      "pos": "n.",
+      "zh": "寺廟",
+      "syl": "TEM·ple",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hotel",
+      "pos": "n.",
+      "zh": "飯店；旅館",
+      "syl": "ho·TEL",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "money",
+      "pos": "n.",
+      "zh": "錢",
+      "syl": "MON·ey",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "visitor",
+      "pos": "n.",
+      "zh": "訪客",
+      "syl": "VIS·i·tor",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "way",
+      "pos": "n.",
+      "zh": "道路；路徑；方式",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "yesterday",
+      "pos": "n. / adv.",
+      "zh": "昨天",
+      "syl": "YES·ter·day",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "trash",
+      "pos": "n.",
+      "zh": "垃圾",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "oil",
+      "pos": "n.",
+      "zh": "油",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "travel",
+      "pos": "n. / v.",
+      "zh": "旅行",
+      "syl": "TRAV·el",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "rest",
+      "pos": "n. / v.",
+      "zh": "休息；剩餘的部分",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "chicken",
+      "pos": "n.",
+      "zh": "雞；雞肉",
+      "syl": "CHICK·en",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "rice",
+      "pos": "n.",
+      "zh": "米；飯",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "fork",
+      "pos": "n.",
+      "zh": "叉子",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "moon",
+      "pos": "n.",
+      "zh": "月亮",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "Easter",
+      "pos": "n.",
+      "zh": "復活節",
+      "syl": "EAS·ter",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "story",
+      "pos": "n.",
+      "zh": "故事；樓層",
+      "syl": "STO·ry",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "age",
+      "pos": "n.",
+      "zh": "年紀；年齡",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "live",
+      "pos": "v.",
+      "zh": "居住；活著",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "visit",
+      "pos": "v.",
+      "zh": "拜訪",
+      "syl": "VIS·it",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "stop",
+      "pos": "v.",
+      "zh": "停止",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "happen",
+      "pos": "v.",
+      "zh": "發生",
+      "syl": "HAP·pen",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "die",
+      "pos": "v.",
+      "zh": "死亡",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "take",
+      "pos": "v.",
+      "zh": "拿；服用；花費（時間）",
+      "syl": "",
+      "forms": "take-took-taken",
+      "diff": "keep"
+    },
+    {
+      "word": "climb",
+      "pos": "v.",
+      "zh": "攀爬",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "hike",
+      "pos": "v. / n.",
+      "zh": "健行",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "picnic",
+      "pos": "n. / v.",
+      "zh": "野餐",
+      "syl": "PIC·nic",
+      "forms": "picnic-picnicked-picnicked",
+      "diff": "keep"
+    },
+    {
+      "word": "burn",
+      "pos": "v.",
+      "zh": "燃燒；燒傷",
+      "syl": "",
+      "forms": "burn-burnt-burnt / burned-burned",
+      "diff": "keep"
+    },
+    {
+      "word": "sell",
+      "pos": "v.",
+      "zh": "賣；銷售",
+      "syl": "",
+      "forms": "sell-sold-sold",
+      "diff": "keep"
+    },
+    {
+      "word": "drive",
+      "pos": "v.",
+      "zh": "開車",
+      "syl": "",
+      "forms": "drive-drove-driven",
+      "diff": "keep"
+    },
+    {
+      "word": "fly",
+      "pos": "v.",
+      "zh": "飛",
+      "syl": "",
+      "forms": "fly-flew-flown",
+      "diff": "keep"
+    },
+    {
+      "word": "hide",
+      "pos": "v.",
+      "zh": "躲藏",
+      "syl": "",
+      "forms": "hide-hid-hidden",
+      "diff": "keep"
+    },
+    {
+      "word": "know",
+      "pos": "v.",
+      "zh": "知道",
+      "syl": "",
+      "forms": "know-knew-known",
+      "diff": "keep"
+    },
+    {
+      "word": "lose",
+      "pos": "v.",
+      "zh": "失去；遺失；輸",
+      "syl": "",
+      "forms": "lose-lost-lost",
+      "diff": "keep"
+    },
+    {
+      "word": "build",
+      "pos": "v.",
+      "zh": "建造",
+      "syl": "",
+      "forms": "build-built-built",
+      "diff": "keep"
+    },
+    {
+      "word": "roll",
+      "pos": "v.",
+      "zh": "滾動",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "ride",
+      "pos": "v.",
+      "zh": "騎；搭乘",
+      "syl": "",
+      "forms": "ride-rode-ridden",
+      "diff": "keep"
+    },
+    {
+      "word": "draw",
+      "pos": "v.",
+      "zh": "畫；拉",
+      "syl": "",
+      "forms": "draw-drew-drawn",
+      "diff": "keep"
+    },
+    {
+      "word": "cry",
+      "pos": "v.",
+      "zh": "哭",
+      "syl": "",
+      "forms": "cry-cried-cried",
+      "diff": "keep"
+    },
+    {
+      "word": "little",
+      "pos": "adj.",
+      "zh": "少量的；小的",
+      "syl": "LIT·tle",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "dead",
+      "pos": "adj.",
+      "zh": "死的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "warm",
+      "pos": "adj.",
+      "zh": "溫暖的",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "busy",
+      "pos": "adj.",
+      "zh": "忙碌的；繁忙的",
+      "syl": "BUS·y",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "famous",
+      "pos": "adj.",
+      "zh": "有名的",
+      "syl": "FA·mous",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "each",
+      "pos": "pron. / adj.",
+      "zh": "每個（的）",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "just",
+      "pos": "adv.",
+      "zh": "剛剛；只是",
+      "syl": "",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "besides",
+      "pos": "prep. / adv.",
+      "zh": "除了…之外（還有）",
+      "syl": "be·SIDES",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "ago",
+      "pos": "adv.",
+      "zh": "以前",
+      "syl": "a·GO",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "everything",
+      "pos": "pron.",
+      "zh": "每件事；一切",
+      "syl": "EV·ery·thing",
+      "forms": "",
+      "diff": "keep"
+    },
+    {
+      "word": "something",
+      "pos": "pron.",
+      "zh": "某事；某物",
+      "syl": "SOME·thing",
       "forms": "",
       "diff": "keep"
     }

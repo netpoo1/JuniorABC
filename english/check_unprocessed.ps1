@@ -14,6 +14,15 @@ Get-ChildItem -Path $Root -Recurse -Filter "*.png" | ForEach-Object {
     $png = $_
     $mdPath = Join-Path $png.DirectoryName ($png.BaseName + ".md")
 
+    # Split-page scans (e.g. 164a.png + 164b.png) share a merged MD (164.md).
+    # If exact-name MD missing and basename ends with a single letter, fall back to the base MD.
+    if (-not (Test-Path $mdPath) -and $png.BaseName -match '^(.+\.\d+)([a-z])$') {
+        $mergedMdPath = Join-Path $png.DirectoryName ($matches[1] + ".md")
+        if (Test-Path $mergedMdPath) {
+            $mdPath = $mergedMdPath
+        }
+    }
+
     if (-not (Test-Path $mdPath)) {
         $needs += [PSCustomObject]@{
             Status = "NEW"
