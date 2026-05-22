@@ -84,7 +84,7 @@
     .loading-msg { font-size: 15px; color: #94a3b8; }
 
     /* ── Game screen ── */
-    .game-screen { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .game-screen { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 10px; }
 
     /* ── Question watermark (inside play area) ── */
     .q-bg {
@@ -134,7 +134,7 @@
     /* ── Play area ── */
     .play-area {
       position: relative;
-      flex: 1; width: 100%; min-height: 380px;
+      width: 100%; height: calc(100dvh - 160px); min-height: 380px;
       background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
       border-radius: 14px; overflow: hidden;
       box-shadow: inset 0 2px 8px rgba(0,0,0,.04);
@@ -227,6 +227,28 @@
       0%, 100% { box-shadow: 0 6px 14px rgba(0,0,0,.18); }
       25% { transform: translateX(-8px); box-shadow: 0 0 0 4px rgba(229,62,62,.4), 0 6px 14px rgba(0,0,0,.18); }
       75% { transform: translateX(8px); box-shadow: 0 0 0 4px rgba(229,62,62,.4), 0 6px 14px rgba(0,0,0,.18); }
+    }
+
+    /* ── Helper balloon ── */
+    .balloon.helper {
+      width: 44px; height: 52px;
+      font-size: 9px; font-weight: 900; color: #92400e;
+      background: linear-gradient(135deg, #fef9c3, #fbbf24) !important;
+      box-shadow: 0 3px 8px rgba(251,191,36,.5);
+      animation: helperPulse 1.8s ease-in-out infinite;
+      z-index: 2;
+    }
+    .balloon.helper::after { height: 14px; }
+    .balloon.helper.popped { animation: balloonPop .35s ease forwards; }
+    @keyframes helperPulse {
+      0%, 100% { box-shadow: 0 3px 8px rgba(251,191,36,.5); }
+      50%       { box-shadow: 0 3px 8px rgba(251,191,36,.5), 0 0 20px rgba(251,191,36,.75); }
+    }
+
+    /* ── Help-used toast ── */
+    .feedback-overlay.help-used {
+      background: rgba(245,158,11,.94);
+      box-shadow: 0 10px 28px rgba(245,158,11,.4);
     }
 
     /* ── Crosshair (mouse only) ── */
@@ -404,7 +426,7 @@
       <span class="hud-label">時間</span>
       <span class="hud-value" id="timerEl">0:00</span>
     </div>
-    <button class="quit-btn" onclick="confirmQuit()">離開</button>
+    <button class="quit-btn" onclick="confirmQuit()">我不玩了</button>
   </div>
 </div>
 
@@ -480,6 +502,7 @@ let gameActive = false;
 
 let settings = { diff: 'all', speed: 'med', count: 5 };
 let langSequence = [];
+let helpUsed = false;
 
 // ── Cookies / records ──
 function getCookie(name) {
@@ -647,6 +670,7 @@ function updateHUD() {
 // First round: spawn all N balloons at random positions
 function firstRound() {
   if (untestedPool.length === 0) { endGame(); return; }
+  helpUsed = false;
   currentWord = untestedPool.shift();
   questionLang = nextLang();
   showQuestion();
@@ -658,16 +682,18 @@ function firstRound() {
 // and a fresh wave of N balloons enters in stagger.
 function advanceRound() {
   if (untestedPool.length === 0) { endGame(); return; }
+  helpUsed = false;
   currentWord = untestedPool.shift();
   questionLang = nextLang();
   showQuestion();
 
-  // Mark remaining balloons as leaving: stop wall bounce, boost velocity, disable clicks
+  // Mark remaining balloons as leaving: fly upward uniformly to avoid visual conflict
+  const exitSpeed = SPEED_MAP[settings.speed] * 2;
   balloons.forEach(b => {
     b.leaving  = true;
     b.spawning = false;
-    b.vx *= 1.8;
-    b.vy *= 1.8;
+    b.vx = (Math.random() - 0.5) * exitSpeed * 0.25;
+    b.vy = -exitSpeed;
     b.el.style.pointerEvents = 'none';
     b.el.style.opacity = '0.7';
   });
@@ -679,6 +705,8 @@ function advanceRound() {
   newWords.forEach((w, i) => {
     setTimeout(() => { if (gameActive) addEnteringBalloon(w); }, i * 240);
   });
+  // Helper balloon enters slightly after regular balloons
+  setTimeout(() => { if (gameActive) addHelperBalloon(); }, settings.count * 240 + 200);
 
   startAudioLoop();
 }
@@ -715,7 +743,7 @@ function setBalloonText(el, text) {
 
 function spawnInitialBalloons() {
   const area = document.getElementById('playArea');
-  area.innerHTML = '';
+  area.querySelectorAll('.balloon').forEach(el => el.remove());
   balloons = [];
 
   const distractors = shuffle(pool.filter(w => w.word !== currentWord.word))
@@ -741,6 +769,12 @@ function spawnInitialBalloons() {
     const vy = Math.sin(angle) * speed;
     createBalloonDom(w, x, y, vx, vy, false);
   });
+
+  // Spawn one helper balloon at a random position
+  const hx = padX + Math.random() * Math.max(0, W - padX * 2 - 44);
+  const hy = padY * 0.4 + Math.random() * (H * 0.35);
+  const hAngle = Math.random() * Math.PI * 2;
+  createBalloonDom(null, hx, hy, Math.cos(hAngle) * speed, Math.sin(hAngle) * speed, false, true);
 }
 
 function addEnteringBalloon(word) {
@@ -748,36 +782,52 @@ function addEnteringBalloon(word) {
   const rect = area.getBoundingClientRect();
   const W = rect.width, H = rect.height;
   const speed = SPEED_MAP[settings.speed];
+  const bw = 96, bh = 116;
 
-  // Enter from below the play area
-  const startX = 30 + Math.random() * (W - 156);
-  const startY = H + 30;
-  // Mostly upward, slight horizontal drift
-  const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.5;
+  // Randomly enter from bottom, left, or right
+  const dir = Math.floor(Math.random() * 3);
+  let startX, startY, baseAngle;
+  if (dir === 0) {
+    startX = 30 + Math.random() * Math.max(0, W - bw - 60);
+    startY = H + bh + 10;
+    baseAngle = -Math.PI / 2;
+  } else if (dir === 1) {
+    startX = -bw - 10;
+    startY = H * 0.15 + Math.random() * H * 0.55;
+    baseAngle = 0;
+  } else {
+    startX = W + 10;
+    startY = H * 0.15 + Math.random() * H * 0.55;
+    baseAngle = Math.PI;
+  }
+  const angle = baseAngle + (Math.random() - 0.5) * 0.5;
   const vx = Math.cos(angle) * speed;
   const vy = Math.sin(angle) * speed;
   createBalloonDom(word, startX, startY, vx, vy, true);
 }
 
-function createBalloonDom(word, x, y, vx, vy, spawning) {
-  const displayLang = questionLang === 'zh' ? 'en' : 'zh';
-  const text = displayLang === 'zh' ? word.zh : word.word;
-  const palette = randPick(BALLOON_PALETTE);
+function createBalloonDom(word, x, y, vx, vy, spawning, isHelper = false) {
   const el = document.createElement('div');
-  el.className = 'balloon';
-  el.style.background = `linear-gradient(135deg, ${palette.c1}, ${palette.c2})`;
-  setBalloonText(el, text);
+  el.className = 'balloon' + (isHelper ? ' helper' : '');
+  if (isHelper) {
+    el.textContent = '幫幫我';
+  } else {
+    const displayLang = questionLang === 'zh' ? 'en' : 'zh';
+    const text = displayLang === 'zh' ? word.zh : word.word;
+    const palette = randPick(BALLOON_PALETTE);
+    el.style.background = `linear-gradient(135deg, ${palette.c1}, ${palette.c2})`;
+    setBalloonText(el, text);
+  }
   el.style.left = `${x}px`;
   el.style.top  = `${y}px`;
   document.getElementById('playArea').appendChild(el);
-  const balloonObj = { el, x, y, vx, vy, word, spawning };
+  const balloonObj = { el, x, y, vx, vy, word, spawning, isHelper };
   balloons.push(balloonObj);
-  // Look up word from balloons array at click time (text may have been updated)
   el.addEventListener('click', (e) => {
     e.stopPropagation();
     const b = balloons.find(b => b.el === el);
     if (!b || b.leaving) return;
-    onBalloonClick(el, b.word);
+    if (b.isHelper) { onHelperClick(b); } else { onBalloonClick(el, b.word); }
   });
 }
 
@@ -802,7 +852,7 @@ function startAnim() {
       b.x += b.vx * dt;
       b.y += b.vy * dt;
       if (b.spawning) {
-        if (b.y < H - bh - 4) b.spawning = false;
+        if (b.x > 0 && b.x < W - bw && b.y > 0 && b.y < H - bh) b.spawning = false;
       } else if (b.leaving) {
         // No bounce; flag for removal once fully off-screen
         if (b.x < -bw - 40 || b.x > W + 40 || b.y < -bh - 40 || b.y > H + 40) {
@@ -874,7 +924,7 @@ function onBalloonClick(el, word) {
   if (word.word === currentWord.word) {
     // Correct — pop this balloon only, keep others
     hits++;
-    score += (word.diff === 'keep') ? 2 : 1;
+    score += helpUsed ? 0.5 : ((word.diff === 'keep') ? 2 : 1);
     el.classList.add('popped');
     balloons = balloons.filter(b => b.el !== el);
     setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 400);
@@ -903,6 +953,55 @@ function showWrongFeedback() {
   div.textContent = '✗ 打錯了！';
   document.body.appendChild(div);
   setTimeout(() => { if (div.parentNode) div.remove(); }, 900);
+}
+
+function onHelperClick(helperBalloon) {
+  if (!gameActive || helpUsed) return;
+  helpUsed = true;
+
+  // Pop the helper balloon itself
+  helperBalloon.el.classList.add('popped');
+  balloons = balloons.filter(b => b.el !== helperBalloon.el);
+  setTimeout(() => { if (helperBalloon.el.parentNode) helperBalloon.el.parentNode.removeChild(helperBalloon.el); }, 400);
+
+  // Pop all wrong answer balloons, keep only the correct one
+  const wrong = balloons.filter(b => !b.leaving && !b.isHelper && b.word.word !== currentWord.word);
+  wrong.forEach(b => {
+    b.el.classList.add('popped');
+    setTimeout(() => { if (b.el.parentNode) b.el.parentNode.removeChild(b.el); }, 400);
+  });
+  balloons = balloons.filter(b => b.leaving || b.isHelper || b.word.word === currentWord.word);
+
+  const div = document.createElement('div');
+  div.className = 'feedback-overlay help-used';
+  div.textContent = '💡 提示！+0.5';
+  document.body.appendChild(div);
+  setTimeout(() => { if (div.parentNode) div.remove(); }, 1000);
+}
+
+function addHelperBalloon() {
+  const area = document.getElementById('playArea');
+  const rect = area.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const speed = SPEED_MAP[settings.speed];
+  const bhw = 44;
+  const dir = Math.floor(Math.random() * 3);
+  let startX, startY, baseAngle;
+  if (dir === 0) {
+    startX = 30 + Math.random() * Math.max(0, W - bhw - 60);
+    startY = H + bhw + 10;
+    baseAngle = -Math.PI / 2;
+  } else if (dir === 1) {
+    startX = -bhw - 10;
+    startY = H * 0.15 + Math.random() * H * 0.55;
+    baseAngle = 0;
+  } else {
+    startX = W + 10;
+    startY = H * 0.15 + Math.random() * H * 0.55;
+    baseAngle = Math.PI;
+  }
+  const angle = baseAngle + (Math.random() - 0.5) * 0.5;
+  createBalloonDom(null, startX, startY, Math.cos(angle) * speed, Math.sin(angle) * speed, true, true);
 }
 
 // ── Audio ──
@@ -1004,15 +1103,8 @@ function restartGame() {
 }
 
 function confirmQuit() {
-  if (confirm('確定要結束本局？目前分數不會儲存。')) {
-    gameActive = false;
-    stopAudioLoop();
-    if (timerRef) { clearInterval(timerRef); timerRef = null; }
-    cancelAnimationFrame(animRef);
-    document.getElementById('crosshair').classList.remove('active');
-    document.getElementById('gameScreen').hidden  = true;
-    document.getElementById('startScreen').hidden = false;
-    renderRecord();
+  if (confirm('確定要結束本局？目前成績將計入紀錄。')) {
+    endGame();
   }
 }
 
