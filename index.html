@@ -170,11 +170,11 @@
 
 <!-- VIP widget -->
 <div class="vip-widget">
-  <div class="vip-label">我是爸爸的VIP</div>
+  <div class="vip-label">✨變身爸爸的VIP</div>
   <input type="text" id="vipInput" class="vip-input"
-         maxlength="7" inputmode="numeric" placeholder="通關碼"
+         maxlength="7" inputmode="numeric" placeholder="輸入變身咒語"
          onkeydown="if(event.key==='Enter')checkVip()">
-  <button class="vip-btn" onclick="checkVip()">登入</button>
+  <button class="vip-btn" onclick="checkVip()">變身！</button>
   <div class="vip-msg" id="vipMsg"></div>
 </div>
 
@@ -392,18 +392,18 @@ function checkVip() {
   const msg  = document.getElementById('vipMsg');
   if (!/^\d{7}$/.test(code)) {
     msg.style.color = '#e53e3e';
-    msg.textContent = '請輸入 7 位數字通關碼。';
+    msg.textContent = '咒語是 7 個數字喔！';
     document.getElementById('vipInput').select();
     return;
   }
   if (VIP_CODES.includes(code)) {
     localStorage.setItem('jrabc_vip', code);
     msg.style.color = '#38a169';
-    msg.textContent = '歡迎，VIP！';
+    msg.textContent = '變身成功！🎉';
     setTimeout(() => { location.href = VIP_DEST; }, 600);
   } else {
     msg.style.color = '#e53e3e';
-    msg.textContent = '您好，VIP 資料未登錄。';
+    msg.textContent = '咒語不對喔 😅';
     document.getElementById('vipInput').select();
   }
 }
