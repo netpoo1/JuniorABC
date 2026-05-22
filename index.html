@@ -45,6 +45,7 @@
     }
     .grade-label { font-size: 30px; font-weight: 800; color: #2d3748; line-height: 1; }
     .grade-sub   { font-size: 15px; color: #a0aec0; margin-top: 6px; }
+    .grade-desc  { font-size: 12px; color: #b0bec5; margin-top: 4px; letter-spacing: .2px; }
     .grade-done-badge {
       font-size: 14px; font-weight: 700; color: #276749;
       background: #c6f6d5; padding: 4px 12px; border-radius: 20px;
@@ -141,12 +142,16 @@
 <script>
 const GRADES = [
   {
-    id: '7', label: '國一', sub: 'Grade 7', color: '#4299e1',
+    id: '7', label: '國一', sub: 'Grade 7',
+    desc: '教育部1200 · 會考必備詞彙',
+    color: '#4299e1',
     buckets: [{ id: '7.1', label: '上冊' }, { id: '7.2', label: '下冊' }],
     requires: null
   },
   {
-    id: '8', label: '國二', sub: 'Grade 8', color: '#9f7aea',
+    id: '8', label: '國二', sub: 'Grade 8',
+    desc: '教育部1200 · 會考必備詞彙',
+    color: '#9f7aea',
     buckets: [{ id: '8.1', label: '上冊' }, { id: '8.2', label: '下冊' }],
     requires: '7'
   }
@@ -214,6 +219,7 @@ function renderGrades() {
           <div>
             <div class="grade-label">${grade.label}</div>
             <div class="grade-sub">${grade.sub}</div>
+            ${grade.desc ? `<div class="grade-desc">${grade.desc}</div>` : ''}
             ${done ? '<span class="grade-done-badge">✓ 已通關</span>' : ''}
           </div>
         </div>
@@ -225,6 +231,7 @@ function renderGrades() {
           <div>
             <div class="grade-label">${grade.label}</div>
             <div class="grade-sub">${grade.sub}</div>
+            ${grade.desc ? `<div class="grade-desc">${grade.desc}</div>` : ''}
           </div>
           <div class="lock-icon">🔒</div>
         </div>
