@@ -158,6 +158,7 @@ const vipCode = localStorage.getItem('jrabc_vip');
 
 if (!vipCode) {
   location.replace('../');
+  throw new Error('no_vip'); // stop further JS execution
 }
 
 function logout() {
@@ -261,7 +262,7 @@ async function speak(btn, word) {
   }
 }
 
-loadWeekly();
+if (vipCode) loadWeekly();
 </script>
 </body>
 </html>

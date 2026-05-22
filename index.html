@@ -390,6 +390,12 @@ const VIP_DEST = 'weekly/';
 function checkVip() {
   const code = document.getElementById('vipInput').value.trim();
   const msg  = document.getElementById('vipMsg');
+  if (!/^\d{7}$/.test(code)) {
+    msg.style.color = '#e53e3e';
+    msg.textContent = '請輸入 7 位數字通關碼。';
+    document.getElementById('vipInput').select();
+    return;
+  }
   if (VIP_CODES.includes(code)) {
     localStorage.setItem('jrabc_vip', code);
     msg.style.color = '#38a169';
