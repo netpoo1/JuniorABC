@@ -1022,48 +1022,43 @@ function replayAudio() { playQuestionOnce(); }
 
 async function playQuestionOnce() {
   if (!currentWord) return;
-  const text = questionLang === 'zh' ? currentWord.zh : currentWord.word;
-  const lang = questionLang === 'zh' ? 'zh-TW' : 'en-US';
-  const rate = questionLang === 'zh' ? 0.9 : 0.85;
-  const btn  = document.getElementById('replayBtn');
+  const btn = document.getElementById('replayBtn');
   btn.classList.add('playing');
 
-  // For English, try dictionary API first (better quality)
-  if (questionLang === 'en') {
-    try {
-      const ctrl = new AbortController();
-      const tid  = setTimeout(() => ctrl.abort(), 3000);
-      const res = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(currentWord.word)}`,
-        { signal: ctrl.signal }
-      );
-      clearTimeout(tid);
-      if (res.ok) {
-        const data = await res.json();
-        const phon = data[0]?.phonetics ?? [];
-        const us   = phon.find(p => p.audio && p.audio.includes('-us'));
-        const any  = phon.find(p => p.audio && p.audio.trim() !== '');
-        const url  = (us ?? any)?.audio;
-        if (url) {
-          if (currentAudio) currentAudio.pause();
-          currentAudio = new Audio(url);
-          const ok = await new Promise(resolve => {
-            currentAudio.onended = () => { currentAudio = null; resolve(true); };
-            currentAudio.onerror = () => { currentAudio = null; resolve(false); };
-            currentAudio.play().catch(() => { currentAudio = null; resolve(false); });
-          });
-          if (ok) { btn.classList.remove('playing'); return; }
-        }
+  // Always play English pronunciation regardless of question display language
+  try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 3000);
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(currentWord.word)}`,
+      { signal: ctrl.signal }
+    );
+    clearTimeout(tid);
+    if (res.ok) {
+      const data = await res.json();
+      const phon = data[0]?.phonetics ?? [];
+      const us   = phon.find(p => p.audio && p.audio.includes('-us'));
+      const any  = phon.find(p => p.audio && p.audio.trim() !== '');
+      const url  = (us ?? any)?.audio;
+      if (url) {
+        if (currentAudio) currentAudio.pause();
+        currentAudio = new Audio(url);
+        const ok = await new Promise(resolve => {
+          currentAudio.onended = () => { currentAudio = null; resolve(true); };
+          currentAudio.onerror = () => { currentAudio = null; resolve(false); };
+          currentAudio.play().catch(() => { currentAudio = null; resolve(false); });
+        });
+        if (ok) { btn.classList.remove('playing'); return; }
       }
-    } catch {}
-  }
+    }
+  } catch {}
 
-  // Fall back to Web Speech
+  // Fall back to Web Speech (English)
   if ('speechSynthesis' in window) {
     speechSynthesis.cancel();
     setTimeout(() => {
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = lang; utt.rate = rate;
+      const utt = new SpeechSynthesisUtterance(currentWord.word);
+      utt.lang = 'en-US'; utt.rate = 0.85;
       utt.onend   = () => btn.classList.remove('playing');
       utt.onerror = () => btn.classList.remove('playing');
       setTimeout(() => btn.classList.remove('playing'), 8000);
