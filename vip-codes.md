@@ -28,25 +28,53 @@ const VIP_CODES = [
 
 ---
 
-## 每週更新單字
+## 每週更新單字（兩步驟）
 
-開啟對應 VIP 的 `weekly/data/{vip_code}.json`，修改：
+### 檔案命名規則
 
-| 欄位 | 說明 |
-|------|------|
-| `week` | 顯示用週次，例如 `"第 20 週"` |
-| `updated` | 更新日期，例如 `"2026-05-28"` |
-| `words` | 單字陣列（見格式說明） |
-
-### 單字格式
-
-```json
-{ "word": "ambitious", "zh": "有抱負的；有野心的", "syllables": "am·bi·tious" }
+```
+weekly/data/{vip_code}.{起始日YYYYMMDD}.{終止日YYYYMMDD}.json
 ```
 
+例：`weekly/data/1010609.20260522.20260528.json`
+
+舊週次檔案**永久保留**，不刪除。
+
+---
+
+### 步驟 1：建立新週次資料檔
+
+新增 `weekly/data/{vip_code}.{起始}.{終止}.json`，內容如下：
+
+```json
+{
+  "vip": "1010609",
+  "name": "小名",
+  "week": "第 X 週",
+  "start": "2026-05-22",
+  "end": "2026-05-28",
+  "words": [
+    { "word": "ambitious", "zh": "有抱負的；有野心的", "syllables": "am·bi·tious" }
+  ]
+}
+```
+
+**單字欄位說明：**
 - `word`：英文單字（必填）
 - `zh`：中文解釋（必填）
-- `syllables`：音節分隔，用 `·` 隔開（選填，留空則不顯示）
+- `syllables`：音節分隔，用 `·` 隔開（選填）
+
+### 步驟 2：更新索引檔
+
+開啟 `weekly/data/{vip_code}.json`，將 `current` 改為新檔名：
+
+```json
+{
+  "current": "1010609.20260529.20260604.json"
+}
+```
+
+---
 
 ---
 

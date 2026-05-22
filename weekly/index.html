@@ -169,14 +169,21 @@ function logout() {
 }
 
 async function loadWeekly() {
+  const box = document.getElementById('stateBox');
   try {
-    const res = await fetch(`data/${vipCode}.json`);
-    if (!res.ok) throw new Error('not_found');
-    const data = await res.json();
+    // Step 1: load index to find current week's filename
+    const idxRes = await fetch(`data/${vipCode}.json`);
+    if (!idxRes.ok) throw new Error('no_index');
+    const idx = await idxRes.json();
+    if (!idx.current) throw new Error('no_current');
+
+    // Step 2: load the actual weekly data file
+    const dataRes = await fetch(`data/${idx.current}`);
+    if (!dataRes.ok) throw new Error('not_found');
+    const data = await dataRes.json();
     render(data);
   } catch (e) {
-    const box = document.getElementById('stateBox');
-    if (e.message === 'not_found') {
+    if (e.message === 'not_found' || e.message === 'no_current') {
       box.innerHTML = `
         <div class="state-icon">📭</div>
         <div class="state-title">本週單字尚未發佈</div>
