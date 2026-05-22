@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>本週單字 · JuniorABC</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    button:not(:disabled):active { filter: brightness(.92); }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #eef2f7;
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+      color: #2d3748;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      width: 100%; max-width: 720px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .back-btn {
+      font-size: 14px; color: #4a5568;
+      background: white; border: 1px solid #e2e8f0; border-radius: 20px;
+      cursor: pointer; padding: 8px 16px; min-height: 38px;
+      transition: color .15s, border-color .15s;
+    }
+    .back-btn:hover { color: #2b6cb0; border-color: #bfdbfe; }
+    .logout-btn {
+      font-size: 13px; color: #a0aec0;
+      background: none; border: 1px solid #e2e8f0; border-radius: 20px;
+      cursor: pointer; padding: 7px 14px; min-height: 38px;
+      transition: color .15s, border-color .15s;
+    }
+    .logout-btn:hover { color: #e53e3e; border-color: #fc8181; }
+
+    /* ── Page header ── */
+    .page-header {
+      width: 100%; max-width: 720px;
+      margin-bottom: 28px;
+    }
+    .page-title {
+      font-size: 26px; font-weight: 800; color: #2d3748;
+    }
+    .page-meta {
+      font-size: 14px; color: #a0aec0; margin-top: 6px;
+    }
+    .vip-badge {
+      display: inline-block;
+      background: #fef3c7; color: #92400e;
+      font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      margin-left: 8px; vertical-align: middle;
+    }
+
+    /* ── Word grid ── */
+    .word-grid {
+      width: 100%; max-width: 720px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Word card ── */
+    .word-card {
+      background: white; border-radius: 16px;
+      padding: 20px 18px 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .word-en {
+      font-size: 22px; font-weight: 800; color: #2b6cb0;
+      letter-spacing: -.3px; line-height: 1.2;
+    }
+    .word-syllables {
+      font-size: 13px; color: #90cdf4; font-weight: 600;
+      letter-spacing: .5px;
+    }
+    .word-zh {
+      font-size: 15px; color: #4a5568; font-weight: 600;
+      margin-top: 4px;
+    }
+    .word-audio {
+      align-self: flex-end; margin-top: 6px;
+      padding: 5px 12px; min-height: 30px;
+      border: 1px solid #bee3f8; border-radius: 14px;
+      background: #ebf8ff; color: #2b6cb0;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      transition: background .15s;
+    }
+    .word-audio:hover { background: #bee3f8; }
+    .word-audio.playing { background: #bee3f8; }
+
+    /* ── Empty / loading / error states ── */
+    .state-box {
+      width: 100%; max-width: 720px;
+      background: white; border-radius: 16px;
+      padding: 40px 24px; text-align: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+    .state-icon { font-size: 40px; margin-bottom: 12px; }
+    .state-title { font-size: 18px; font-weight: 700; color: #2d3748; }
+    .state-sub { font-size: 14px; color: #a0aec0; margin-top: 6px; }
+
+    /* ── Footer ── */
+    .site-footer {
+      margin-top: auto; padding-top: 18px;
+      border-top: 1px solid #e2e8f0;
+      width: 100%; max-width: 720px;
+      text-align: center;
+      font-size: 13px; color: #a0aec0; line-height: 1.9;
+    }
+    .site-footer > div:first-child { margin-top: 32px; }
+    .site-footer a { color: #a0aec0; text-decoration: none; }
+    .site-footer a:hover { color: #4299e1; }
+
+    @media (hover: none) {
+      .back-btn:hover  { color: #4a5568; border-color: #e2e8f0; }
+      .logout-btn:hover { color: #a0aec0; border-color: #e2e8f0; }
+      .word-audio:hover { background: #ebf8ff; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='../'">← 主選單</button>
+  <button class="logout-btn" onclick="logout()">登出</button>
+</div>
+
+<div class="page-header" id="pageHeader" hidden>
+  <div class="page-title">
+    本週單字
+    <span class="vip-badge" id="vipBadge"></span>
+  </div>
+  <div class="page-meta" id="pageMeta"></div>
+</div>
+
+<div class="word-grid"  id="wordGrid"></div>
+<div class="state-box"  id="stateBox">
+  <div class="state-icon">⏳</div>
+  <div class="state-title">載入中…</div>
+</div>
+
+<footer class="site-footer">
+  <div>荷芯數位工作室</div>
+  <div>© 2026 &nbsp;<a href="mailto:service@lotus-core.com.tw">service@lotus-core.com.tw</a></div>
+</footer>
+
+<script>
+const vipCode = localStorage.getItem('jrabc_vip');
+
+if (!vipCode) {
+  location.replace('../');
+}
+
+function logout() {
+  if (confirm('確定要登出 VIP？')) {
+    localStorage.removeItem('jrabc_vip');
+    location.href = '../';
+  }
+}
+
+async function loadWeekly() {
+  try {
+    const res = await fetch(`data/${vipCode}.json`);
+    if (!res.ok) throw new Error('not_found');
+    const data = await res.json();
+    render(data);
+  } catch (e) {
+    const box = document.getElementById('stateBox');
+    if (e.message === 'not_found') {
+      box.innerHTML = `
+        <div class="state-icon">📭</div>
+        <div class="state-title">本週單字尚未發佈</div>
+        <div class="state-sub">請稍後再回來查看</div>`;
+    } else {
+      box.innerHTML = `
+        <div class="state-icon">⚠️</div>
+        <div class="state-title">載入失敗</div>
+        <div class="state-sub">請重新整理頁面</div>`;
+    }
+  }
+}
+
+function render(data) {
+  document.getElementById('stateBox').hidden = true;
+  document.getElementById('pageHeader').hidden = false;
+  document.getElementById('vipBadge').textContent = data.name || 'VIP';
+  document.getElementById('pageMeta').textContent =
+    `${data.week}　·　${data.updated} 更新　·　共 ${data.words.length} 個單字`;
+
+  if (data.words.length === 0) {
+    document.getElementById('stateBox').hidden = false;
+    document.getElementById('stateBox').innerHTML = `
+      <div class="state-icon">📝</div>
+      <div class="state-title">本週單字清單是空的</div>
+      <div class="state-sub">請等候爸爸更新</div>`;
+    return;
+  }
+
+  const grid = document.getElementById('wordGrid');
+  data.words.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.innerHTML = `
+      <div class="word-en">${escHtml(w.word)}</div>
+      ${w.syllables ? `<div class="word-syllables">${escHtml(w.syllables)}</div>` : ''}
+      <div class="word-zh">${escHtml(w.zh)}</div>
+      <button class="word-audio" onclick="speak(this, ${JSON.stringify(w.word)})">🔊 聽</button>`;
+    grid.appendChild(card);
+  });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let currentAudio = null;
+async function speak(btn, word) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  btn.classList.add('playing');
+
+  try {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), 3000);
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
+      { signal: ctrl.signal }
+    );
+    clearTimeout(tid);
+    if (res.ok) {
+      const data = await res.json();
+      const phon = data[0]?.phonetics ?? [];
+      const url = (phon.find(p => p.audio?.includes('-us')) ?? phon.find(p => p.audio?.trim()))?.audio;
+      if (url) {
+        const audio = new Audio(url);
+        currentAudio = audio;
+        audio.onended = audio.onerror = () => { btn.classList.remove('playing'); currentAudio = null; };
+        audio.play();
+        return;
+      }
+    }
+  } catch (_) {}
+
+  if ('speechSynthesis' in window) {
+    const utt = new SpeechSynthesisUtterance(word);
+    utt.lang = 'en-US'; utt.rate = 0.85;
+    utt.onend = utt.onerror = () => btn.classList.remove('playing');
+    setTimeout(() => btn.classList.remove('playing'), 6000);
+    speechSynthesis.speak(utt);
+  } else {
+    btn.classList.remove('playing');
+  }
+}
+
+loadWeekly();
+</script>
+</body>
+</html>

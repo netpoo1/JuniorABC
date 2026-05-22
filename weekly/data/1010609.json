@@ -1,0 +1,10 @@
+{
+  "vip": "1010609",
+  "name": "VIP",
+  "week": "第 1 週",
+  "updated": "2026-05-22",
+  "words": [
+    { "word": "example", "zh": "例子；範例", "syllables": "ex·am·ple" },
+    { "word": "practice", "zh": "練習；實踐", "syllables": "prac·tice" }
+  ]
+}
