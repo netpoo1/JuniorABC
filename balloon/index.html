@@ -86,37 +86,50 @@
     /* ── Game screen ── */
     .game-screen { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 10px; }
 
-    .question-panel {
-      background: white; border-radius: 14px;
-      padding: 14px 18px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
-      text-align: center;
-      display: flex; align-items: center; gap: 14px; justify-content: center;
-      min-height: 96px;
+    /* ── Question watermark (inside play area) ── */
+    .q-bg {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      pointer-events: none; z-index: 0;
+      padding: 24px 20px; user-select: none;
     }
-    .question-content {
-      flex: 1; min-width: 0;
-      min-height: 60px;
-      display: flex; flex-direction: column; justify-content: center;
+    .q-bg-label {
+      font-size: 12px; font-weight: 700;
+      color: rgba(30, 64, 175, 0.28);
+      letter-spacing: .8px; margin-bottom: 10px;
     }
-    .question-content { flex: 1; min-width: 0; }
-    .question-label { font-size: 12px; color: #718096; margin-bottom: 4px; letter-spacing: .5px; }
-    .question-text  {
-      font-size: 32px; font-weight: 800; color: #1a202c; line-height: 1.15;
-      word-break: break-word;
+    .q-bg-text {
+      font-size: 72px; font-weight: 800;
+      color: rgba(30, 64, 175, 0.14);
+      line-height: 1.15;
+      word-break: break-word; text-align: center;
+      max-width: 100%;
     }
-    .question-text.long   { font-size: 24px; }
-    .question-text.x-long { font-size: 18px; }
-    .replay-btn {
-      flex-shrink: 0;
-      padding: 8px 12px; min-height: 40px;
-      border: 1px solid #bee3f8; border-radius: 8px;
-      background: white; color: #2b6cb0;
-      font-size: 13px; font-weight: 700; cursor: pointer;
+    .q-bg-text.long   { font-size: 52px; }
+    .q-bg-text.x-long { font-size: 38px; }
+    @keyframes qFadeIn {
+      from { opacity: 0; transform: scale(.97); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .q-bg-text.entering { animation: qFadeIn .3s ease; }
+
+    /* ── Floating replay button (inside play area) ── */
+    .q-replay {
+      position: absolute; top: 10px; right: 10px;
+      padding: 7px 13px; min-height: 34px;
+      border: 1px solid rgba(147, 197, 253, 0.8);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(6px);
+      color: #2b6cb0;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; z-index: 5;
+      pointer-events: auto;
       transition: background .15s;
     }
-    .replay-btn:hover { background: #ebf8ff; }
-    .replay-btn.playing { background: #bee3f8; }
+    .q-replay:hover  { background: rgba(235, 248, 255, 0.95); }
+    .q-replay.playing { background: rgba(190, 227, 248, 0.9); }
 
     /* ── Play area ── */
     .play-area {
@@ -309,7 +322,7 @@
     @media (hover: none) {
       .back-home:hover { color: #2563eb; border-color: #bfdbfe; }
       .opt-btn:hover { border-color: #e2e8f0; }
-      .replay-btn:hover { background: white; }
+      .q-replay:hover { background: rgba(255, 255, 255, 0.82); }
       .quit-btn:hover { background: white; }
       .btn-secondary:hover { background: white; }
     }
@@ -369,15 +382,12 @@
 
 <!-- Game screen -->
 <div class="game-screen" id="gameScreen" hidden>
-  <div class="question-panel">
-    <div class="question-content">
-      <div class="question-label" id="questionLabel">射擊對應的英文氣球</div>
-      <div class="question-text" id="questionText">…</div>
-    </div>
-    <button class="replay-btn" id="replayBtn" onclick="event.stopPropagation(); replayAudio();">🔊 再聽</button>
-  </div>
-
   <div class="play-area" id="playArea">
+    <div class="q-bg">
+      <div class="q-bg-label" id="qBgLabel">射擊對應的英文氣球</div>
+      <div class="q-bg-text"  id="qBgText">…</div>
+    </div>
+    <button class="q-replay" id="replayBtn" onclick="event.stopPropagation(); replayAudio();">🔊 再聽</button>
     <!-- balloons inserted here -->
   </div>
 
@@ -674,20 +684,21 @@ function advanceRound() {
 }
 
 function showQuestion() {
-  const labelEl = document.getElementById('questionLabel');
-  const textEl  = document.getElementById('questionText');
+  const labelEl = document.getElementById('qBgLabel');
+  const textEl  = document.getElementById('qBgText');
   if (questionLang === 'zh') {
-    labelEl.textContent = '請射擊對應的英文氣球';
+    labelEl.textContent = '射擊對應的英文氣球';
     textEl.textContent  = currentWord.zh;
   } else {
-    labelEl.textContent = '請射擊對應的中文氣球';
+    labelEl.textContent = '射擊對應的中文氣球';
     textEl.textContent  = currentWord.word;
   }
-  // Adaptive font sizing
-  textEl.classList.remove('long', 'x-long');
+  textEl.classList.remove('long', 'x-long', 'entering');
+  void textEl.offsetWidth;
   const n = textEl.textContent.length;
   if (n >= 14) textEl.classList.add('x-long');
   else if (n >= 10) textEl.classList.add('long');
+  textEl.classList.add('entering');
 }
 
 // ── Balloons ──
