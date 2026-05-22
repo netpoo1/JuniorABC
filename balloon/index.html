@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JuniorABC 射擊氣球</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    button:not(:disabled):active { filter: brightness(.92); }
+    [hidden] { display: none !important; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #cfe9ff 0%, #f0f5fc 60%, #f8fafc 100%);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 12px 12px 30px;
+      color: #1e293b;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      width: 100%; max-width: 800px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px; padding: 4px 2px;
+    }
+    .back-home {
+      font-size: 13px; color: #2563eb;
+      background: white; border: 1px solid #bfdbfe; border-radius: 20px;
+      cursor: pointer; padding: 6px 14px; min-height: 36px;
+      transition: color .15s, border-color .15s;
+    }
+    .bucket-tag {
+      font-size: 12px; font-weight: 700; color: #2b6cb0;
+      background: #ebf8ff; padding: 4px 12px; border-radius: 20px;
+    }
+
+    /* ── Start / Loading / Result screens ── */
+    .screen-wrap {
+      width: 100%; max-width: 480px;
+      background: white; border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.06);
+      text-align: center;
+    }
+    .game-title    { font-size: 26px; font-weight: 800; color: #2d3748; margin-bottom: 4px; }
+    .game-subtitle { font-size: 14px; color: #718096; margin-bottom: 22px; }
+
+    .setting-row {
+      margin-bottom: 18px; text-align: left;
+    }
+    .setting-label {
+      font-size: 13px; font-weight: 700; color: #4a5568;
+      margin-bottom: 6px;
+    }
+    .opt-group { display: flex; gap: 8px; }
+    .opt-btn {
+      flex: 1; padding: 10px 6px; min-height: 44px;
+      border: 2px solid #e2e8f0; border-radius: 10px;
+      background: white; cursor: pointer;
+      font-size: 13px; font-weight: 700; color: #4a5568;
+      transition: all .15s;
+    }
+    .opt-btn:hover  { border-color: #cbd5e0; }
+    .opt-btn.active { background: #4299e1; color: white; border-color: #4299e1; }
+
+    .start-btn {
+      width: 100%; padding: 14px;
+      background: #4299e1; color: white;
+      border: none; border-radius: 12px;
+      font-size: 17px; font-weight: 800;
+      cursor: pointer; margin-top: 6px;
+      transition: filter .15s;
+    }
+    .start-btn:hover { filter: brightness(1.08); }
+    .start-btn:disabled { opacity: .4; cursor: default; }
+
+    .rec-row {
+      font-size: 12px; color: #94a3b8;
+      margin-top: 14px;
+    }
+
+    .loading-msg { font-size: 15px; color: #94a3b8; }
+
+    /* ── Game screen ── */
+    .game-screen { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 10px; }
+
+    .question-panel {
+      background: white; border-radius: 14px;
+      padding: 14px 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      text-align: center;
+      display: flex; align-items: center; gap: 14px; justify-content: center;
+      min-height: 96px;
+    }
+    .question-content {
+      flex: 1; min-width: 0;
+      min-height: 60px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .question-content { flex: 1; min-width: 0; }
+    .question-label { font-size: 12px; color: #718096; margin-bottom: 4px; letter-spacing: .5px; }
+    .question-text  {
+      font-size: 32px; font-weight: 800; color: #1a202c; line-height: 1.15;
+      word-break: break-word;
+    }
+    .question-text.long   { font-size: 24px; }
+    .question-text.x-long { font-size: 18px; }
+    .replay-btn {
+      flex-shrink: 0;
+      padding: 8px 12px; min-height: 40px;
+      border: 1px solid #bee3f8; border-radius: 8px;
+      background: white; color: #2b6cb0;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: background .15s;
+    }
+    .replay-btn:hover { background: #ebf8ff; }
+    .replay-btn.playing { background: #bee3f8; }
+
+    /* ── Play area ── */
+    .play-area {
+      position: relative;
+      width: 100%; height: 60vh; min-height: 380px;
+      background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,.04);
+    }
+    .play-area, .play-area * { cursor: none; }
+    @media (hover: none) {
+      .play-area, .play-area * { cursor: auto; }
+    }
+
+    /* ── Balloon ── */
+    .balloon {
+      position: absolute; top: 0; left: 0;
+      width: 96px; height: 116px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 42% 42%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 800; font-size: 14px;
+      text-align: center; padding: 8px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.18);
+      user-select: none; pointer-events: auto;
+      will-change: left, top;
+    }
+    .balloon::after {
+      content: ''; position: absolute;
+      left: 50%; top: 100%;
+      width: 2px; height: 26px;
+      background: rgba(0,0,0,.25);
+      transform: translateX(-50%);
+    }
+    .balloon::before {
+      content: ''; position: absolute;
+      top: 12%; left: 18%;
+      width: 22%; height: 14%;
+      background: rgba(255,255,255,.5);
+      border-radius: 50%;
+      filter: blur(2px);
+    }
+    .balloon.long     { font-size: 12px; }
+    .balloon.x-long   { font-size: 10px; }
+    .balloon.short    { font-size: 17px; }
+    .balloon.x-short  { font-size: 22px; }
+    .balloon.xx-short { font-size: 28px; }
+    .balloon.popped {
+      animation: balloonPop .35s ease forwards;
+      pointer-events: none;
+    }
+    .balloon.shake {
+      animation: balloonShake .25s ease;
+    }
+    .balloon.text-updating {
+      animation: textFade .35s ease;
+    }
+    @keyframes textFade {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: .35; }
+    }
+    .balloon.wrong-pop {
+      animation: wrongPop .55s ease forwards;
+      pointer-events: none;
+    }
+    @keyframes wrongPop {
+      0%   { transform: scale(1) rotate(0); opacity: 1; filter: none; }
+      18%  { transform: scale(1.12) rotate(8deg); }
+      36%  { transform: scale(.92) rotate(-8deg); }
+      52%  { transform: scale(1.05) rotate(4deg); filter: brightness(.75) sepia(.8) hue-rotate(-25deg); }
+      100% { transform: scale(0) rotate(0); opacity: 0; filter: brightness(.4); }
+    }
+
+    /* ── Feedback overlay (wrong shot toast) ── */
+    .feedback-overlay {
+      position: fixed; top: 45%; left: 50%;
+      background: rgba(229,62,62,.94); color: white;
+      font-size: 26px; font-weight: 800;
+      padding: 14px 28px; border-radius: 14px;
+      z-index: 10000; pointer-events: none;
+      box-shadow: 0 10px 28px rgba(229,62,62,.4);
+      animation: feedbackPop .9s ease forwards;
+    }
+    @keyframes feedbackPop {
+      0%   { opacity: 0; transform: translate(-50%, -50%) scale(.5); }
+      20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+      70%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(.95); }
+    }
+    @keyframes balloonPop {
+      0%   { transform: scale(1); opacity: 1; }
+      40%  { transform: scale(1.45); opacity: .9; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+    @keyframes balloonShake {
+      0%, 100% { box-shadow: 0 6px 14px rgba(0,0,0,.18); }
+      25% { transform: translateX(-8px); box-shadow: 0 0 0 4px rgba(229,62,62,.4), 0 6px 14px rgba(0,0,0,.18); }
+      75% { transform: translateX(8px); box-shadow: 0 0 0 4px rgba(229,62,62,.4), 0 6px 14px rgba(0,0,0,.18); }
+    }
+
+    /* ── Crosshair (mouse only) ── */
+    .crosshair {
+      position: fixed; top: 0; left: 0;
+      width: 38px; height: 38px;
+      pointer-events: none; z-index: 9999;
+      display: none;
+    }
+    .crosshair.active { display: block; }
+    .crosshair::before, .crosshair::after {
+      content: ''; position: absolute;
+      background: rgba(229, 62, 62, .85);
+    }
+    .crosshair::before {
+      top: 50%; left: 0; width: 100%; height: 2px;
+      transform: translateY(-50%);
+    }
+    .crosshair::after {
+      left: 50%; top: 0; width: 2px; height: 100%;
+      transform: translateX(-50%);
+    }
+    .crosshair-dot {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px; height: 14px;
+      border: 2px solid rgba(229, 62, 62, .9);
+      border-radius: 50%; background: transparent;
+    }
+
+    /* ── HUD ── */
+    .hud {
+      display: flex; gap: 12px; align-items: center;
+      background: white; border-radius: 12px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    }
+    .hud-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .hud-label { font-size: 10px; color: #94a3b8; font-weight: 600; letter-spacing: .5px; }
+    .hud-value { font-size: 17px; font-weight: 800; color: #2d3748; }
+    .quit-btn {
+      padding: 7px 14px; min-height: 36px;
+      border: 1px solid #fed7d7; border-radius: 8px;
+      background: white; color: #c53030;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      transition: background .15s;
+    }
+    .quit-btn:hover { background: #fff5f5; }
+
+    /* ── Result screen ── */
+    .result-title  { font-size: 22px; font-weight: 800; color: #2d3748; margin-bottom: 6px; }
+    .result-score  { font-size: 40px; font-weight: 800; color: #4299e1; }
+    .result-max    { font-size: 13px; color: #94a3b8; margin-top: -4px; margin-bottom: 16px; }
+    .result-stats  { display: flex; justify-content: space-around; margin: 12px 0 18px; }
+    .result-stat   { display: flex; flex-direction: column; align-items: center; }
+    .result-label  { font-size: 12px; color: #94a3b8; }
+    .result-val    { font-size: 17px; font-weight: 800; color: #2d3748; }
+    .result-newbest {
+      background: #c6f6d5; color: #276749;
+      padding: 6px 10px; border-radius: 8px;
+      font-weight: 800; font-size: 13px; margin-bottom: 14px;
+      display: inline-block;
+    }
+    .result-actions { display: flex; gap: 10px; }
+    .result-actions button { flex: 1; }
+    .btn-secondary {
+      padding: 12px; border: 1px solid #cbd5e0; border-radius: 12px;
+      background: white; color: #4a5568;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-secondary:hover { background: #f7fafc; }
+    .btn-primary {
+      padding: 12px; border: none; border-radius: 12px;
+      background: #4299e1; color: white;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: filter .15s;
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+
+    /* ── Site footer ── */
+    .site-footer {
+      margin-top: auto; padding-top: 14px;
+      border-top: 1px solid #e2e8f0;
+      width: 100%; max-width: 800px;
+      text-align: center;
+      font-size: 11px; color: #a0aec0; line-height: 1.9;
+    }
+    .site-footer > div:first-child { margin-top: 18px; }
+    .site-footer a { color: #a0aec0; text-decoration: none; }
+    .site-footer a:hover { color: #4299e1; }
+
+    @media (hover: none) {
+      .back-home:hover { color: #2563eb; border-color: #bfdbfe; }
+      .opt-btn:hover { border-color: #e2e8f0; }
+      .replay-btn:hover { background: white; }
+      .quit-btn:hover { background: white; }
+      .btn-secondary:hover { background: white; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Crosshair (mouse follows) -->
+<div class="crosshair" id="crosshair"><div class="crosshair-dot"></div></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="back-home" onclick="location.href='../'">← 主選單</button>
+  <span class="bucket-tag" id="bucketTag">…</span>
+</div>
+
+<!-- Loading screen -->
+<div class="screen-wrap" id="loadingScreen">
+  <div class="loading-msg">資料載入中…</div>
+</div>
+
+<!-- Start screen -->
+<div class="screen-wrap" id="startScreen" hidden>
+  <div class="game-title">🎈 射擊氣球</div>
+  <div class="game-subtitle">看題目射擊正確的氣球</div>
+
+  <div class="setting-row">
+    <div class="setting-label">詞彙範圍</div>
+    <div class="opt-group" id="diffGroup">
+      <button class="opt-btn"        data-diff="keep">重點</button>
+      <button class="opt-btn"        data-diff="easy">簡易</button>
+      <button class="opt-btn active" data-diff="all">全部</button>
+    </div>
+  </div>
+
+  <div class="setting-row">
+    <div class="setting-label">氣球速度</div>
+    <div class="opt-group" id="speedGroup">
+      <button class="opt-btn"        data-speed="slow">慢</button>
+      <button class="opt-btn active" data-speed="med">中</button>
+      <button class="opt-btn"        data-speed="fast">快</button>
+    </div>
+  </div>
+
+  <div class="setting-row">
+    <div class="setting-label">氣球數量</div>
+    <div class="opt-group" id="countGroup">
+      <button class="opt-btn"        data-count="3">3 顆</button>
+      <button class="opt-btn active" data-count="5">5 顆</button>
+      <button class="opt-btn"        data-count="7">7 顆</button>
+    </div>
+  </div>
+
+  <button class="start-btn" id="startBtn" onclick="startGame()">開始遊戲</button>
+  <div class="rec-row" id="recRow">尚無紀錄</div>
+</div>
+
+<!-- Game screen -->
+<div class="game-screen" id="gameScreen" hidden>
+  <div class="question-panel">
+    <div class="question-content">
+      <div class="question-label" id="questionLabel">射擊對應的英文氣球</div>
+      <div class="question-text" id="questionText">…</div>
+    </div>
+    <button class="replay-btn" id="replayBtn" onclick="event.stopPropagation(); replayAudio();">🔊 再聽</button>
+  </div>
+
+  <div class="play-area" id="playArea">
+    <!-- balloons inserted here -->
+  </div>
+
+  <div class="hud">
+    <div class="hud-item">
+      <span class="hud-label">分數</span>
+      <span class="hud-value" id="scoreEl">0.0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">進度</span>
+      <span class="hud-value" id="progressEl">0 / 0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">時間</span>
+      <span class="hud-value" id="timerEl">0:00</span>
+    </div>
+    <button class="quit-btn" onclick="confirmQuit()">離開</button>
+  </div>
+</div>
+
+<!-- Result screen -->
+<div class="screen-wrap" id="resultScreen" hidden>
+  <div class="result-title">🎉 完成！</div>
+  <div class="result-score" id="resScore">0.0</div>
+  <div class="result-max" id="resMax">/ 最高 0</div>
+  <div class="result-newbest" id="resNewBest" hidden>🏆 新紀錄！</div>
+  <div class="result-stats">
+    <div class="result-stat">
+      <span class="result-label">時間</span>
+      <span class="result-val" id="resTime">0:00</span>
+    </div>
+    <div class="result-stat">
+      <span class="result-label">命中</span>
+      <span class="result-val" id="resHits">0</span>
+    </div>
+    <div class="result-stat">
+      <span class="result-label">射偏</span>
+      <span class="result-val" id="resMiss">0</span>
+    </div>
+  </div>
+  <div class="result-actions">
+    <button class="btn-secondary" onclick="location.href='../'">主選單</button>
+    <button class="btn-primary"  onclick="restartGame()">再玩一次</button>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div>荷芯數位工作室</div>
+  <div>© 2026 &nbsp;<a href="mailto:service@lotus-core.com.tw">service@lotus-core.com.tw</a></div>
+</footer>
+
+<script>
+const SCHOOL_YEAR = "114";
+const BUCKET_LABEL = {
+  "7.0":"國一 (全冊)","7.1":"國一 (上冊)","7.2":"國一 (下冊)",
+  "8.0":"國二 (全冊)","8.1":"國二 (上冊)","8.2":"國二 (下冊)",
+  "9.0":"國三 (全冊)","9.1":"國三 (上冊)","9.2":"國三 (下冊)"
+};
+
+// Balloon colors
+const BALLOON_PALETTE = [
+  { c1:'#fbb6ce', c2:'#f687b3' }, // pink
+  { c1:'#9ae6b4', c2:'#48bb78' }, // green
+  { c1:'#fbd38d', c2:'#ed8936' }, // orange
+  { c1:'#90cdf4', c2:'#4299e1' }, // blue
+  { c1:'#d6bcfa', c2:'#9f7aea' }, // purple
+  { c1:'#fc8181', c2:'#e53e3e' }, // red
+  { c1:'#fef08a', c2:'#f59e0b' }, // yellow
+  { c1:'#a3e4f9', c2:'#0891b2' }, // cyan
+];
+
+// Speed: pixels per second
+const SPEED_MAP = { slow: 30, med: 55, fast: 95 };
+
+// ── State ──
+let currentBucket = '7.1';
+let VOCAB = [];
+let pool  = [];
+let untestedPool = [];
+let currentWord  = null;
+let questionLang = 'en';  // 'en' shows English prompt, 'zh' shows Chinese prompt
+let balloons = [];
+let score    = 0;
+let hits     = 0;
+let misses   = 0;
+let elapsed  = 0;
+let timerRef = null;
+let animRef  = null;
+let gameActive = false;
+
+let settings = { diff: 'all', speed: 'med', count: 5 };
+let langSequence = [];
+
+// ── Cookies / records ──
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : null;
+}
+function setCookie(name, val) {
+  document.cookie = `${name}=${encodeURIComponent(val)}; max-age=${365*86400}; path=/`;
+}
+function recKey(type) {
+  return `jrabc_balloon_${type}_${currentBucket}_${settings.diff}`;
+}
+function getRecord() {
+  const s = getCookie(recKey('score'));
+  const t = getCookie(recKey('time'));
+  return {
+    score: s !== null ? parseFloat(s) : null,
+    time:  t !== null ? parseInt(t)   : null,
+  };
+}
+function saveRecord(newScore, newTime) {
+  const rec = getRecord();
+  let isNewBest = false;
+  if (rec.score === null || newScore > rec.score) {
+    setCookie(recKey('score'), newScore.toFixed(1));
+    setCookie(recKey('time'),  newTime);
+    isNewBest = true;
+  } else if (newScore === rec.score && (rec.time === null || newTime < rec.time)) {
+    setCookie(recKey('time'), newTime);
+  }
+  return isNewBest;
+}
+function renderRecord() {
+  const rec = getRecord();
+  const el = document.getElementById('recRow');
+  if (rec.score !== null) {
+    el.textContent = `最高分 ${rec.score.toFixed(1)} ・ 時間 ${fmtTime(rec.time)}（${settings.diff}）`;
+  } else {
+    el.textContent = `尚無紀錄（${settings.diff}）`;
+  }
+}
+
+// ── Utils ──
+function fmtTime(s) {
+  if (!s && s !== 0) return '—';
+  const m = Math.floor(s / 60), sec = s % 60;
+  return `${m}:${String(sec).padStart(2,'0')}`;
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function randPick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+// Build a shuffled language sequence with ~50/50 zh/en + no 3 same in a row
+function buildBalancedLangSequence(n) {
+  const half = Math.floor(n / 2);
+  const arr = [];
+  for (let i = 0; i < half; i++) arr.push('zh');
+  for (let i = 0; i < n - half; i++) arr.push('en');
+  // Shuffle with retry if any 3 same in a row
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const s = shuffle(arr);
+    let ok = true;
+    for (let i = 2; i < s.length; i++) {
+      if (s[i] === s[i-1] && s[i] === s[i-2]) { ok = false; break; }
+    }
+    if (ok) return s;
+  }
+  return shuffle(arr);
+}
+
+function nextLang() {
+  return langSequence.shift() || (Math.random() < 0.5 ? 'zh' : 'en');
+}
+
+// ── Load vocab ──
+async function loadVocab() {
+  try {
+    const params = new URLSearchParams(location.search);
+    currentBucket = params.get('bucket') || '7.1';
+    const res = await fetch(`../flashcard/data/${SCHOOL_YEAR}.${currentBucket}.json`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    let words = data.words;
+    // Apply customs (mirror flashcard)
+    try {
+      const c = JSON.parse(localStorage.getItem(`jrabc_custom_${currentBucket}`) || '{}');
+      words = words
+        .map(w => c[w.word] ? {...w, diff: c[w.word]} : w)
+        .filter(w => w.diff !== 'hidden');
+    } catch {}
+    VOCAB = words;
+    document.getElementById('bucketTag').textContent = BUCKET_LABEL[currentBucket] || currentBucket;
+    document.getElementById('loadingScreen').hidden = true;
+    document.getElementById('startScreen').hidden   = false;
+    renderRecord();
+  } catch {
+    document.querySelector('#loadingScreen .loading-msg').textContent = '資料載入失敗，請重新整理頁面';
+  }
+}
+
+// ── Settings selection ──
+function setupOptGroups() {
+  [
+    { id: 'diffGroup',  key: 'diff' },
+    { id: 'speedGroup', key: 'speed' },
+    { id: 'countGroup', key: 'count' },
+  ].forEach(({id, key}) => {
+    document.querySelectorAll(`#${id} .opt-btn`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll(`#${id} .opt-btn`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const v = btn.dataset[key];
+        settings[key] = key === 'count' ? parseInt(v) : v;
+        if (key === 'diff') renderRecord();
+      });
+    });
+  });
+}
+
+// ── Game flow ──
+function startGame() {
+  // Build pool based on difficulty
+  pool = settings.diff === 'all'
+    ? VOCAB.slice()
+    : VOCAB.filter(w => w.diff === settings.diff);
+  if (pool.length < settings.count) {
+    alert(`此難度單字數不足（需 ≥ ${settings.count}）`);
+    return;
+  }
+  untestedPool = shuffle(pool);
+  langSequence = buildBalancedLangSequence(pool.length);
+  score = 0; hits = 0; misses = 0; elapsed = 0;
+  gameActive = true;
+  document.getElementById('startScreen').hidden = true;
+  document.getElementById('resultScreen').hidden = true;
+  document.getElementById('gameScreen').hidden   = false;
+  document.getElementById('crosshair').classList.add('active');
+  updateHUD();
+  startTimer();
+  firstRound();
+  startAnim();
+}
+
+function startTimer() {
+  if (timerRef) clearInterval(timerRef);
+  timerRef = setInterval(() => {
+    if (!gameActive) return;
+    elapsed++;
+    document.getElementById('timerEl').textContent = fmtTime(elapsed);
+  }, 1000);
+}
+
+function updateHUD() {
+  document.getElementById('scoreEl').textContent    = score.toFixed(1);
+  document.getElementById('progressEl').textContent = `${hits} / ${pool.length}`;
+  document.getElementById('timerEl').textContent    = fmtTime(elapsed);
+}
+
+// First round: spawn all N balloons at random positions
+function firstRound() {
+  if (untestedPool.length === 0) { endGame(); return; }
+  currentWord = untestedPool.shift();
+  questionLang = nextLang();
+  showQuestion();
+  spawnInitialBalloons();
+  startAudioLoop();
+}
+
+// Subsequent rounds: existing balloons drift off-screen (no bounce, no clicks),
+// and a fresh wave of N balloons enters in stagger.
+function advanceRound() {
+  if (untestedPool.length === 0) { endGame(); return; }
+  currentWord = untestedPool.shift();
+  questionLang = nextLang();
+  showQuestion();
+
+  // Mark remaining balloons as leaving: stop wall bounce, boost velocity, disable clicks
+  balloons.forEach(b => {
+    b.leaving  = true;
+    b.spawning = false;
+    b.vx *= 1.8;
+    b.vy *= 1.8;
+    b.el.style.pointerEvents = 'none';
+    b.el.style.opacity = '0.7';
+  });
+
+  // Release N fresh balloons (1 correct + N-1 distractors), staggered entry
+  const distractors = shuffle(pool.filter(w => w.word !== currentWord.word))
+    .slice(0, settings.count - 1);
+  const newWords = shuffle([currentWord, ...distractors]);
+  newWords.forEach((w, i) => {
+    setTimeout(() => { if (gameActive) addEnteringBalloon(w); }, i * 240);
+  });
+
+  startAudioLoop();
+}
+
+function showQuestion() {
+  const labelEl = document.getElementById('questionLabel');
+  const textEl  = document.getElementById('questionText');
+  if (questionLang === 'zh') {
+    labelEl.textContent = '請射擊對應的英文氣球';
+    textEl.textContent  = currentWord.zh;
+  } else {
+    labelEl.textContent = '請射擊對應的中文氣球';
+    textEl.textContent  = currentWord.word;
+  }
+  // Adaptive font sizing
+  textEl.classList.remove('long', 'x-long');
+  const n = textEl.textContent.length;
+  if (n >= 14) textEl.classList.add('x-long');
+  else if (n >= 10) textEl.classList.add('long');
+}
+
+// ── Balloons ──
+function setBalloonText(el, text) {
+  el.textContent = text;
+  el.classList.remove('long', 'x-long', 'short', 'x-short', 'xx-short');
+  const n = text.length;
+  if      (n >= 14) el.classList.add('x-long');
+  else if (n >= 10) el.classList.add('long');
+  else if (n <= 1)  el.classList.add('xx-short');
+  else if (n <= 4)  el.classList.add('x-short');
+  else if (n <= 6)  el.classList.add('short');
+}
+
+function spawnInitialBalloons() {
+  const area = document.getElementById('playArea');
+  area.innerHTML = '';
+  balloons = [];
+
+  const distractors = shuffle(pool.filter(w => w.word !== currentWord.word))
+    .slice(0, settings.count - 1);
+  const wordsForBalloons = shuffle([currentWord, ...distractors]);
+
+  const rect  = area.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const padX = 60, padY = 80;
+  const speed = SPEED_MAP[settings.speed];
+
+  // Place balloons on a coarse grid to minimize initial overlap
+  const cols = Math.ceil(Math.sqrt(wordsForBalloons.length));
+  const cellW = (W - 2 * padX) / cols;
+
+  wordsForBalloons.forEach((w, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = padX + cellW * col + Math.random() * (cellW - 96);
+    const y = padY + 100 * row + Math.random() * 40;
+    const angle = Math.random() * Math.PI * 2;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+    createBalloonDom(w, x, y, vx, vy, false);
+  });
+}
+
+function addEnteringBalloon(word) {
+  const area = document.getElementById('playArea');
+  const rect = area.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const speed = SPEED_MAP[settings.speed];
+
+  // Enter from below the play area
+  const startX = 30 + Math.random() * (W - 156);
+  const startY = H + 30;
+  // Mostly upward, slight horizontal drift
+  const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.5;
+  const vx = Math.cos(angle) * speed;
+  const vy = Math.sin(angle) * speed;
+  createBalloonDom(word, startX, startY, vx, vy, true);
+}
+
+function createBalloonDom(word, x, y, vx, vy, spawning) {
+  const displayLang = questionLang === 'zh' ? 'en' : 'zh';
+  const text = displayLang === 'zh' ? word.zh : word.word;
+  const palette = randPick(BALLOON_PALETTE);
+  const el = document.createElement('div');
+  el.className = 'balloon';
+  el.style.background = `linear-gradient(135deg, ${palette.c1}, ${palette.c2})`;
+  setBalloonText(el, text);
+  el.style.left = `${x}px`;
+  el.style.top  = `${y}px`;
+  document.getElementById('playArea').appendChild(el);
+  const balloonObj = { el, x, y, vx, vy, word, spawning };
+  balloons.push(balloonObj);
+  // Look up word from balloons array at click time (text may have been updated)
+  el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const b = balloons.find(b => b.el === el);
+    if (!b || b.leaving) return;
+    onBalloonClick(el, b.word);
+  });
+}
+
+// Animation loop
+let lastFrame = null;
+function startAnim() {
+  cancelAnimationFrame(animRef);
+  lastFrame = null;
+  const tick = (ts) => {
+    if (!gameActive) return;
+    if (lastFrame === null) lastFrame = ts;
+    const dt = Math.min((ts - lastFrame) / 1000, 0.1);
+    lastFrame = ts;
+
+    const area = document.getElementById('playArea');
+    const rect = area.getBoundingClientRect();
+    const W = rect.width, H = rect.height;
+    const bw = 96, bh = 116;
+
+    const toRemove = [];
+    balloons.forEach(b => {
+      b.x += b.vx * dt;
+      b.y += b.vy * dt;
+      if (b.spawning) {
+        if (b.y < H - bh - 4) b.spawning = false;
+      } else if (b.leaving) {
+        // No bounce; flag for removal once fully off-screen
+        if (b.x < -bw - 40 || b.x > W + 40 || b.y < -bh - 40 || b.y > H + 40) {
+          toRemove.push(b);
+        }
+      } else {
+        if (b.x < 0)       { b.x = 0;       b.vx = Math.abs(b.vx); }
+        if (b.x > W - bw)  { b.x = W - bw;  b.vx = -Math.abs(b.vx); }
+        if (b.y < 0)       { b.y = 0;       b.vy = Math.abs(b.vy); }
+        if (b.y > H - bh)  { b.y = H - bh;  b.vy = -Math.abs(b.vy); }
+      }
+      b.el.style.left = `${b.x}px`;
+      b.el.style.top  = `${b.y}px`;
+    });
+
+    if (toRemove.length) {
+      toRemove.forEach(b => { if (b.el.parentNode) b.el.parentNode.removeChild(b.el); });
+      balloons = balloons.filter(b => !toRemove.includes(b));
+    }
+
+    handleBalloonCollisions();
+
+    animRef = requestAnimationFrame(tick);
+  };
+  animRef = requestAnimationFrame(tick);
+}
+
+// Pairwise elastic collisions (equal mass), treating balloons as circles
+function handleBalloonCollisions() {
+  const r = 46;          // approx radius
+  const minDist = 2 * r;
+  const minDistSq = minDist * minDist;
+  const cx = 48, cy = 50; // center offset within the 96×116 box (body only)
+  for (let i = 0; i < balloons.length; i++) {
+    for (let j = i + 1; j < balloons.length; j++) {
+      const a = balloons[i], b = balloons[j];
+      if (a.spawning || b.spawning || a.leaving || b.leaving) continue;
+      const dx = (b.x + cx) - (a.x + cx);
+      const dy = (b.y + cy) - (a.y + cy);
+      const distSq = dx * dx + dy * dy;
+      if (distSq >= minDistSq || distSq === 0) continue;
+      const dist = Math.sqrt(distSq);
+      const nx = dx / dist;
+      const ny = dy / dist;
+      // Tangent
+      const tx = -ny, ty = nx;
+      // Decompose velocities
+      const vaN = a.vx * nx + a.vy * ny;
+      const vbN = b.vx * nx + b.vy * ny;
+      const vaT = a.vx * tx + a.vy * ty;
+      const vbT = b.vx * tx + b.vy * ty;
+      // Swap normal components (elastic, equal mass)
+      a.vx = vbN * nx + vaT * tx;
+      a.vy = vbN * ny + vaT * ty;
+      b.vx = vaN * nx + vbT * tx;
+      b.vy = vaN * ny + vbT * ty;
+      // Position separation to remove overlap
+      const overlap = (minDist - dist) / 2 + 0.5;
+      a.x -= nx * overlap;
+      a.y -= ny * overlap;
+      b.x += nx * overlap;
+      b.y += ny * overlap;
+    }
+  }
+}
+
+function onBalloonClick(el, word) {
+  if (!gameActive) return;
+  if (word.word === currentWord.word) {
+    // Correct — pop this balloon only, keep others
+    hits++;
+    score += (word.diff === 'keep') ? 2 : 1;
+    el.classList.add('popped');
+    balloons = balloons.filter(b => b.el !== el);
+    setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 400);
+    stopAudioLoop();
+    updateHUD();
+    if (untestedPool.length === 0) {
+      setTimeout(() => endGame(), 420);
+      return;
+    }
+    setTimeout(() => { if (gameActive) advanceRound(); }, 360);
+  } else {
+    // Wrong — show overlay, pop the wrong balloon with red effect, remove it
+    misses++;
+    score = Math.max(0, score - 0.5);
+    el.classList.add('wrong-pop');
+    balloons = balloons.filter(b => b.el !== el);
+    setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 600);
+    showWrongFeedback();
+    updateHUD();
+  }
+}
+
+function showWrongFeedback() {
+  const div = document.createElement('div');
+  div.className = 'feedback-overlay';
+  div.textContent = '✗ 打錯了！';
+  document.body.appendChild(div);
+  setTimeout(() => { if (div.parentNode) div.remove(); }, 900);
+}
+
+// ── Audio ──
+let audioLoopTimer = null;
+let currentAudio = null;
+function startAudioLoop() {
+  stopAudioLoop();
+  playQuestionOnce();
+  audioLoopTimer = setInterval(() => playQuestionOnce(), 5500);
+}
+function stopAudioLoop() {
+  if (audioLoopTimer) { clearInterval(audioLoopTimer); audioLoopTimer = null; }
+  if (currentAudio)   { currentAudio.pause(); currentAudio = null; }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  document.getElementById('replayBtn').classList.remove('playing');
+}
+function replayAudio() { playQuestionOnce(); }
+
+async function playQuestionOnce() {
+  if (!currentWord) return;
+  const text = questionLang === 'zh' ? currentWord.zh : currentWord.word;
+  const lang = questionLang === 'zh' ? 'zh-TW' : 'en-US';
+  const rate = questionLang === 'zh' ? 0.9 : 0.85;
+  const btn  = document.getElementById('replayBtn');
+  btn.classList.add('playing');
+
+  // For English, try dictionary API first (better quality)
+  if (questionLang === 'en') {
+    try {
+      const ctrl = new AbortController();
+      const tid  = setTimeout(() => ctrl.abort(), 3000);
+      const res = await fetch(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(currentWord.word)}`,
+        { signal: ctrl.signal }
+      );
+      clearTimeout(tid);
+      if (res.ok) {
+        const data = await res.json();
+        const phon = data[0]?.phonetics ?? [];
+        const us   = phon.find(p => p.audio && p.audio.includes('-us'));
+        const any  = phon.find(p => p.audio && p.audio.trim() !== '');
+        const url  = (us ?? any)?.audio;
+        if (url) {
+          if (currentAudio) currentAudio.pause();
+          currentAudio = new Audio(url);
+          const ok = await new Promise(resolve => {
+            currentAudio.onended = () => { currentAudio = null; resolve(true); };
+            currentAudio.onerror = () => { currentAudio = null; resolve(false); };
+            currentAudio.play().catch(() => { currentAudio = null; resolve(false); });
+          });
+          if (ok) { btn.classList.remove('playing'); return; }
+        }
+      }
+    } catch {}
+  }
+
+  // Fall back to Web Speech
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    setTimeout(() => {
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang = lang; utt.rate = rate;
+      utt.onend   = () => btn.classList.remove('playing');
+      utt.onerror = () => btn.classList.remove('playing');
+      setTimeout(() => btn.classList.remove('playing'), 8000);
+      speechSynthesis.speak(utt);
+    }, 60);
+  } else {
+    btn.classList.remove('playing');
+  }
+}
+
+// ── End game ──
+function endGame() {
+  gameActive = false;
+  stopAudioLoop();
+  if (timerRef) { clearInterval(timerRef); timerRef = null; }
+  cancelAnimationFrame(animRef);
+  document.getElementById('crosshair').classList.remove('active');
+  // Max possible score
+  const maxScore = pool.reduce((s, w) => s + (w.diff === 'keep' ? 2 : 1), 0);
+  const isNewBest = saveRecord(score, elapsed);
+
+  document.getElementById('resScore').textContent = score.toFixed(1);
+  document.getElementById('resMax').textContent   = `/ 滿分 ${maxScore}`;
+  document.getElementById('resTime').textContent  = fmtTime(elapsed);
+  document.getElementById('resHits').textContent  = hits;
+  document.getElementById('resMiss').textContent  = misses;
+  document.getElementById('resNewBest').hidden    = !isNewBest;
+
+  document.getElementById('gameScreen').hidden = true;
+  document.getElementById('resultScreen').hidden = false;
+}
+
+function restartGame() {
+  document.getElementById('resultScreen').hidden = true;
+  document.getElementById('startScreen').hidden  = false;
+  renderRecord();
+}
+
+function confirmQuit() {
+  if (confirm('確定要結束本局？目前分數不會儲存。')) {
+    gameActive = false;
+    stopAudioLoop();
+    if (timerRef) { clearInterval(timerRef); timerRef = null; }
+    cancelAnimationFrame(animRef);
+    document.getElementById('crosshair').classList.remove('active');
+    document.getElementById('gameScreen').hidden  = true;
+    document.getElementById('startScreen').hidden = false;
+    renderRecord();
+  }
+}
+
+// ── Crosshair (mouse) ──
+window.addEventListener('mousemove', (e) => {
+  const c = document.getElementById('crosshair');
+  c.style.left = (e.clientX - 19) + 'px';
+  c.style.top  = (e.clientY - 19) + 'px';
+});
+window.addEventListener('touchstart', () => {
+  document.getElementById('crosshair').classList.remove('active');
+}, { passive: true });
+
+// ── Boot ──
+setupOptGroups();
+loadVocab();
+
+</script>
+</body>
+</html>

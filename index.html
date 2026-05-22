@@ -81,6 +81,8 @@
     .btn-game:hover  { filter: brightness(.95); }
     .btn-snake { background: #faf5ff; color: #553c9a; }
     .btn-snake:hover { filter: brightness(.95); }
+    .btn-balloon { background: #fef3c7; color: #92400e; }
+    .btn-balloon:hover { filter: brightness(.95); }
 
     /* ── Bucket sections (multi-semester layout) ── */
     .bucket-tag {
@@ -115,7 +117,7 @@
 
     /* ── Touch-device adjustments: cancel sticky :hover ── */
     @media (hover: none) {
-      .btn-flash:hover, .btn-game:hover, .btn-snake:hover { filter: none; }
+      .btn-flash:hover, .btn-game:hover, .btn-snake:hover, .btn-balloon:hover { filter: none; }
       .reset-link:hover { color: #cbd5e0; border-color: #e2e8f0; }
     }
   </style>
@@ -200,9 +202,11 @@ function renderGrades() {
           <button class="action-btn btn-flash"
                   onclick="go('flashcard/?bucket=${b.id}')">📖 單字卡</button>
           <button class="action-btn btn-game"
-                  onclick="go('game/?bucket=${b.id}')">🎮 配對遊戲</button>
+                  onclick="go('game/?bucket=${b.id}')">🎮 配對</button>
           <button class="action-btn btn-snake"
-                  onclick="go('snake/?bucket=${b.id}')">🐍 音節蛇</button>
+                  onclick="go('snake/?bucket=${b.id}')">🐍 音節</button>
+          <button class="action-btn btn-balloon"
+                  onclick="go('balloon/?bucket=${b.id}')">🎈 射擊</button>
         </div>`).join('');
 
       card.innerHTML = `
