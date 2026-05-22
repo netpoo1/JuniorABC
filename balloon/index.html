@@ -845,10 +845,10 @@ function startAnim() {
     const area = document.getElementById('playArea');
     const rect = area.getBoundingClientRect();
     const W = rect.width, H = rect.height;
-    const bw = 96, bh = 116;
-
     const toRemove = [];
     balloons.forEach(b => {
+      const bw = b.isHelper ? 44 : 96;
+      const bh = b.isHelper ? 52 : 116;
       b.x += b.vx * dt;
       b.y += b.vy * dt;
       if (b.spawning) {
@@ -889,7 +889,7 @@ function handleBalloonCollisions() {
   for (let i = 0; i < balloons.length; i++) {
     for (let j = i + 1; j < balloons.length; j++) {
       const a = balloons[i], b = balloons[j];
-      if (a.spawning || b.spawning || a.leaving || b.leaving) continue;
+      if (a.spawning || b.spawning || a.leaving || b.leaving || a.isHelper || b.isHelper) continue;
       const dx = (b.x + cx) - (a.x + cx);
       const dy = (b.y + cy) - (a.y + cy);
       const distSq = dx * dx + dy * dy;
