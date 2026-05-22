@@ -121,6 +121,39 @@
       .btn-flash:hover, .btn-game:hover, .btn-snake:hover, .btn-balloon:hover { filter: none; }
       .reset-link:hover { color: #cbd5e0; border-color: #e2e8f0; }
     }
+
+    /* ── VIP widget (fixed, bottom-right) ── */
+    .vip-widget {
+      position: fixed; bottom: 24px; right: 20px; z-index: 200;
+      background: white; border: 1px solid #e2e8f0; border-radius: 16px;
+      padding: 12px 14px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      width: 180px;
+    }
+    .vip-label {
+      font-size: 11px; font-weight: 700; color: #a0aec0;
+      letter-spacing: .4px; margin-bottom: 8px; text-align: center;
+    }
+    .vip-row { display: flex; gap: 6px; }
+    .vip-input {
+      flex: 1; padding: 7px 9px; font-size: 15px; font-weight: 700;
+      border: 1.5px solid #e2e8f0; border-radius: 9px;
+      color: #2d3748; outline: none; letter-spacing: 2px;
+      transition: border-color .15s;
+    }
+    .vip-input:focus { border-color: #90cdf4; }
+    .vip-btn {
+      padding: 7px 11px; border: none; border-radius: 9px;
+      background: #ebf8ff; color: #2b6cb0;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: background .15s;
+    }
+    .vip-btn:hover { background: #bee3f8; }
+    .vip-msg {
+      font-size: 11px; color: #e53e3e; margin-top: 7px;
+      text-align: center; min-height: 14px;
+    }
+    @media (hover: none) { .vip-btn:hover { background: #ebf8ff; } }
   </style>
 </head>
 <body>
@@ -133,6 +166,18 @@
 <div class="grades" id="gradesContainer"></div>
 
 <button class="reset-link" onclick="resetProgress()">重置所有學習進度</button>
+
+<!-- VIP widget -->
+<div class="vip-widget">
+  <div class="vip-label">我是爸爸的VIP</div>
+  <div class="vip-row">
+    <input type="text" id="vipInput" class="vip-input"
+           maxlength="7" inputmode="numeric" placeholder="通關碼"
+           onkeydown="if(event.key==='Enter')checkVip()">
+    <button class="vip-btn" onclick="checkVip()">→</button>
+  </div>
+  <div class="vip-msg" id="vipMsg"></div>
+</div>
 
 <footer class="site-footer">
   <div>荷芯數位工作室</div>
@@ -334,6 +379,28 @@ function resetProgress() {
 
 renderGrades();
 loadAllRatios();
+
+// ── VIP login ──
+// To add a new VIP code: append the 7-digit string to VIP_CODES below.
+// See vip-codes.md for the full management log.
+const VIP_CODES = [
+  '1010609',
+];
+const VIP_DEST = 'weekly/';
+
+function checkVip() {
+  const code = document.getElementById('vipInput').value.trim();
+  const msg  = document.getElementById('vipMsg');
+  if (VIP_CODES.includes(code)) {
+    msg.style.color = '#38a169';
+    msg.textContent = '歡迎，VIP！';
+    setTimeout(() => { location.href = VIP_DEST; }, 600);
+  } else {
+    msg.style.color = '#e53e3e';
+    msg.textContent = '您好，VIP 資料未登錄。';
+    document.getElementById('vipInput').select();
+  }
+}
 </script>
 </body>
 </html>
