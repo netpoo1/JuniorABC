@@ -928,6 +928,11 @@ function onBalloonClick(el, word) {
     el.classList.add('popped');
     balloons = balloons.filter(b => b.el !== el);
     setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 400);
+    // Immediately remove this round's helper balloon (it belongs to the just-answered question)
+    balloons.filter(b => b.isHelper).forEach(b => {
+      if (b.el.parentNode) b.el.parentNode.removeChild(b.el);
+    });
+    balloons = balloons.filter(b => !b.isHelper);
     stopAudioLoop();
     updateHUD();
     if (untestedPool.length === 0) {
