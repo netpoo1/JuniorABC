@@ -154,7 +154,18 @@
       font-size: 11px; margin-top: 7px;
       text-align: center; min-height: 14px;
     }
-    @media (hover: none) { .vip-btn:hover { filter: none; } }
+    .vip-switch {
+      width: 100%; margin-top: 6px;
+      padding: 6px; border: 1px solid #e2e8f0; border-radius: 9px;
+      background: none; color: #a0aec0;
+      font-size: 11px; font-weight: 600; cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .vip-switch:hover { color: #e53e3e; border-color: #fc8181; }
+    @media (hover: none) {
+      .vip-btn:hover { filter: none; }
+      .vip-switch:hover { color: #a0aec0; border-color: #e2e8f0; }
+    }
   </style>
 </head>
 <body>
@@ -169,14 +180,7 @@
 <button class="reset-link" onclick="resetProgress()">重置所有學習進度</button>
 
 <!-- VIP widget -->
-<div class="vip-widget">
-  <div class="vip-label">✨變身爸爸的VIP</div>
-  <input type="text" id="vipInput" class="vip-input"
-         maxlength="7" inputmode="numeric" placeholder="輸入變身咒語"
-         onkeydown="if(event.key==='Enter')checkVip()">
-  <button class="vip-btn" onclick="checkVip()">變身！</button>
-  <div class="vip-msg" id="vipMsg"></div>
-</div>
+<div class="vip-widget" id="vipWidget"></div>
 
 <footer class="site-footer">
   <div>荷芯數位工作室</div>
@@ -387,6 +391,33 @@ const VIP_CODES = [
 ];
 const VIP_DEST = 'weekly/';
 
+function renderVipWidget() {
+  const w = document.getElementById('vipWidget');
+  const saved = localStorage.getItem('jrabc_vip');
+  if (saved && VIP_CODES.includes(saved)) {
+    // Already logged in — show one-tap shortcut, no re-typing required
+    w.innerHTML = `
+      <div class="vip-label">✨ 已變身 VIP <span style="color:#92400e">${saved}</span></div>
+      <button class="vip-btn" onclick="location.href='${VIP_DEST}'">📚 進入本週單字</button>
+      <button class="vip-switch" onclick="forgetVip()">切換 / 取消變身</button>
+    `;
+  } else {
+    w.innerHTML = `
+      <div class="vip-label">✨變身爸爸的VIP</div>
+      <input type="text" id="vipInput" class="vip-input"
+             maxlength="7" inputmode="numeric" placeholder="輸入變身咒語"
+             onkeydown="if(event.key==='Enter')checkVip()">
+      <button class="vip-btn" onclick="checkVip()">變身！</button>
+      <div class="vip-msg" id="vipMsg"></div>
+    `;
+  }
+}
+
+function forgetVip() {
+  localStorage.removeItem('jrabc_vip');
+  renderVipWidget();
+}
+
 function checkVip() {
   const code = document.getElementById('vipInput').value.trim();
   const msg  = document.getElementById('vipMsg');
@@ -407,6 +438,8 @@ function checkVip() {
     document.getElementById('vipInput').select();
   }
 }
+
+renderVipWidget();
 </script>
 </body>
 </html>

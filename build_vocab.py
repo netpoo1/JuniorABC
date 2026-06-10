@@ -50,6 +50,9 @@ def main():
     bucket_seen   = defaultdict(set)
 
     for md_path in sorted(ENGLISH_DIR.glob("**/*.md")):
+        # Skip VIP-only subdirectories (purely numeric folder names like "1010609").
+        if any(part.isdigit() for part in md_path.relative_to(ENGLISH_DIR).parts[:-1]):
+            continue
         year, bucket = get_year_and_bucket(md_path.name)
         if not bucket:
             continue

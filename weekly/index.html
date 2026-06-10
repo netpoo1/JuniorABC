@@ -11,176 +11,381 @@
     [hidden] { display: none !important; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
       background: #eef2f7;
-      min-height: 100dvh;
-      display: flex; flex-direction: column;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      padding: 16px 20px 60px;
-      color: #2d3748;
+      padding: 20px 16px 40px;
     }
-
-    /* ── Top bar ── */
-    .top-bar {
-      width: 100%; max-width: 480px;
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .back-btn {
-      font-size: 14px; color: #4a5568;
-      background: white; border: 1px solid #e2e8f0; border-radius: 20px;
-      cursor: pointer; padding: 8px 16px; min-height: 38px;
-      transition: color .15s, border-color .15s;
-    }
-    .back-btn:hover { color: #2b6cb0; border-color: #bfdbfe; }
-    .logout-btn {
-      font-size: 13px; color: #a0aec0;
-      background: none; border: 1px solid #e2e8f0; border-radius: 20px;
-      cursor: pointer; padding: 7px 14px; min-height: 38px;
-      transition: color .15s, border-color .15s;
-    }
-    .logout-btn:hover { color: #e53e3e; border-color: #fc8181; }
 
     /* ── Header ── */
-    .page-header {
-      width: 100%; max-width: 480px;
-      margin-bottom: 20px;
+    .header {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
     }
-    .week-row {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    .app-title { font-size: 17px; font-weight: 700; color: #2d3748; }
+    .bucket-badge {
+      background: #ebf8ff; color: #2b6cb0;
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 12px; font-weight: 600;
     }
-    .week-label {
-      font-size: 20px; font-weight: 800; color: #2d3748;
-    }
-    .vip-badge {
-      background: #fef3c7; color: #92400e;
-      font-size: 12px; font-weight: 700;
-      padding: 3px 10px; border-radius: 20px;
-    }
-    .week-dates {
-      font-size: 12px; color: #a0aec0; margin-bottom: 10px;
-    }
+
+    /* ── Progress ── */
     .progress-row {
+      width: 100%; max-width: 480px;
       display: flex; align-items: center; gap: 10px;
+      margin-bottom: 18px;
     }
-    .progress-text {
-      font-size: 13px; font-weight: 700; color: #4a5568;
-      white-space: nowrap; min-width: 52px;
-    }
-    .progress-track {
-      flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;
+    .progress-bar {
+      flex: 1; height: 5px;
+      background: #d0dae6; border-radius: 3px; overflow: hidden;
     }
     .progress-fill {
-      height: 100%; background: #68d391; border-radius: 4px;
-      transition: width .4s ease;
+      height: 100%; background: #4299e1; border-radius: 3px;
+      transition: width 0.35s ease;
     }
+    .counter { font-size: 13px; color: #718096; white-space: nowrap; }
 
-    /* ── Card area ── */
-    .card-area {
-      width: 100%; max-width: 480px;
-      display: flex; flex-direction: column; align-items: center;
-      gap: 18px;
-    }
-
-    /* ── Flip card ── */
-    .card-wrap {
-      width: 100%; cursor: pointer;
-      perspective: 1200px;
+    /* ── Flip Card ── */
+    .scene {
+      width: 100%; max-width: 480px; height: 300px;
+      perspective: 700px; cursor: pointer;
+      margin-bottom: 22px;
+      -webkit-tap-highlight-color: transparent;
     }
     .card {
-      position: relative;
-      width: 100%; height: 240px;
-      transform-style: preserve-3d;
-      transition: transform .45s cubic-bezier(.4,0,.2,1);
-      border-radius: 20px;
+      width: 100%; height: 100%; position: relative;
     }
-    .card.flipped { transform: rotateY(180deg); }
 
     .card-face {
       position: absolute; inset: 0;
       border-radius: 20px;
+      background: white;
+      box-shadow: 0 6px 28px rgba(0,0,0,.09);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 28px 24px;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      box-shadow: 0 6px 24px rgba(0,0,0,.09);
+      padding: 32px 28px; gap: 6px;
+      user-select: none;
+      transition: opacity 0.3s ease;
     }
-    .card-front {
-      background: white;
+    .card-front { opacity: 1; pointer-events: auto;  }
+    .card-back  { opacity: 0; pointer-events: none;  }
+    .card.flipped .card-front { opacity: 0; pointer-events: none;  }
+    .card.flipped .card-back  { opacity: 1; pointer-events: auto;  }
+
+    /* Color by language content, not by face position */
+    .card-face[data-lang="en"] { background: #ebf8ff; }
+    .card-face[data-lang="zh"] { background: #fefce8; }
+
+    .word {
+      font-size: 44px; font-weight: 800;
+      color: #1a202c; text-align: center; line-height: 1.15;
     }
-    .card-back {
-      background: #ebf8ff;
-      transform: rotateY(180deg);
+    .syllables {
+      font-size: 17px; color: #b0bec5; letter-spacing: 1px;
+      min-height: 22px;
+    }
+    .syl-stress { color: #4299e1; font-weight: 700; }
+    .syl-silent { color: #fc8181; text-decoration: line-through; text-decoration-color: #fc8181; }
+    .syl-dot    { color: #d9e2ec; }
+    .pos {
+      font-size: 13px; color: #a0aec0; font-style: italic;
+      margin-bottom: 12px;
+    }
+    .forms {
+      position: absolute; bottom: 14px; left: 14px;
+      font-size: 14px; color: #718096; font-style: italic;
+      letter-spacing: 0.3px;
+      padding: 6px 10px; border-radius: 8px;
+      cursor: pointer; user-select: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .forms::before {
+      content: "🔊 "; font-style: normal; opacity: 0.55;
+    }
+    .forms:empty { display: none; }
+    .forms:hover { background: rgba(66,153,225,.10); color: #2b6cb0; }
+    .forms:active { background: rgba(66,153,225,.20); }
+    .forms.playing { background: rgba(66,153,225,.22); color: #2b6cb0; }
+    @media (hover: none) {
+      .forms:hover { background: transparent; color: #718096; }
+    }
+    .meaning {
+      font-size: 34px; font-weight: 700;
+      color: #2d3748; text-align: center; line-height: 1.3;
+    }
+    .flip-hint {
+      font-size: 12px; color: #cbd5e0; margin-top: 14px;
     }
 
-    .front-word {
-      font-size: 36px; font-weight: 800; color: #2b6cb0;
-      text-align: center; letter-spacing: -.5px; line-height: 1.2;
+    /* ── Audio button ── */
+    .audio-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: none;
+      border: 2px solid #bee3f8; border-radius: 50px;
+      padding: 10px 18px; min-height: 40px;
+      font-size: 15px; color: #2b6cb0;
+      cursor: pointer; transition: background .15s;
     }
-    .front-hint {
-      font-size: 13px; color: #cbd5e0; margin-top: 18px;
+    .audio-btn:hover  { background: #ebf8ff; }
+    .audio-btn:active { background: #bee3f8; }
+    .audio-btn.playing { border-color: #4299e1; color: #1a6cb0; }
+
+    /* ── Controls ── */
+    .controls {
+      width: 100%; max-width: 480px;
+      display: flex; gap: 10px; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .btn {
+      flex: 1; max-width: 150px;
+      padding: 13px 8px;
+      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: transform .1s, opacity .15s;
+    }
+    .btn:active:not(:disabled) { transform: scale(.96); }
+    .btn:disabled { opacity: .35; cursor: default; }
+    .btn-prev    { background: #e2e8f0; color: #4a5568; }
+    .btn-shuffle { background: #fefcbf; color: #744210; }
+    .btn-next    { background: #4299e1; color: white;   }
+
+    /* ── Shuffle indicator ── */
+    .shuffle-on { background: #f6e05e !important; }
+
+    /* ── Auto-play button ── */
+    .auto-row {
+      width: 100%; max-width: 480px;
+      margin-top: -6px; margin-bottom: 18px;
+    }
+    .btn-auto {
+      width: 100%; padding: 13px;
+      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      background: #c6f6d5; color: #276749;
+      transition: background .2s, color .2s, transform .1s;
+    }
+    .btn-auto:active { transform: scale(.98); }
+    .btn-auto.auto-on { background: #fed7d7; color: #9b2c2c; }
+
+    /* ── Auto-play settings ── */
+    .settings-row {
+      width: 100%; max-width: 480px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; margin-bottom: 10px;
+      background: white; border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .tts-toggle {
+      display: flex; align-items: center; gap: 6px;
+      padding: 9px 14px; min-height: 40px;
+      border: 2px solid #e2e8f0; border-radius: 20px;
+      background: white; font-size: 13px; font-weight: 600;
+      color: #718096; cursor: pointer; transition: all .15s;
+    }
+    .tts-toggle.on { background: #4299e1; color: white; border-color: #4299e1; }
+    .tts-toggle:disabled { opacity: .4; cursor: default; }
+    .speed-group { display: flex; gap: 4px; }
+    .speed-btn {
+      padding: 9px 14px; min-height: 40px;
+      border: 2px solid #e2e8f0; border-radius: 20px;
+      background: white; font-size: 13px; font-weight: 600;
+      color: #718096; cursor: pointer; transition: all .15s;
+    }
+    .speed-btn.active { background: #4299e1; color: white; border-color: #4299e1; }
+
+    /* ── Mode toggle ── */
+    .mode-row {
+      width: 100%; max-width: 480px;
+      display: flex; justify-content: center; gap: 0;
+      margin-bottom: 16px;
+    }
+    .mode-btn {
+      flex: 1; max-width: 160px;
+      padding: 10px 0; min-height: 40px;
+      border: 2px solid #bee3f8;
+      background: white; color: #718096;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .mode-btn:first-child { border-radius: 20px 0 0 20px; border-right-width: 1px; }
+    .mode-btn:last-child  { border-radius: 0 20px 20px 0; border-left-width: 1px;  }
+    .mode-btn:not(:first-child):not(:last-child) { border-left-width: 1px; border-right-width: 1px; }
+    .mode-btn.active { background: #4299e1; color: white; border-color: #4299e1; }
+
+    /* ── Keyboard hint ── */
+    .kbd-hint {
+      font-size: 11px; color: #b0bec5; text-align: center; line-height: 1.8;
+    }
+    .touch-hint {
+      display: none;
+      font-size: 11px; color: #b0bec5; text-align: center; line-height: 1.8;
     }
 
-    .back-syllables {
-      font-size: 16px; color: #63b3ed; font-weight: 600;
-      letter-spacing: 1px; margin-bottom: 10px;
+    /* ── Home button ── */
+    .home-link {
+      font-size: 13px; font-weight: 600; color: #718096;
+      background: none; border: 1.5px solid #e2e8f0; border-radius: 20px;
+      padding: 6px 14px; min-height: 36px; cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
     }
-    .back-zh {
-      font-size: 30px; font-weight: 800; color: #2c5282;
-      text-align: center; line-height: 1.3;
+    .home-link:hover { background: #f0f4f8; border-color: #cbd5e0; color: #4299e1; }
+
+    /* ── Word action tags ── */
+    .word-actions {
+      width: 100%; max-width: 480px;
+      display: flex; gap: 8px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 14px;
     }
-    .back-audio {
-      margin-top: 16px;
-      padding: 6px 16px; min-height: 32px;
-      border: 1px solid #bee3f8; border-radius: 16px;
-      background: rgba(255,255,255,.7); color: #2b6cb0;
-      font-size: 13px; font-weight: 700; cursor: pointer;
+    .action-tag {
+      padding: 8px 14px; min-height: 36px;
+      border: 1.5px solid; border-radius: 20px;
+      font-size: 12px; font-weight: 600; cursor: pointer; background: white;
       transition: background .15s;
     }
-    .back-audio:hover { background: rgba(255,255,255,.95); }
-    .back-audio.playing { background: #bee3f8; }
+    .action-tag.to-easy  { border-color: #68d391; color: #276749; }
+    .action-tag.to-easy:hover  { background: #f0fff4; }
+    .action-tag.to-keep  { border-color: #4299e1; color: #2b6cb0; }
+    .action-tag.to-keep:hover  { background: #ebf8ff; }
+    .action-tag.to-hide  { border-color: #feb2b2; color: #c53030; }
+    .action-tag.to-hide:hover  { background: #fff5f5; }
+    .action-tag.to-reset { border-color: #e2e8f0; color: #718096; }
+    .action-tag.to-reset:hover { background: #f7fafc; }
 
-    /* ── Counter badge ── */
-    .card-counter {
-      font-size: 13px; color: #a0aec0; font-weight: 600;
-      align-self: flex-end;
+    /* ── Hidden words panel ── */
+    .hidden-section {
+      width: 100%; max-width: 480px; margin-top: 10px;
+    }
+    .hidden-toggle {
+      width: 100%; padding: 11px 14px; min-height: 44px;
+      background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+      font-size: 13px; font-weight: 600; color: #718096; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .hidden-toggle:hover { background: #edf2f7; }
+    .hidden-list {
+      background: white; border: 1px solid #e2e8f0; border-top: none;
+      border-radius: 0 0 10px 10px;
+    }
+    .hidden-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 14px; border-bottom: 1px solid #f0f4f8; font-size: 14px;
+    }
+    .hidden-row:last-child { border-bottom: none; }
+    .hidden-en { font-weight: 700; color: #2d3748; }
+    .hidden-zh { font-size: 12px; color: #a0aec0; margin-left: 6px; }
+    .hidden-orig { font-size: 11px; color: #cbd5e0; margin-right: 8px; }
+    .restore-btn {
+      padding: 8px 14px; min-height: 36px;
+      border: 1.5px solid #4299e1; border-radius: 20px;
+      background: white; color: #2b6cb0; font-size: 12px; font-weight: 600;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .restore-btn:hover { background: #ebf8ff; }
+
+    /* ── Footer ── */
+    .site-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      width: 100%; max-width: 480px;
+      text-align: center;
+      font-size: 11px; color: #a0aec0; line-height: 1.9;
+    }
+    .site-footer > div:first-child { margin-top: 28px; }
+    .site-footer a {
+      color: #a0aec0; text-decoration: none;
+    }
+    .site-footer a:hover { color: #4299e1; }
+
+    /* ── VIP weekly: single-row header matched to flashcard ── */
+    .top-bar {
+      width: 100%; max-width: 480px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .logout-btn {
+      font-size: 13px; font-weight: 600; color: #a0aec0;
+      background: none; border: 1.5px solid #e2e8f0; border-radius: 20px;
+      cursor: pointer; padding: 6px 14px; min-height: 36px;
+      transition: color .15s, border-color .15s, background .15s;
+      flex-shrink: 0;
+    }
+    .logout-btn:hover { color: #e53e3e; border-color: #fc8181; }
+    .week-row {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; min-width: 0;
+    }
+    .week-label {
+      font-size: 13px; font-weight: 700; color: #2d3748;
+      white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .vip-badge {
+      background: #fef3c7; color: #92400e;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 9px; border-radius: 20px;
+      flex-shrink: 0;
+    }
+    .week-dates {
+      font-size: 11px; color: #a0aec0;
+      white-space: nowrap;
     }
 
-    /* ── Action buttons ── */
-    .action-row {
-      display: flex; gap: 14px; width: 100%;
+    /* ── VIP weekly: 會了/再複習 row ── */
+    .learn-row {
+      width: 100%; max-width: 480px;
+      display: flex; gap: 10px;
+      margin-bottom: 18px;
     }
-    .btn-review {
-      flex: 1; padding: 16px; border: none; border-radius: 14px;
-      background: #fff5f5; color: #c53030;
-      font-size: 16px; font-weight: 700; cursor: pointer;
-      transition: background .15s;
-    }
-    .btn-review:hover { background: #fed7d7; }
     .btn-learned {
-      flex: 1.4; padding: 16px; border: none; border-radius: 14px;
-      background: #f0fff4; color: #276749;
-      font-size: 16px; font-weight: 700; cursor: pointer;
-      transition: background .15s;
+      flex: 1.4; padding: 13px 8px;
+      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: transform .1s, opacity .15s, background .15s;
+      background: #c6f6d5; color: #276749;
     }
-    .btn-learned:hover { background: #c6f6d5; }
+    .btn-learned:hover { background: #9ae6b4; }
+    .btn-learned:active:not(:disabled) { transform: scale(.96); }
+    .btn-learned:disabled { opacity: .35; cursor: default; }
+    .btn-review-later {
+      flex: 1; padding: 13px 8px;
+      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: transform .1s, opacity .15s, background .15s;
+      background: #fed7d7; color: #9b2c2c;
+    }
+    .btn-review-later:hover { background: #feb2b2; }
+    .btn-review-later:active:not(:disabled) { transform: scale(.96); }
+    .btn-review-later:disabled { opacity: .35; cursor: default; }
+    .learned-badge {
+      position: absolute; top: 14px; right: 14px;
+      font-size: 11px; font-weight: 700; color: #276749;
+      background: #c6f6d5; padding: 4px 10px; border-radius: 12px;
+      pointer-events: none;
+    }
 
-    /* ── Round / All-done screen ── */
+    /* ── VIP weekly: end screen ── */
     .end-screen {
       width: 100%; max-width: 480px;
       background: white; border-radius: 20px;
       padding: 36px 28px;
       box-shadow: 0 6px 24px rgba(0,0,0,.08);
       text-align: center;
+      margin-bottom: 18px;
     }
     .end-icon  { font-size: 48px; margin-bottom: 14px; }
     .end-title { font-size: 22px; font-weight: 800; color: #2d3748; margin-bottom: 6px; }
     .end-sub   { font-size: 14px; color: #718096; margin-bottom: 24px; }
-    .end-stats {
-      display: flex; justify-content: center; gap: 28px;
-      margin-bottom: 24px;
-    }
+    .end-stats { display: flex; justify-content: center; gap: 28px; margin-bottom: 24px; }
     .end-stat { display: flex; flex-direction: column; align-items: center; }
     .end-stat-val  { font-size: 28px; font-weight: 800; color: #2d3748; }
     .end-stat-lbl  { font-size: 12px; color: #a0aec0; margin-top: 2px; }
@@ -201,7 +406,7 @@
     }
     .btn-verify:hover { filter: brightness(1.06); }
 
-    /* ── State box (loading/error/empty) ── */
+    /* ── VIP weekly: state box (loading/error) ── */
     .state-box {
       width: 100%; max-width: 480px;
       background: white; border-radius: 20px;
@@ -212,75 +417,128 @@
     .state-title { font-size: 18px; font-weight: 700; color: #2d3748; }
     .state-sub   { font-size: 14px; color: #a0aec0; margin-top: 6px; }
 
-    /* ── Footer ── */
-    .site-footer {
-      margin-top: auto; padding-top: 18px;
-      border-top: 1px solid #e2e8f0;
-      width: 100%; max-width: 480px;
-      text-align: center;
-      font-size: 13px; color: #a0aec0; line-height: 1.9;
-    }
-    .site-footer > div:first-child { margin-top: 32px; }
-    .site-footer a { color: #a0aec0; text-decoration: none; }
-    .site-footer a:hover { color: #4299e1; }
-
+    /* ── Touch-device adjustments: cancel sticky :hover + hide kbd hints ── */
     @media (hover: none) {
-      .back-btn:hover    { color: #4a5568; border-color: #e2e8f0; }
-      .logout-btn:hover  { color: #a0aec0; border-color: #e2e8f0; }
-      .btn-review:hover  { background: #fff5f5; }
-      .btn-learned:hover { background: #f0fff4; }
-      .btn-continue:hover{ filter: none; }
-      .btn-verify:hover  { filter: none; }
-      .back-audio:hover  { background: rgba(255,255,255,.7); }
+      .kbd-hint { display: none; }
+      .touch-hint { display: block; }
+      .audio-btn:hover { background: transparent; }
+      .action-tag.to-easy:hover,
+      .action-tag.to-keep:hover,
+      .action-tag.to-hide:hover,
+      .action-tag.to-reset:hover,
+      .restore-btn:hover { background: white; }
+      .hidden-toggle:hover { background: #f7fafc; }
+      .home-link:hover { background: transparent; border-color: #e2e8f0; color: #718096; }
+      .logout-btn:hover { color: #a0aec0; border-color: #e2e8f0; }
+      .btn-learned:hover { background: #c6f6d5; }
+      .btn-review-later:hover { background: #fed7d7; }
+      .btn-continue:hover { filter: none; }
+      .btn-verify:hover { filter: none; }
     }
   </style>
 </head>
 <body>
 
 <div class="top-bar">
-  <button class="back-btn" onclick="location.href='../'">← 主選單</button>
+  <button class="home-link" onclick="location.href='../'">← 主選單</button>
+  <div class="week-row" id="pageHeader" hidden>
+    <span class="vip-badge" id="vipBadge"></span>
+    <span class="week-label" id="weekLabel"></span>
+  </div>
   <button class="logout-btn" onclick="logout()">取消變身</button>
 </div>
 
-<!-- Page header (shown when loaded) -->
-<div class="page-header" id="pageHeader" hidden>
-  <div class="week-row">
-    <span class="week-label" id="weekLabel"></span>
-    <span class="vip-badge" id="vipBadge"></span>
-  </div>
-  <div class="week-dates" id="weekDates"></div>
-  <div class="progress-row">
-    <span class="progress-text" id="progressText">0 / 0</span>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+<div id="flashcardView" hidden>
+
+<div class="mode-row">
+  <button class="mode-btn active" id="modeEnZh" onclick="setMode('en2zh')">EN → 中文</button>
+  <button class="mode-btn"        id="modeZhEn" onclick="setMode('zh2en')">中文 → EN</button>
+</div>
+
+<div class="progress-row">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="counter" id="counterText">…</span>
+</div>
+
+<div class="scene" id="scene" onclick="flipCard()">
+  <div class="card" id="card">
+
+    <div class="card-face card-front">
+      <div class="word"      id="frontMainText"></div>
+      <div class="syllables" id="syllablesText"></div>
+      <div class="pos"       id="frontSubText"></div>
+      <div class="forms"     id="frontFormsText"
+           onclick="event.stopPropagation(); playForms('frontFormsText')"></div>
+      <button class="audio-btn" id="audioBtn"
+              onclick="event.stopPropagation(); playAudio()">
+        🔊 發音
+      </button>
+      <div class="flip-hint" id="frontHint"></div>
     </div>
+
+    <div class="card-face card-back">
+      <div class="meaning" id="backMainText"></div>
+      <div class="pos"     id="backSubText" style="margin-top:-4px;"></div>
+      <div class="forms"   id="backFormsText"
+           onclick="event.stopPropagation(); playForms('backFormsText')"></div>
+      <button class="audio-btn"
+              onclick="event.stopPropagation(); playAudio()">
+        🔊 再聽一次
+      </button>
+      <div class="flip-hint">點擊卡片返回</div>
+    </div>
+
   </div>
 </div>
 
-<!-- Flashcard area -->
-<div class="card-area" id="cardArea" hidden>
-  <div class="card-counter" id="cardCounter"></div>
-  <div class="card-wrap" onclick="flipCard()">
-    <div class="card" id="card">
-      <div class="card-face card-front" id="cardFront">
-        <div class="front-word" id="frontWord"></div>
-        <div class="front-hint">點擊卡片翻面</div>
-      </div>
-      <div class="card-face card-back" id="cardBack">
-        <div class="back-syllables" id="backSyllables"></div>
-        <div class="back-zh" id="backZh"></div>
-        <button class="back-audio" id="audioBtn"
-                onclick="event.stopPropagation(); speakCurrent()">🔊 聽</button>
-      </div>
-    </div>
-  </div>
-  <div class="action-row" id="actionRow" hidden>
-    <button class="btn-review"  onclick="markReview()">再複習</button>
-    <button class="btn-learned" onclick="markLearned()">會了 ✓</button>
+<div class="word-actions" id="wordActions"></div>
+
+<div class="controls">
+  <button class="btn btn-prev"    id="prevBtn"    onclick="navigate(-1)">← 上一張</button>
+  <button class="btn btn-shuffle" id="shuffleBtn" onclick="toggleShuffle()">🔀 亂序</button>
+  <button class="btn btn-next"    id="nextBtn"    onclick="navigate(1)">下一張 →</button>
+</div>
+
+<div class="learn-row">
+  <button class="btn-review-later" id="reviewLaterBtn" onclick="markReviewLater()">再複習</button>
+  <button class="btn-learned"      id="learnedBtn"     onclick="markLearned()">會了 ✓</button>
+</div>
+
+<div class="settings-row">
+  <button class="tts-toggle" id="zhTTSBtn" onclick="toggleZhTTS()">
+    <span id="zhTTSIcon">🔇</span> 中文語音
+  </button>
+  <div class="speed-group">
+    <button class="speed-btn"        id="spd-fast"   onclick="setSpeed('fast')">快</button>
+    <button class="speed-btn active" id="spd-medium" onclick="setSpeed('medium')">中</button>
+    <button class="speed-btn"        id="spd-slow"   onclick="setSpeed('slow')">慢</button>
   </div>
 </div>
 
-<!-- End / all-done screen -->
+<div class="auto-row">
+  <button class="btn-auto" id="autoBtn" onclick="toggleAutoPlay()">▶ 自動播放</button>
+</div>
+
+<div class="hidden-section" id="hiddenSection" hidden>
+  <button class="hidden-toggle" onclick="toggleHiddenPanel()">
+    <span>🙈 隱藏的單字</span>
+    <span id="hiddenCountBadge"></span>
+  </button>
+  <div id="hiddenList" class="hidden-list" hidden></div>
+</div>
+
+<div class="kbd-hint">
+  ← → 換張 &nbsp;|&nbsp; 空白鍵 翻牌 &nbsp;|&nbsp; P 發音 &nbsp;|&nbsp; ESC 停止自動<br>
+  音節標記：<span style="color:#4299e1;font-weight:700;">藍色粗體</span>=重音 &nbsp;|&nbsp; <span style="color:#fc8181;text-decoration:line-through;">紅色刪除線</span>=不發音字母
+</div>
+
+<div class="touch-hint">
+  👈 左右滑動換張 👉 &nbsp;|&nbsp; 點擊卡片翻面<br>
+  音節標記：<span style="color:#4299e1;font-weight:700;">藍色粗體</span>=重音 &nbsp;|&nbsp; <span style="color:#fc8181;text-decoration:line-through;">紅色刪除線</span>=不發音字母
+</div>
+
+</div><!-- /flashcardView -->
+
 <div class="end-screen" id="endScreen" hidden>
   <div class="end-icon"  id="endIcon"></div>
   <div class="end-title" id="endTitle"></div>
@@ -290,7 +548,6 @@
   <button class="btn-verify"   id="btnVerify"   hidden onclick="doVerify()">🎖 我要驗牌！</button>
 </div>
 
-<!-- Loading / error / empty -->
 <div class="state-box" id="stateBox">
   <div class="state-icon">⏳</div>
   <div class="state-title">載入中…</div>
@@ -302,216 +559,670 @@
 </footer>
 
 <script>
+// ── VIP gate ─────────────────────────────────────────────
 const vipCode = localStorage.getItem('jrabc_vip');
 if (!vipCode) { location.replace('../'); throw new Error('no_vip'); }
 
-// ── State ──
-let deck       = [];        // {word, zh, syllables, idx}[]
-let queue      = [];        // indices in current study queue
-let queuePos   = 0;
-let learned    = new Set(); // indices marked 會了
-let isFlipped  = false;
-let currentFile = '';
-let nextFile    = '';
-let totalWords  = 0;
-let currentAudio = null;
+// VOCAB is loaded asynchronously — see init at the bottom
+let VOCAB        = [];
+let currentFile  = '';      // e.g. "1010609.20260605.20260611.json"
+let nextFile     = '';
+let seenKeys     = new Set();
+let learnedKeys  = new Set();
 
-function saveKey() { return `jrabc_weekly_${vipCode}_${currentFile}`; }
+let deckMode   = 'all';     // weekly has no diff filter; always show all
+let isShuffled = false;
+let mode       = 'en2zh';   // 'en2zh' | 'zh2en'
 
-function saveProgress() {
-  localStorage.setItem(saveKey(), JSON.stringify({ learned: [...learned] }));
-}
-function loadProgress() {
-  try { return JSON.parse(localStorage.getItem(saveKey()) || '{"learned":[]}'); }
-  catch(_) { return { learned: [] }; }
+function logout() {
+  if (confirm('確定要取消變身？')) {
+    localStorage.removeItem('jrabc_vip');
+    location.href = '../';
+  }
 }
 
-// ── Boot ──
-async function loadWeekly() {
-  const box = document.getElementById('stateBox');
-  try {
-    const idxRes = await fetch(`data/${vipCode}.json`);
-    if (!idxRes.ok) throw new Error('no_index');
-    const idx = await idxRes.json();
-    if (!idx.current) throw new Error('no_current');
-    currentFile = idx.current;
-    nextFile    = idx.next || '';
+function buildDeck() {
+  const c = getCustoms();
+  const eff = w => c[w.word] ?? w.diff;
+  const base = VOCAB.filter(w =>
+    eff(w) !== 'hidden' &&
+    (deckMode === 'all' || eff(w) === deckMode)
+  );
+  return isShuffled ? [...base].sort(() => Math.random() - 0.5) : [...base];
+}
 
-    const dataRes = await fetch(`data/${currentFile}`);
-    if (!dataRes.ok) throw new Error('not_found');
-    const data = await dataRes.json();
+let deck = [];
+let idx  = 0;
 
-    document.getElementById('weekLabel').textContent = data.week || '本週單字';
-    document.getElementById('vipBadge').textContent  = data.name || 'VIP';
-    document.getElementById('weekDates').textContent =
-      (data.start && data.end) ? `${data.start} ～ ${data.end}` : '';
+// ── Syllable renderer ────────────────────────────────────
+// Convention: uppercase letters in syl string mark the stressed syllable.
+// e.g. "e·RAS·er" → "e" gray, "ras" blue+bold, "er" gray
+// Encoding: uppercase = stressed syllable, [xx] = silent letter(s)
+// e.g. "DAU[GH]·ter" → stressed "dau" + strikethrough "gh" + unstressed "ter"
+function renderSyl(syl) {
+  if (!syl) return "";
+  const dot = '<span class="syl-dot">·</span>';
 
-    initDeck(data.words || []);
-    box.hidden = true;
-    document.getElementById('pageHeader').hidden = false;
-  } catch(e) {
-    if (e.message === 'not_found' || e.message === 'no_current') {
-      box.innerHTML = `<div class="state-icon">📭</div>
-        <div class="state-title">本週單字尚未發佈</div>
-        <div class="state-sub">請稍後再回來查看</div>`;
-    } else {
-      box.innerHTML = `<div class="state-icon">⚠️</div>
-        <div class="state-title">載入失敗</div>
-        <div class="state-sub">請重新整理頁面</div>`;
+  return syl.split("·").map(part => {
+    // Tokenize: split into normal text and [silent] spans
+    const tokens = [];
+    let last = 0;
+    for (const m of part.matchAll(/\[([^\]]+)\]/g)) {
+      if (m.index > last) tokens.push({ silent: false, text: part.slice(last, m.index) });
+      tokens.push({ silent: true, text: m[1] });
+      last = m.index + m[0].length;
     }
+    if (last < part.length) tokens.push({ silent: false, text: part.slice(last) });
+
+    // Stressed if any non-silent token contains uppercase
+    const stressed = tokens.some(tk => !tk.silent && /[A-Z]/.test(tk.text));
+
+    const inner = tokens.map(tk =>
+      tk.silent
+        ? `<span class="syl-silent">${tk.text.toLowerCase()}</span>`
+        : tk.text.toLowerCase()
+    ).join("");
+
+    return stressed ? `<span class="syl-stress">${inner}</span>` : inner;
+  }).join(dot);
+}
+
+// ── Custom word overrides (localStorage per VIP+week) ────
+// Storage: jrabc_weekly_custom_{vip}_{file} → { word: 'easy'|'keep'|'hidden' }
+function getCustoms() {
+  try { return JSON.parse(localStorage.getItem(`jrabc_weekly_custom_${vipCode}_${currentFile}`) || '{}'); }
+  catch { return {}; }
+}
+function saveCustoms(c) {
+  localStorage.setItem(`jrabc_weekly_custom_${vipCode}_${currentFile}`, JSON.stringify(c));
+}
+function setCustom(word, newDiff) {
+  const c = getCustoms();
+  // Always record user action (don't auto-remove when matching default).
+  // This ensures "ever-marked-easy" is trackable for home-page progress.
+  c[word] = newDiff;
+  saveCustoms(c);
+}
+
+function markToEasy() {
+  setCustom(deck[idx].word, 'easy');
+  const prev = idx;
+  deck = buildDeck();
+  idx = Math.min(prev, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+function markToKeep() {
+  setCustom(deck[idx].word, 'keep');
+  const prev = idx;
+  deck = buildDeck();
+  idx = Math.min(prev, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+function hideCurrentWord() {
+  setCustom(deck[idx].word, 'hidden');
+  const prev = idx;
+  deck = buildDeck();
+  idx = Math.min(prev, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+function restoreWord(word) {
+  const c = getCustoms();
+  delete c[word];
+  saveCustoms(c);
+  deck = buildDeck();
+  const ni = deck.findIndex(w => w.word === word);
+  idx = ni >= 0 ? ni : Math.min(idx, Math.max(0, deck.length - 1));
+  render(); renderHiddenPanel();
+}
+
+function renderWordActions() {
+  const el = document.getElementById('wordActions');
+  if (!el) return;
+  if (!deck.length) { el.innerHTML = ''; return; }
+  const item = deck[idx];
+  const c    = getCustoms();
+  const eff  = c[item.word] ?? item.diff;
+  let html   = '';
+  if (eff === 'keep')
+    html += `<button class="action-tag to-easy" onclick="markToEasy()">⬇ 列為熟悉單字</button>`;
+  else if (eff === 'easy')
+    html += `<button class="action-tag to-keep" onclick="markToKeep()">⬆ 升為重點單字</button>`;
+  html += `<button class="action-tag to-hide" onclick="hideCurrentWord()">🙈 隱藏</button>`;
+  if (c[item.word]) {
+    const safe = item.word.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    html += `<button class="action-tag to-reset" data-word="${safe}" onclick="restoreWord(this.dataset.word)">↺ 還原預設</button>`;
   }
+  el.innerHTML = html;
 }
 
-function initDeck(words) {
-  if (words.length === 0) {
-    document.getElementById('stateBox').hidden = false;
-    document.getElementById('stateBox').innerHTML = `<div class="state-icon">📝</div>
-      <div class="state-title">本週單字清單是空的</div>
-      <div class="state-sub">請等候爸爸更新</div>`;
-    return;
-  }
-
-  deck = words.map((w, i) => ({ ...w, idx: i }));
-  totalWords = deck.length;
-
-  const saved = loadProgress();
-  learned = new Set(saved.learned.filter(i => i < totalWords));
-
-  // Queue = unlearned cards in order
-  queue = deck.filter(w => !learned.has(w.idx)).map(w => w.idx);
-
-  updateHeader();
-
-  if (queue.length === 0) { showAllDone(); return; }
-
-  queuePos = 0;
-  document.getElementById('cardArea').hidden = false;
-  showCard();
+function renderHiddenPanel() {
+  const c      = getCustoms();
+  const hidden = VOCAB.filter(w => c[w.word] === 'hidden');
+  const section = document.getElementById('hiddenSection');
+  const badge   = document.getElementById('hiddenCountBadge');
+  const list    = document.getElementById('hiddenList');
+  if (!section) return;
+  section.hidden = hidden.length === 0;
+  if (badge) badge.textContent = `${hidden.length} 個`;
+  if (!list) return;
+  if (!hidden.length) { list.hidden = true; list.innerHTML = ''; return; }
+  list.innerHTML = hidden.map(w => {
+    const safe = w.word.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    return `
+    <div class="hidden-row">
+      <div>
+        <span class="hidden-en">${w.word}</span>
+        <span class="hidden-zh">${w.zh}</span>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <span class="hidden-orig">${w.diff === 'keep' ? '重點' : '熟悉'}</span>
+        <button class="restore-btn" data-word="${safe}" onclick="restoreWord(this.dataset.word)">恢復</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-// ── Card display ──
-function showCard() {
-  isFlipped = false;
-  const card = document.getElementById('card');
-  card.classList.remove('flipped');
-  document.getElementById('actionRow').hidden = true;
-  document.getElementById('audioBtn').classList.remove('playing');
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
-
-  const w = deck[queue[queuePos]];
-  document.getElementById('frontWord').textContent    = w.word;
-  document.getElementById('backSyllables').textContent = w.syllables || '';
-  document.getElementById('backSyllables').hidden      = !w.syllables;
-  document.getElementById('backZh').textContent       = w.zh;
-
-  const remaining = queue.length - queuePos;
-  document.getElementById('cardCounter').textContent =
-    `剩餘 ${remaining} 張　（已學會 ${learned.size} / ${totalWords}）`;
+function toggleHiddenPanel() {
+  const list = document.getElementById('hiddenList');
+  if (list) list.hidden = !list.hidden;
 }
 
-function flipCard() {
-  if (isFlipped) return;
-  isFlipped = true;
-  document.getElementById('card').classList.add('flipped');
-  setTimeout(() => {
-    document.getElementById('actionRow').hidden = false;
-  }, 250);
+// ── Progress tracking ────────────────────────────────────
+function setCookie(name, val) {
+  document.cookie = `${name}=${encodeURIComponent(val)}; max-age=${365*86400}; path=/`;
+}
+function markSeen(wordKey) {
+  seenKeys.add(wordKey);
+  localStorage.setItem(`jrabc_weekly_seen_${vipCode}_${currentFile}`, JSON.stringify([...seenKeys]));
 }
 
-function advance() {
-  queuePos++;
-  updateHeader();
-  if (queuePos >= queue.length) {
-    showRoundEnd();
-    return;
-  }
-  // Brief pause before next card
-  document.getElementById('cardArea').hidden = true;
-  setTimeout(() => {
-    document.getElementById('cardArea').hidden = false;
-    showCard();
-  }, 180);
+// ── Learned tracking (會了 / 再複習) ─────────────────────
+function saveLearned() {
+  localStorage.setItem(`jrabc_weekly_learned_${vipCode}_${currentFile}`, JSON.stringify([...learnedKeys]));
+}
+function setLearned(word, isLearned) {
+  if (isLearned) learnedKeys.add(word);
+  else           learnedKeys.delete(word);
+  saveLearned();
+}
+function isAllLearned() {
+  const c = getCustoms();
+  const visible = VOCAB.filter(v => (c[v.word] ?? v.diff) !== 'hidden');
+  return visible.length > 0 && visible.every(w => learnedKeys.has(w.word));
 }
 
 function markLearned() {
-  learned.add(queue[queuePos]);
-  saveProgress();
-  advance();
+  if (!deck.length) return;
+  const word = deck[idx].word;
+  setLearned(word, true);
+  renderContent();
+  if (isAllLearned()) { showEndScreen(); return; }
+  if (idx < deck.length - 1) navigate(1);
 }
 
-function markReview() {
-  // Keep in queue but push to end
-  const idx = queue[queuePos];
-  queue.splice(queuePos, 1);
-  queue.push(idx);
-  updateHeader();
-  // Don't increment queuePos (next card slides in)
-  document.getElementById('cardArea').hidden = true;
-  setTimeout(() => {
-    document.getElementById('cardArea').hidden = false;
-    showCard();
-  }, 180);
+function markReviewLater() {
+  if (!deck.length) return;
+  setLearned(deck[idx].word, false);
+  renderContent();
+  if (idx < deck.length - 1) navigate(1);
 }
 
-// ── Progress ──
-function updateHeader() {
-  const pct = totalWords ? Math.round(learned.size / totalWords * 100) : 0;
-  document.getElementById('progressText').textContent = `${learned.size} / ${totalWords}`;
-  document.getElementById('progressFill').style.width = `${pct}%`;
+// ── Mode toggle ──────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  document.getElementById("modeEnZh").classList.toggle("active", m === 'en2zh');
+  document.getElementById("modeZhEn").classList.toggle("active", m === 'zh2en');
+  idx = 0;
+  render();
 }
 
-// ── End screens ──
-function showRoundEnd() {
-  document.getElementById('cardArea').hidden = true;
-  const reviewCount = totalWords - learned.size;
-  const s = document.getElementById('endScreen');
+// ── Render ──────────────────────────────────────────────
+// renderContent: update DOM text/progress only, never touch flipped state
+function renderContent(skipBack = false) {
+  const item  = deck[idx];
+  const front = document.querySelector('.card-front');
+  // skipBack = true: only update the front face (back is still visible during fade-out)
+  const back  = document.querySelector('.card-back');
+  front.dataset.lang = mode === 'en2zh' ? 'en' : 'zh';
 
-  if (learned.size === totalWords) { showAllDone(); return; }
+  if (mode === 'en2zh') {
+    document.getElementById("frontMainText").textContent = item.word;
+    document.getElementById("syllablesText").innerHTML   = renderSyl(item.syl);
+    document.getElementById("frontFormsText").textContent = item.forms || "";
+    document.getElementById("frontSubText").textContent  = item.pos;
+    document.getElementById("frontHint").textContent     = "點擊卡片查看中文";
+    if (!skipBack) {
+      back.dataset.lang = 'zh';
+      document.getElementById("backMainText").textContent = item.zh;
+      document.getElementById("backFormsText").textContent = "";
+      document.getElementById("backSubText").textContent  = "";
+    }
+  } else {
+    document.getElementById("frontMainText").textContent = item.zh;
+    document.getElementById("syllablesText").innerHTML   = "";
+    document.getElementById("frontFormsText").textContent = "";
+    document.getElementById("frontSubText").textContent  = "";
+    document.getElementById("frontHint").textContent     = "點擊卡片查看英文";
+    if (!skipBack) {
+      back.dataset.lang = 'en';
+      document.getElementById("backMainText").textContent = item.word;
+      document.getElementById("backFormsText").textContent = item.forms || "";
+      document.getElementById("backSubText").textContent  = item.pos;
+    }
+  }
 
-  document.getElementById('endIcon').textContent  = '📖';
-  document.getElementById('endTitle').textContent = '這輪練習完成！';
-  document.getElementById('endSub').textContent   = `還有 ${reviewCount} 個單字需要繼續加油`;
-  document.getElementById('endStats').innerHTML   = `
-    <div class="end-stat">
-      <div class="end-stat-val" style="color:#68d391">${learned.size}</div>
-      <div class="end-stat-lbl">已學會</div>
-    </div>
-    <div class="end-stat">
-      <div class="end-stat-val" style="color:#fc8181">${reviewCount}</div>
-      <div class="end-stat-lbl">再複習</div>
-    </div>`;
+  document.getElementById("counterText").textContent =
+    `${idx + 1} / ${deck.length}　（會了 ${learnedKeys.size} / ${deck.length}）`;
+  document.getElementById("progressFill").style.width =
+    (learnedKeys.size / deck.length * 100) + "%";
+  document.getElementById("prevBtn").disabled = idx === 0;
+  document.getElementById("nextBtn").disabled = idx === deck.length - 1;
+  const learnedBtn = document.getElementById("learnedBtn");
+  if (learnedBtn) {
+    const already = learnedKeys.has(item.word);
+    learnedBtn.textContent = already ? "已會 ✓（再下一張）" : "會了 ✓";
+  }
+  renderWordActions();
+}
+
+// render: full reset including flip state (used on init and shuffle)
+function render() {
+  if (!deck.length) {
+    document.getElementById('counterText').textContent = '0 / 0';
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('frontMainText').textContent = '—';
+    document.getElementById('syllablesText').innerHTML = '';
+    document.getElementById('frontFormsText').textContent = '';
+    document.getElementById('frontSubText').textContent = '';
+    document.getElementById('backMainText').textContent = '(全部已隱藏)';
+    document.getElementById('backFormsText').textContent = '';
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('wordActions').innerHTML = '';
+    return;
+  }
+  renderContent();
+  document.getElementById("card").classList.remove("flipped");
+}
+
+// ── Flip ────────────────────────────────────────────────
+function flipCard() {
+  if (autoPlaying) return;
+  // Suppress the synthetic click that follows a horizontal swipe
+  if (swipeProcessed) { swipeProcessed = false; return; }
+  const card = document.getElementById("card");
+  card.classList.toggle("flipped");
+  if (card.classList.contains("flipped")) markSeen(deck[idx].word);
+}
+
+// ── Navigate ────────────────────────────────────────────
+let navigating = false;
+
+function navigate(dir) {
+  if (navigating) return;
+  const next = idx + dir;
+  if (next < 0 || next >= deck.length) return;
+
+  const card = document.getElementById("card");
+
+  if (card.classList.contains("flipped")) {
+    // Back face is visible. Update the front face (hidden) first so the new
+    // content is already in place before the fade starts — no jump.
+    navigating = true;
+    idx = next;
+    renderContent(true);             // silently update front (opacity 0)
+    card.classList.remove("flipped"); // fade: new front in, old back out
+    setTimeout(() => {
+      renderContent();               // update back face (now hidden, safe)
+      navigating = false;
+    }, 300);
+  } else {
+    idx = next;
+    renderContent();
+  }
+}
+
+// ── Shuffle ─────────────────────────────────────────────
+function toggleShuffle() {
+  isShuffled = !isShuffled;
+  const btn = document.getElementById("shuffleBtn");
+  btn.classList.toggle("shuffle-on", isShuffled);
+  btn.textContent = isShuffled ? "🔀 亂序 ON" : "🔀 亂序";
+  deck = buildDeck();
+  idx  = 0;
+  render();
+}
+
+// ── Audio ────────────────────────────────────────────────
+// Use first token before "/" for compound entries like "pencil case/box"
+function lookupWord(raw) {
+  return raw.split("/")[0].trim();
+}
+
+function playForms(elemId) {
+  const item = deck[idx];
+  if (!item || !item.forms) return;
+  const elem = document.getElementById(elemId);
+  // Strip "pl. " prefix; convert dashes to commas for natural pauses
+  let text = item.forms.replace(/^pl\.\s*/i, "").replace(/-/g, ", ");
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = "en-US";
+  utt.rate = 0.8;
+  if (elem) {
+    elem.classList.add("playing");
+    utt.onend   = () => elem.classList.remove("playing");
+    utt.onerror = () => elem.classList.remove("playing");
+  }
+  speechSynthesis.speak(utt);
+}
+
+async function playAudio() {
+  const btn = document.getElementById("audioBtn");
+  btn.classList.add("playing");
+  const word = lookupWord(deck[idx].word);
+
+  let played = false;
+  try {
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
+      { signal: AbortSignal.timeout(4000) }
+    );
+    if (res.ok) {
+      const data = await res.json();
+      const phonetics = data[0]?.phonetics ?? [];
+      // prefer US audio (contains "-us" or no region tag), then any audio
+      const usEntry = phonetics.find(p => p.audio && p.audio.includes("-us"));
+      const anyEntry = phonetics.find(p => p.audio && p.audio.trim() !== "");
+      const audioUrl = (usEntry ?? anyEntry)?.audio;
+      if (audioUrl) {
+        await new Audio(audioUrl).play();
+        played = true;
+      }
+    }
+  } catch (_) {}
+
+  if (!played && "speechSynthesis" in window) {
+    speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(deck[idx].word);
+    utt.lang = "en-US";
+    utt.rate = 0.85;
+    speechSynthesis.speak(utt);
+  }
+
+  setTimeout(() => btn.classList.remove("playing"), 800);
+}
+
+// ── Auto-play ────────────────────────────────────────────
+let autoPlaying  = false;
+let autoTimer    = null;
+let currentAudio = null;
+
+// Pause duration (ms) after each audio clip finishes
+const SPEED_PAUSE = { fast: 1200, medium: 2500, slow: 4500 };
+let speed = 'medium';
+
+let zhTTSEnabled = false;
+
+function setSpeed(s) {
+  speed = s;
+  ["fast","medium","slow"].forEach(k => {
+    document.getElementById("spd-" + k).classList.toggle("active", k === s);
+  });
+}
+
+function toggleZhTTS() {
+  zhTTSEnabled = !zhTTSEnabled;
+  const btn  = document.getElementById("zhTTSBtn");
+  const icon = document.getElementById("zhTTSIcon");
+  btn.classList.toggle("on", zhTTSEnabled);
+  if (icon) icon.textContent = zhTTSEnabled ? "🔊" : "🔇";
+}
+
+function wait(ms) {
+  return new Promise(resolve => {
+    autoTimer = setTimeout(() => { autoTimer = null; resolve(); }, ms);
+  });
+}
+
+// Awaitable English audio — resolves when clip ends (or on error/fallback)
+async function playAudioForAuto() {
+  const word = lookupWord(deck[idx].word);
+  let played = false;
+
+  // ── Try dictionary API audio first ─────────────
+  try {
+    // Use manual AbortController (AbortSignal.timeout needs iOS 17.4+)
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 4000);
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      const phonetics = data[0]?.phonetics ?? [];
+      const usEntry  = phonetics.find(p => p.audio && p.audio.includes("-us"));
+      const anyEntry = phonetics.find(p => p.audio && p.audio.trim() !== "");
+      const audioUrl = (usEntry ?? anyEntry)?.audio;
+      if (audioUrl) {
+        played = await new Promise(resolve => {
+          currentAudio = new Audio(audioUrl);
+          currentAudio.onended = () => { currentAudio = null; resolve(true);  };
+          currentAudio.onerror = () => { currentAudio = null; resolve(false); };
+          currentAudio.play().catch(() => { currentAudio = null; resolve(false); });
+        });
+      }
+    }
+  } catch (_) {}
+
+  if (played) return;
+
+  // ── Web Speech fallback (iOS-friendly) ─────────
+  await speakAsync(deck[idx].word, "en-US", 0.85);
+}
+
+// Wrapper around speechSynthesis with iOS workarounds
+function speakAsync(text, lang, rate) {
+  return new Promise(resolve => {
+    if (!("speechSynthesis" in window)) { resolve(); return; }
+    speechSynthesis.cancel();
+    // iOS Safari requires a small delay between cancel() and speak()
+    setTimeout(() => {
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang  = lang;
+      utt.rate  = rate;
+      let done  = false;
+      utt.onend   = () => { if (!done) { done = true; resolve(); } };
+      utt.onerror = () => { if (!done) { done = true; resolve(); } };
+      // Safety timeout: if onend never fires (iOS bug), advance after 8s
+      setTimeout(() => { if (!done) { done = true; resolve(); } }, 8000);
+      speechSynthesis.speak(utt);
+    }, 60);
+  });
+}
+
+// Awaitable Chinese TTS — resolves when speech ends
+function playChineseTTSAsync(text) {
+  return speakAsync(text, "zh-TW", 0.9);
+}
+
+function setAutoControls(disabled) {
+  ["prevBtn", "nextBtn", "shuffleBtn", "modeEnZh", "modeZhEn", "zhTTSBtn",
+   "spd-fast", "spd-medium", "spd-slow", "learnedBtn", "reviewLaterBtn"]
+    .forEach(id => { const el = document.getElementById(id); if (el) el.disabled = disabled; });
+}
+
+function updateAutoBtn() {
+  const btn = document.getElementById("autoBtn");
+  if (autoPlaying) {
+    btn.textContent = "⏹ 停止自動播放";
+    btn.classList.add("auto-on");
+  } else {
+    btn.textContent = "▶ 自動播放";
+    btn.classList.remove("auto-on");
+  }
+}
+
+async function runAutoStep() {
+  if (!autoPlaying) return;
+  const card = document.getElementById("card");
+  card.classList.remove("flipped");
+
+  // ── 正面：播英文 → 停頓 ──────────────────────────────
+  await playAudioForAuto();
+  if (!autoPlaying) return;
+  await wait(SPEED_PAUSE[speed]);
+  if (!autoPlaying) return;
+
+  // ── 背面：翻牌 → (中文 TTS →) 英文 → 停頓 ────────────
+  card.classList.add("flipped");
+  markSeen(deck[idx].word);
+
+  if (zhTTSEnabled) {
+    await playChineseTTSAsync(deck[idx].zh);
+    if (!autoPlaying) return;
+  }
+
+  await playAudioForAuto();
+  if (!autoPlaying) return;
+  await wait(SPEED_PAUSE[speed]);
+  if (!autoPlaying) return;
+
+  // ── 前往下一張 ────────────────────────────────────────
+  if (idx >= deck.length - 1) { stopAutoPlay(); return; }
+  idx++;
+  renderContent(true);              // update front face (hidden) before fade
+  card.classList.remove("flipped"); // fade: new front in, old back out
+  setTimeout(() => { if (autoPlaying) renderContent(); }, 300); // update back
+  await wait(500);
+  if (!autoPlaying) return;
+
+  runAutoStep();
+}
+
+let ttsKeepAliveTimer = null;
+
+function startAutoPlay() {
+  autoPlaying  = true;
+  updateAutoBtn();
+  setAutoControls(true);
+  document.getElementById("card").classList.remove("flipped");
+
+  // iOS unlock: speak a silent utterance synchronously within the click handler
+  // (must happen during user gesture, before any await)
+  if ("speechSynthesis" in window) {
+    try {
+      const unlock = new SpeechSynthesisUtterance("");
+      unlock.volume = 0;
+      speechSynthesis.speak(unlock);
+    } catch (_) {}
+  }
+
+  // iOS speechSynthesis sleeps after ~15s of inactivity; resume() periodically
+  if (ttsKeepAliveTimer) clearInterval(ttsKeepAliveTimer);
+  ttsKeepAliveTimer = setInterval(() => {
+    if (autoPlaying && "speechSynthesis" in window && !speechSynthesis.speaking) {
+      try { speechSynthesis.resume(); } catch (_) {}
+    }
+  }, 5000);
+
+  runAutoStep();
+}
+
+function stopAutoPlay() {
+  autoPlaying = false;
+  if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+  if (ttsKeepAliveTimer) { clearInterval(ttsKeepAliveTimer); ttsKeepAliveTimer = null; }
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  updateAutoBtn();
+  setAutoControls(false);
+}
+
+function toggleAutoPlay() {
+  if (autoPlaying) stopAutoPlay();
+  else             startAutoPlay();
+}
+
+// ── Touch swipe (flashcard navigation) ───────────────────
+let cardTouchOrigin = null;
+let swipeProcessed  = false;
+
+(() => {
+  const scene = document.getElementById('scene');
+  if (!scene) return;
+  scene.addEventListener('touchstart', e => {
+    cardTouchOrigin = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+    swipeProcessed  = false;
+  }, {passive: true});
+  scene.addEventListener('touchend', e => {
+    if (!cardTouchOrigin || autoPlaying) return;
+    const dx = e.changedTouches[0].clientX - cardTouchOrigin.x;
+    const dy = e.changedTouches[0].clientY - cardTouchOrigin.y;
+    cardTouchOrigin = null;
+    if (Math.abs(dx) < 40) return;            // small move → let tap flip
+    if (Math.abs(dx) <= Math.abs(dy)) return; // vertical-dominant → let page scroll
+    swipeProcessed = true;
+    navigate(dx > 0 ? -1 : 1);                // → previous, ← next
+  }, {passive: true});
+})();
+
+// ── Keyboard shortcuts ───────────────────────────────────
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") { if (autoPlaying) stopAutoPlay(); return; }
+  if (autoPlaying) return;
+  if (e.target.tagName === "BUTTON") return;
+  switch (e.key) {
+    case "ArrowRight": case "ArrowDown":  navigate(1);  break;
+    case "ArrowLeft":  case "ArrowUp":    navigate(-1); break;
+    case " ": case "Enter": e.preventDefault(); flipCard(); break;
+    case "p": case "P": playAudio(); break;
+  }
+});
+
+// ── End-screen flow ──────────────────────────────────────
+function showEndScreen() {
+  document.getElementById('flashcardView').hidden = true;
+  document.getElementById('stateBox').hidden      = true;
+  const total = VOCAB.length;
+  const learnedCount = learnedKeys.size;
+  const allDone = learnedCount >= total;
+  document.getElementById('endIcon').textContent  = allDone ? '🎉' : '📖';
+  document.getElementById('endTitle').textContent = allDone ? '本週單字全部學完！' : '繼續加油！';
+  document.getElementById('endSub').textContent   = allDone
+    ? `恭喜完成 ${total} 個單字`
+    : `還有 ${total - learnedCount} 個單字需要繼續加油`;
+  document.getElementById('endStats').innerHTML   = allDone
+    ? `<div class="end-stat">
+         <div class="end-stat-val" style="color:#68d391">${total}</div>
+         <div class="end-stat-lbl">全部學會</div>
+       </div>`
+    : `<div class="end-stat">
+         <div class="end-stat-val" style="color:#68d391">${learnedCount}</div>
+         <div class="end-stat-lbl">已學會</div>
+       </div>
+       <div class="end-stat">
+         <div class="end-stat-val" style="color:#fc8181">${total - learnedCount}</div>
+         <div class="end-stat-lbl">再複習</div>
+       </div>`;
   const btnC = document.getElementById('btnContinue');
-  btnC.textContent = `繼續複習（${reviewCount} 張）`;
-  btnC.hidden = false;
-  document.getElementById('btnVerify').hidden = true;
-  s.hidden = false;
-}
-
-function showAllDone() {
-  document.getElementById('cardArea').hidden = true;
-  const s = document.getElementById('endScreen');
-  document.getElementById('endIcon').textContent  = '🎉';
-  document.getElementById('endTitle').textContent = '本週單字全部學完！';
-  document.getElementById('endSub').textContent   = `恭喜完成 ${totalWords} 個單字`;
-  document.getElementById('endStats').innerHTML   = `
-    <div class="end-stat">
-      <div class="end-stat-val" style="color:#68d391">${totalWords}</div>
-      <div class="end-stat-lbl">全部學會</div>
-    </div>`;
-  document.getElementById('btnContinue').hidden = true;
-  const btnV = document.getElementById('btnVerify');
-  btnV.hidden = !nextFile;   // only show if next week exists
-  s.hidden = false;
+  btnC.hidden = allDone;
+  if (!allDone) btnC.textContent = `繼續複習（${total - learnedCount} 張）`;
+  document.getElementById('btnVerify').hidden = !(allDone && nextFile);
+  document.getElementById('endScreen').hidden = false;
 }
 
 function continueReview() {
-  // Rebuild queue from unlearned cards
-  queue = deck.filter(w => !learned.has(w.idx)).map(w => w.idx);
-  queuePos = 0;
-  document.getElementById('endScreen').hidden = true;
-  document.getElementById('cardArea').hidden  = false;
-  showCard();
+  document.getElementById('endScreen').hidden  = true;
+  document.getElementById('flashcardView').hidden = false;
+  // Jump to first unlearned card
+  const ni = deck.findIndex(w => !learnedKeys.has(w.word));
+  idx = ni >= 0 ? ni : 0;
+  render();
 }
 
 async function doVerify() {
@@ -524,8 +1235,22 @@ async function doVerify() {
     const res = await fetch(`data/${nextFile}`);
     if (!res.ok) throw new Error();
     const data = await res.json();
-    renderVerifyList(data);
-    box.hidden = true;
+    box.innerHTML = `
+      <div style="text-align:center;margin-bottom:18px;">
+        <div style="font-size:18px;font-weight:800;color:#2d3748">🔍 偷看 ${data.week || '下週單字'}</div>
+        <div style="font-size:12px;color:#a0aec0;margin-top:4px">${data.start || ''} ～ ${data.end || ''}</div>
+      </div>
+      ${(data.words || []).map(w => `
+        <div style="background:#f7fafc;border-radius:14px;padding:14px 18px;
+                    display:flex;justify-content:space-between;align-items:center;
+                    margin-bottom:10px;text-align:left;">
+          <div>
+            <div style="font-size:17px;font-weight:700;color:#2b6cb0">${escHtml(w.word)}</div>
+            ${w.syllables ? `<div style="font-size:12px;color:#90cdf4">${escHtml(w.syllables)}</div>` : ''}
+          </div>
+          <div style="font-size:15px;color:#4a5568;font-weight:600">${escHtml(w.zh)}</div>
+        </div>`).join('')}
+    `;
   } catch(_) {
     box.innerHTML = `<div class="state-icon">📭</div>
       <div class="state-title">下週單字尚未發佈</div>
@@ -533,84 +1258,74 @@ async function doVerify() {
   }
 }
 
-function renderVerifyList(data) {
-  const area = document.getElementById('cardArea');
-  area.innerHTML = `
-    <div style="width:100%;text-align:center;margin-bottom:18px;">
-      <div style="font-size:18px;font-weight:800;color:#2d3748">
-        🔍 偷看 ${data.week || '下週單字'}
-      </div>
-      <div style="font-size:12px;color:#a0aec0;margin-top:4px">
-        ${data.start || ''} ～ ${data.end || ''}
-      </div>
-    </div>
-    ${(data.words || []).map(w => `
-      <div style="background:white;border-radius:14px;padding:14px 18px;
-                  width:100%;box-shadow:0 2px 8px rgba(0,0,0,.06);
-                  display:flex;justify-content:space-between;align-items:center;
-                  margin-bottom:10px;">
-        <div>
-          <div style="font-size:17px;font-weight:700;color:#2b6cb0">${escHtml(w.word)}</div>
-          ${w.syllables ? `<div style="font-size:12px;color:#90cdf4">${escHtml(w.syllables)}</div>` : ''}
-        </div>
-        <div style="font-size:15px;color:#4a5568;font-weight:600">${escHtml(w.zh)}</div>
-      </div>`).join('')}`;
-  area.hidden = false;
-}
-
-// ── Audio ──
-function speakCurrent() {
-  const w = deck[queue[queuePos]];
-  if (!w) return;
-  speak(document.getElementById('audioBtn'), w.word);
-}
-
-async function speak(btn, word) {
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
-  btn.classList.add('playing');
-  try {
-    const ctrl = new AbortController();
-    const tid = setTimeout(() => ctrl.abort(), 3000);
-    const res = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
-      { signal: ctrl.signal }
-    );
-    clearTimeout(tid);
-    if (res.ok) {
-      const data = await res.json();
-      const phon = data[0]?.phonetics ?? [];
-      const url = (phon.find(p => p.audio?.includes('-us')) ?? phon.find(p => p.audio?.trim()))?.audio;
-      if (url) {
-        const audio = new Audio(url);
-        currentAudio = audio;
-        audio.onended = audio.onerror = () => { btn.classList.remove('playing'); currentAudio = null; };
-        audio.play(); return;
-      }
-    }
-  } catch(_) {}
-  if ('speechSynthesis' in window) {
-    const utt = new SpeechSynthesisUtterance(word);
-    utt.lang = 'en-US'; utt.rate = 0.85;
-    utt.onend = utt.onerror = () => btn.classList.remove('playing');
-    setTimeout(() => btn.classList.remove('playing'), 6000);
-    speechSynthesis.speak(utt);
-  } else { btn.classList.remove('playing'); }
-}
-
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── Auth ──
-function logout() {
-  if (confirm('確定要取消變身？')) {
-    localStorage.removeItem('jrabc_vip');
-    location.href = '../';
-  }
-}
+// ── Init ─────────────────────────────────────────────────
+(async () => {
+  const box = document.getElementById('stateBox');
+  try {
+    const idxRes = await fetch(`data/${vipCode}.json`);
+    if (!idxRes.ok) throw new Error('no_index');
+    const indexData = await idxRes.json();
+    if (!indexData.current) throw new Error('no_current');
+    currentFile = indexData.current;
+    nextFile    = indexData.next || '';
 
-if (vipCode) loadWeekly();
+    const dataRes = await fetch(`data/${currentFile}`);
+    if (!dataRes.ok) throw new Error('not_found');
+    const data = await dataRes.json();
+
+    const weekLabelText = data.week || '本週單字';
+    const dateText = (data.start && data.end) ? ` (${data.start.slice(5)}–${data.end.slice(5)})` : '';
+    document.getElementById('weekLabel').textContent = weekLabelText + dateText;
+    document.getElementById('vipBadge').textContent  = data.name || 'VIP';
+    document.getElementById('pageHeader').hidden = false;
+
+    // Map weekly schema {word, zh, syllables} → flashcard schema
+    VOCAB = (data.words || []).map(w => ({
+      word:  w.word,
+      pos:   w.pos   || '',
+      zh:    w.zh    || '',
+      syl:   w.syllables || w.syl || '',
+      forms: w.forms || '',
+      diff:  'keep',
+    }));
+
+    if (VOCAB.length === 0) {
+      box.innerHTML = `<div class="state-icon">📝</div>
+        <div class="state-title">本週單字清單是空的</div>
+        <div class="state-sub">請等候家長更新</div>`;
+      return;
+    }
+
+    const seenRaw    = localStorage.getItem(`jrabc_weekly_seen_${vipCode}_${currentFile}`);
+    const learnedRaw = localStorage.getItem(`jrabc_weekly_learned_${vipCode}_${currentFile}`);
+    seenKeys    = new Set(seenRaw    ? JSON.parse(seenRaw)    : []);
+    learnedKeys = new Set(learnedRaw ? JSON.parse(learnedRaw) : []);
+
+    deck = buildDeck();
+    render();
+    renderHiddenPanel();
+
+    box.hidden = true;
+    document.getElementById('flashcardView').hidden = false;
+
+    if (isAllLearned()) showEndScreen();
+  } catch (e) {
+    if (e.message === 'not_found' || e.message === 'no_current' || e.message === 'no_index') {
+      box.innerHTML = `<div class="state-icon">📭</div>
+        <div class="state-title">本週單字尚未發佈</div>
+        <div class="state-sub">請稍後再回來查看</div>`;
+    } else {
+      box.innerHTML = `<div class="state-icon">⚠️</div>
+        <div class="state-title">載入失敗</div>
+        <div class="state-sub">請重新整理頁面</div>`;
+    }
+    console.error('weekly init:', e);
+  }
+})();
 </script>
 </body>
 </html>

@@ -37,8 +37,10 @@ secrets/
 .claude/
 
 # ---------- Copyright-protected source images (textbook scans) ----------
-# Vocabulary PNGs are scans of textbook pages — must NOT be on GitHub
+# Vocabulary scans of textbook pages — must NOT be on GitHub
 english/**/*.png
+english/**/*.jpg
+english/**/*.jpeg
 
 # ---------- Build / Dependencies (common) ----------
 node_modules/
