@@ -31,6 +31,21 @@
     { "word": "follow", "zh": "聽從；跟隨", "syllables": "FOL·low" },
     { "word": "quite", "zh": "很；相當", "syllables": "" },
     { "word": "healthy", "zh": "健康的", "syllables": "HEAL·thy" },
-    { "word": "part", "zh": "一部分", "syllables": "" }
+    { "word": "part", "zh": "一部分", "syllables": "" },
+    { "word": "be able to", "zh": "能夠…", "syllables": "be A·ble to" },
+    { "word": "ground", "zh": "地面", "syllables": "" },
+    { "word": "stair", "zh": "樓梯", "syllables": "" },
+    { "word": "high", "zh": "高的", "syllables": "" },
+    { "word": "wall", "zh": "牆壁", "syllables": "" },
+    { "word": "legend", "zh": "傳說", "syllables": "LE·gend" },
+    { "word": "kingdom", "zh": "王國", "syllables": "KING·dom" },
+    { "word": "keeper", "zh": "飼養者", "syllables": "KEEP·er" },
+    { "word": "protector", "zh": "保護者", "syllables": "pro·TEC·tor" },
+    { "word": "tradition", "zh": "傳統", "syllables": "tra·DI·tion" },
+    { "word": "honor", "zh": "榮譽", "syllables": "HON·or" },
+    { "word": "safe and sound", "zh": "安然無恙", "syllables": "SAFE and SOUND" },
+    { "word": "leave", "zh": "離開（過去式 left）", "syllables": "" },
+    { "word": "order", "zh": "命令", "syllables": "OR·der" },
+    { "word": "full-time", "zh": "全職的", "syllables": "FULL-TIME" }
   ]
 }
